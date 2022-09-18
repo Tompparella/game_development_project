@@ -1,0 +1,7 @@
+res://Assets/Tilemaps/Placeholder.tres
+res://Scenes/Main/Map.tscn
+res://Assets/Theme/main_theme.tres
+res://Assets/Shaders/Curve.gdshader
+res://Scenes/Main/SceneHandler.tscn
+res://Scenes/UI/LoginScreen.tscn
+res://Scenes/Main/ShaderTest.tscn

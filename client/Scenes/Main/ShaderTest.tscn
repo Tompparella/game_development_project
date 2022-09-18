@@ -1,0 +1,66 @@
+[gd_scene load_steps=14 format=3 uid="uid://tcc0kqfr8rqr"]
+
+[ext_resource type="Shader" path="res://Assets/Shaders/Glass.gdshader" id="1_oiflr"]
+[ext_resource type="Texture2D" uid="uid://t4jctsppk77s" path="res://Assets/Media/Images/jänö.png" id="1_uaxnx"]
+[ext_resource type="Shader" path="res://Assets/Shaders/ColorGradient.gdshader" id="2_nwpqc"]
+[ext_resource type="Shader" path="res://Assets/Shaders/Curve.gdshader" id="4_d8qpl"]
+
+[sub_resource type="Gradient" id="Gradient_8a8ak"]
+offsets = PackedFloat32Array(0, 0.519481, 0.623377, 0.66573, 0.831169, 0.946629, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.757102, 0.395588, 0.789811, 1, 0.813817, 0.676655, 0.532716, 1, 0.51542, 0.382457, 0.823753, 1, 0.882177, 0.701164, 0.885697, 1, 0.801219, 0.890281, 0.346776, 1, 0.636989, 0.676457, 0.828592, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_h887y"]
+gradient = SubResource("Gradient_8a8ak")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jcklb"]
+shader = ExtResource("2_nwpqc")
+shader_parameter/gradient = SubResource("GradientTexture1D_h887y")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r5nkc"]
+seed = 1
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kwecg"]
+seamless = true
+noise = SubResource("FastNoiseLite_r5nkc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_606vk"]
+shader = ExtResource("1_oiflr")
+shader_parameter/distortionTexture = SubResource("NoiseTexture2D_kwecg")
+
+[sub_resource type="Curve" id="Curve_uyivw"]
+min_value = -1.0
+_data = [Vector2(0.0232558, 0.163636), 0.0, 0.0, 0, 0, Vector2(0.0883721, -0.581818), 1.03476, 1.03476, 0, 0, Vector2(0.190698, 0.4), 0.0, 0.0, 0, 0, Vector2(0.262016, -0.0181818), 0.0, 0.0, 0, 0, Vector2(0.368992, -0.709091), -87.9546, 0.0, 0, 0, Vector2(0.469767, 0.218182), 15.9156, 0.0, 0, 0, Vector2(0.556589, -0.181818), -3.17614, 0.0, 0, 0, Vector2(0.992248, -0.854546), 0.0, 0.0, 0, 0]
+point_count = 8
+
+[sub_resource type="CurveTexture" id="CurveTexture_opxgj"]
+curve = SubResource("Curve_uyivw")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xb0fe"]
+shader = ExtResource("4_d8qpl")
+shader_parameter/curve = SubResource("CurveTexture_opxgj")
+
+[node name="ShaderTest" type="Node"]
+
+[node name="Gradient" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_jcklb")
+position = Vector2(1082, 0)
+texture = ExtResource("1_uaxnx")
+
+[node name="Blur" type="Sprite2D" parent="."]
+position = Vector2(2, 0)
+texture = ExtResource("1_uaxnx")
+
+[node name="Blur_Base" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_606vk")
+position = Vector2(0, 3)
+texture = ExtResource("1_uaxnx")
+
+[node name="Default" type="Sprite2D" parent="."]
+position = Vector2(-1079, 0)
+texture = ExtResource("1_uaxnx")
+
+[node name="Curve" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_xb0fe")
+position = Vector2(2160, -2)
+texture = ExtResource("1_uaxnx")

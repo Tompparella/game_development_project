@@ -6,13 +6,20 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
+config_version=5
 
 [application]
 
 config/name="project_authentication"
 run/main_scene="res://Scenes/Main/Authenticate.tscn"
+config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
+
+[autoload]
+
+Authenticate="*res://Scenes/Singletons/Authenticate.gd"
+GameServer="*res://Scenes/Singletons/GameServer.gd"
+PlayerData="*res://Data/PlayerData.gd"
 
 [gui]
 

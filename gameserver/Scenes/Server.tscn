@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://bjqq2m3ux3gth"]
 
-[ext_resource path="res://Scripts/Server.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Scenes/Player/UserVerification.gd" id="2_2db1i"]
 
-[node name="GameServer" type="Node"]
-script = ExtResource( 1 )
+[node name="Server" type="Node"]
+
+[node name="UserVerification" type="Node" parent="."]
+script = ExtResource("2_2db1i")
+
+[node name="VerificationExpiration" type="Timer" parent="UserVerification"]
+wait_time = 10.0
+autostart = true
+
+[node name="UserContainer" type="Node" parent="."]
+
+[node name="TokenExpiration" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="UserVerification/VerificationExpiration" to="UserVerification" method="_Verification_Expiration_Timeout"]

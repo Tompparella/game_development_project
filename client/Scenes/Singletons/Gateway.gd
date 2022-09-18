@@ -1,55 +1,79 @@
 extends Node
 
-var network : NetworkedMultiplayerENet = NetworkedMultiplayerENet.new()
-var gateway_api: MultiplayerAPI = MultiplayerAPI.new()
-var ip : String = "localhost" # For Development
-var port : int = 1107
+var network: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+var ip: String = "localhost" # For Development
+var port: int = 1107
+var cert: X509Certificate = load("res://Resources/Certificate/x509_cert.crt")
 
 var username: String
 var password: String
+var register: bool
 
-func _process(_delta: float) -> void:
-	if get_custom_multiplayer() == null || !custom_multiplayer.has_network_peer():
-		return
-	custom_multiplayer.poll()
-
-func ConnectToServer(_username: String, _password: String) -> void:
-	network = NetworkedMultiplayerENet.new()
-	gateway_api = MultiplayerAPI.new()
+func ConnectToServer(_username: String, _password: String, _register: bool = false) -> void:
+	get_tree().set_multiplayer(MultiplayerAPI.create_default_interface(), self.get_path())
 	username = _username
 	password = _password
+	register = _register
+	network = ENetMultiplayerPeer.new()
 	if (network.create_client(ip, port)):
 		print("Gateway client creation failed")
 		return
-	set_custom_multiplayer(gateway_api)
-	custom_multiplayer.set_root_node(self)
-	custom_multiplayer.set_network_peer(network)
-	
-	if (network.connect("connection_failed", self, "_OnConnectionFailed") || network.connect("connection_succeeded", self, "_OnConnectionSucceeded")):
+	# Set certification for client
+	network.get_host().dtls_client_setup(cert, "", false)
+	self.multiplayer.set_multiplayer_peer(network)
+	if (network.connection_failed.connect(self._OnConnectionFailed) || network.connection_succeeded.connect(self._OnConnectionSucceeded)):
 		print("Signal connection failed")
 		return
 	
 func _OnConnectionFailed() -> void:
 	print("Failed to connect to login server")
-	# TODO: Popup or something to notify the user + Enable login button
+	UIControl.EnableLoginButtons()
+	# TODO: Popup or something to notify the user
 
 func _OnConnectionSucceeded() -> void:
 	print("Connection successfully established to login server")
-	RequestLogin()
+	if register:
+		RequestRegistration()
+	else:
+		RequestLogin()
 	
+@rpc(any_peer)
 func RequestLogin() -> void:
 	print("Requesting login from gateway...")
-	rpc_id(1, "LoginRequest", username, password)
+	self.rpc_id(1, "RequestLogin", username, password.sha256_text())
 	username = ""
 	password = ""
-	
-remote func ReturnLoginRequest(results) -> void:
+
+@rpc(any_peer)
+func RequestRegistration() -> void:
+	print("Requesting registration")
+	rpc_id(1, "RequestRegistration", username, password.sha256_text())
+	username = ""
+	password = ""
+
+@rpc(authority)
+func ReturnLoginRequest(results: bool, token: String) -> void:
 	print("Results received")
 	if results:
+		GameServer.token = token
 		GameServer.ConnectToServer()
-		get_node("../SceneHandler/Map/LoginScreen").queue_free()
 	else:
 		print("Failed to login. Please provide correct username and password")
-		get_node("../SceneHandler/Map/LoginScreen/Login/Fields/LoginButton").disabled = false
-	network.disconnect("connection_failed", self, "_OnConnectionFailed")
-	network.disconnect("connection_succeeded", self, "_OnConnectionSucceeded")
+		UIControl.EnableLoginButtons()
+	network.disconnect("connection_failed", self._OnConnectionFailed)
+	network.disconnect("connection_succeeded", self._OnConnectionSucceeded)
+
+@rpc(authority)
+func ReturnRegistrationRequest(results: bool, message: int) -> void:
+	print("Registration results received")
+	if results:
+		print("Account created successfully. Please proceed logging in")
+		UIControl.ToggleLoginScreen()
+	else:
+		if message == 1:
+			pass
+		elif message == 2:
+			pass
+	UIControl.EnableLoginButtons()
+	network.disconnect("connection_failed", self._OnConnectionFailed)
+	network.disconnect("connection_succeeded", self._OnConnectionSucceeded)

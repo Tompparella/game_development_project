@@ -1,97 +1,212 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://blo41h6k32n7j"]
 
-[ext_resource path="res://Assets/Media/Images/placeholder_1.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/UI/Login.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://d0oo8d7xvjume" path="res://Assets/Media/Images/placeholder_1.png" id="1"]
+[ext_resource type="Script" path="res://Scenes/UI/Login.gd" id="2"]
 
 [node name="LoginScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -512.0
-margin_top = -300.0
-margin_right = 512.0
-margin_bottom = 300.0
+offset_left = -512.0
+offset_top = -300.0
+offset_right = 512.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Login" type="NinePatchRect" parent="."]
+[node name="Menu" type="NinePatchRect" parent="."]
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -256.0
-margin_top = -160.0
-margin_right = 256.0
-margin_bottom = 160.0
-texture = ExtResource( 1 )
-script = ExtResource( 2 )
+offset_left = -400.0
+offset_top = -250.0
+offset_right = 400.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1")
+script = ExtResource("2")
 
-[node name="Fields" type="VBoxContainer" parent="Login"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = 16.0
-margin_right = -32.0
-margin_bottom = -16.0
+[node name="Login" type="VBoxContainer" parent="Menu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Title" type="Label" parent="Login/Fields"]
-margin_right = 448.0
-margin_bottom = 17.0
+[node name="Title" type="Label" parent="Menu/Login"]
+offset_right = 256.0
+offset_bottom = 20.0
 text = "Login"
-align = 1
-valign = 1
+horizontal_alignment = 1
 
-[node name="UsernameTitle" type="Label" parent="Login/Fields"]
-margin_top = 21.0
-margin_right = 448.0
-margin_bottom = 38.0
+[node name="UsernameTitle" type="Label" parent="Menu/Login"]
+offset_top = 24.0
+offset_right = 256.0
+offset_bottom = 44.0
 text = "Username"
 
-[node name="Username" type="LineEdit" parent="Login/Fields"]
-margin_top = 42.0
-margin_right = 448.0
-margin_bottom = 69.0
+[node name="Username" type="LineEdit" parent="Menu/Login"]
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 72.0
 
-[node name="PasswordTitle" type="Label" parent="Login/Fields"]
-margin_top = 73.0
-margin_right = 448.0
-margin_bottom = 90.0
+[node name="PasswordTitle" type="Label" parent="Menu/Login"]
+offset_top = 76.0
+offset_right = 256.0
+offset_bottom = 96.0
 text = "Password"
 
-[node name="Password" type="LineEdit" parent="Login/Fields"]
-margin_top = 94.0
-margin_right = 448.0
-margin_bottom = 121.0
+[node name="Password" type="LineEdit" parent="Menu/Login"]
+offset_top = 100.0
+offset_right = 256.0
+offset_bottom = 124.0
 secret = true
+secret_character = "*"
 
-[node name="LoginButton" type="TextureButton" parent="Login/Fields"]
-margin_left = 160.0
-margin_top = 125.0
-margin_right = 288.0
-margin_bottom = 157.0
-rect_min_size = Vector2( 128, 32 )
+[node name="LoginButton" type="TextureButton" parent="Menu/Login"]
+self_modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2i(128, 32)
+offset_left = 64.0
+offset_top = 128.0
+offset_right = 192.0
+offset_bottom = 160.0
 size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="LoginTitle" type="Label" parent="Login/Fields/LoginButton"]
+[node name="LoginTitle" type="Label" parent="Menu/Login/LoginButton"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Login"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="RegisterButton" type="TextureButton" parent="Login/Fields"]
-margin_left = 160.0
-margin_top = 161.0
-margin_right = 288.0
-margin_bottom = 193.0
-rect_min_size = Vector2( 128, 32 )
+[node name="RegisterButton" type="TextureButton" parent="Menu/Login"]
+custom_minimum_size = Vector2i(128, 32)
+offset_left = 64.0
+offset_top = 164.0
+offset_right = 192.0
+offset_bottom = 196.0
 size_flags_horizontal = 4
 
-[node name="RegisterTitle" type="Label" parent="Login/Fields/RegisterButton"]
+[node name="RegisterTitle" type="Label" parent="Menu/Login/RegisterButton"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Register"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[connection signal="pressed" from="Login/Fields/LoginButton" to="Login" method="_OnLoginButtonPressed"]
-[connection signal="pressed" from="Login/Fields/RegisterButton" to="Login" method="_OnRegisterButtonPressed"]
+[node name="Register" type="VBoxContainer" parent="Menu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Menu/Register"]
+offset_right = 256.0
+offset_bottom = 20.0
+text = "Create a new Account"
+horizontal_alignment = 1
+
+[node name="UsernameTitle" type="Label" parent="Menu/Register"]
+offset_top = 24.0
+offset_right = 256.0
+offset_bottom = 44.0
+text = "Username"
+
+[node name="Username" type="LineEdit" parent="Menu/Register"]
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 72.0
+
+[node name="PasswordTitle" type="Label" parent="Menu/Register"]
+offset_top = 76.0
+offset_right = 256.0
+offset_bottom = 96.0
+text = "Password"
+
+[node name="Password" type="LineEdit" parent="Menu/Register"]
+offset_top = 100.0
+offset_right = 256.0
+offset_bottom = 124.0
+secret = true
+secret_character = "*"
+
+[node name="RepeatTitle" type="Label" parent="Menu/Register"]
+offset_top = 128.0
+offset_right = 256.0
+offset_bottom = 148.0
+text = "Repeat Password"
+
+[node name="Repeat" type="LineEdit" parent="Menu/Register"]
+offset_top = 152.0
+offset_right = 256.0
+offset_bottom = 176.0
+secret = true
+secret_character = "*"
+
+[node name="ConfirmButton" type="TextureButton" parent="Menu/Register"]
+custom_minimum_size = Vector2i(128, 32)
+offset_left = 64.0
+offset_top = 180.0
+offset_right = 192.0
+offset_bottom = 212.0
+size_flags_horizontal = 4
+
+[node name="RegisterTitle" type="Label" parent="Menu/Register/ConfirmButton"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Register"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="TextureButton" parent="Menu/Register"]
+custom_minimum_size = Vector2i(128, 32)
+offset_left = 64.0
+offset_top = 216.0
+offset_right = 192.0
+offset_bottom = 248.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="LoginTitle" type="Label" parent="Menu/Register/BackButton"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back to Login"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Menu/Login/LoginButton" to="Menu" method="_Login_Button_Pressed"]
+[connection signal="pressed" from="Menu/Login/RegisterButton" to="Menu" method="_Register_Button_Pressed"]
+[connection signal="pressed" from="Menu/Register/ConfirmButton" to="Menu" method="_Confirm_Button_Pressed"]
+[connection signal="pressed" from="Menu/Register/BackButton" to="Menu" method="_Back_Button_Pressed"]

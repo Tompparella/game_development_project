@@ -1,0 +1,8 @@
+TileMap
+Sprite2D
+CollisionShape2D
+CharacterBody2D
+Node
+CanvasLayer
+VBoxContainer
+Control
