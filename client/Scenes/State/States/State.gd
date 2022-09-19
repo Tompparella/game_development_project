@@ -1,11 +1,13 @@
 extends Node
-
 class_name State #,[logo path here]
 
-signal Finished(next_state_name: String)
+signal finished(next_state_name: String)
 
-func _ready() -> void:
-	pass
+var player: Player
+
+func Initialize(state_machine: StateMachine, _player: Player):
+	player = _player
+	finished.connect(state_machine._ChangeState)
 
 func Enter() -> void:
 	return

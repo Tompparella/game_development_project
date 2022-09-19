@@ -9,6 +9,21 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "State",
+"class": &"MotionState",
+"language": &"GDScript",
+"path": "res://Scenes/State/States/PlayerStates/MotionState.gd"
+}, {
+"base": "CharacterBody2D",
+"class": &"Player",
+"language": &"GDScript",
+"path": "res://Scenes/Characters/Player.gd"
+}, {
+"base": "StateMachine",
+"class": &"PlayerStateMachine",
+"language": &"GDScript",
+"path": "res://Scenes/State/PlayerStateMachine.gd"
+}, {
 "base": "Node",
 "class": &"State",
 "language": &"GDScript",
@@ -20,6 +35,9 @@ _global_script_classes=[{
 "path": "res://Scenes/State/StateMachine.gd"
 }]
 _global_script_class_icons={
+"MotionState": "",
+"Player": "",
+"PlayerStateMachine": "",
 "State": "",
 "StateMachine": ""
 }

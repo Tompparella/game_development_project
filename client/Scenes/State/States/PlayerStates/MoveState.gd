@@ -1,12 +1,16 @@
-extends State
+extends MotionState
 
-func HandleInput(_event: InputEvent) -> void:
-	return
+var movement_speed: int = 400 # TODO: Get this value from the player in an Initialize function
 
 func Enter() -> void:
-	print("Movestate")
 	return
 
-func Update(_delta: float) -> void:
+func Update(delta: float) -> void:
 	# if (!moving) { EmitSignal(nameof(Finished), "idle")}
-	return
+	super.Update(delta)
+
+func HandleInput(event: InputEvent) -> void:
+	motion = Vector2(
+		int(event.is_action_pressed("MoveRight")) - int(event.is_action_pressed("MoveLeft")),
+		int(event.is_action_pressed("MoveDown")) - int(event.is_action_pressed("MoveUp"))
+		).normalized() * movement_speed

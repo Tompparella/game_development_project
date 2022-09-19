@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://hhyygar74cji"]
+[gd_scene load_steps=5 format=3 uid="uid://hhyygar74cji"]
 
+[ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_djppd"]
 [ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="1_ntg77"]
 [ext_resource type="PackedScene" uid="uid://b20hoqso4mjay" path="res://Scenes/State/PlayerStateMachine.tscn" id="2_abv1c"]
 
@@ -7,6 +8,7 @@
 size = Vector2(32, 48)
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_djppd")
 
 [node name="Sprite2d" type="Sprite2D" parent="."]
 position = Vector2(-4.76837e-07, 7.45058e-07)

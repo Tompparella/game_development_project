@@ -1,8 +1,11 @@
 extends StateMachine
+class_name PlayerStateMachine
 
-func _ready() -> void:
+func Initialize(_character: Node) -> void:
 	state_map = {
-		"idle": get_node("Idle"),
-		"move": get_node("Move"),
+		"idle": $Idle,
+		"move": $Move,
+		"motion": $Motion
 	}
 	start_state = state_map["idle"]
+	super.Initialize(_character)
