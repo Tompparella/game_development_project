@@ -1,5 +1,1 @@
 res://Scenes/Main/Authenticate.tscn
-res://Scenes/Singletons/GameServer.gd
-res://Scenes/Singletons/Authenticate.gd
-res://Scenes/Singletons/Certificate.gd
-res://Data/PlayerData.gd

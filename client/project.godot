@@ -8,10 +8,26 @@
 
 config_version=5
 
+_global_script_classes=[{
+"base": "Node",
+"class": &"State",
+"language": &"GDScript",
+"path": "res://Scenes/State/States/State.gd"
+}, {
+"base": "Node",
+"class": &"StateMachine",
+"language": &"GDScript",
+"path": "res://Scenes/State/StateMachine.gd"
+}]
+_global_script_class_icons={
+"State": "",
+"StateMachine": ""
+}
+
 [application]
 
 config/name="game_development_project"
-run/main_scene="res://Scenes/Main/SceneHandler.tscn"
+run/main_scene="res://Scenes/Main/GameManager.tscn"
 config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
 
@@ -23,6 +39,8 @@ UIControl="*res://Scenes/Singletons/UIControl.gd"
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 
 [global]
@@ -34,6 +52,33 @@ Theme=false
 theme/custom="res://Assets/Theme/main_theme.tres"
 common/drop_mouse_on_gui_input_disabled=true
 common/stretch/mode="canvas_items"
+
+[input]
+
+MoveUp={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194320,"unicode":0,"echo":false,"script":null)
+]
+}
+MoveDown={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194309,"unicode":0,"echo":false,"script":null)
+]
+}
+MoveLeft={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194319,"unicode":0,"echo":false,"script":null)
+]
+}
+MoveRight={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194321,"unicode":0,"echo":false,"script":null)
+]
+}
 
 [physics]
 

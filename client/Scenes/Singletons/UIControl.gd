@@ -1,6 +1,6 @@
 extends Node
 
-@onready var login_screen: Control = get_node("../SceneHandler/UILayer/LoginScreen")
+@onready var login_screen: Control = get_node("../GameManager/UILayer/LoginScreen")
 @onready var login: VBoxContainer = login_screen.get_node("Menu/Login")
 @onready var register: VBoxContainer = login_screen.get_node("Menu/Register")
 @onready var username_input: LineEdit = login.get_node("Username")

@@ -1,8 +1,8 @@
-TileMap
+Node
 Sprite2D
 CollisionShape2D
 CharacterBody2D
-Node
+TileMap
 CanvasLayer
 VBoxContainer
 Control

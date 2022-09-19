@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://b20hoqso4mjay"]
+
+[ext_resource type="Script" path="res://Scenes/State/PlayerStateMachine.gd" id="1_xy66x"]
+[ext_resource type="Script" path="res://Scenes/State/States/PlayerStates/IdleState.gd" id="2_sbupu"]
+[ext_resource type="Script" path="res://Scenes/State/States/PlayerStates/MoveState.gd" id="3_q1soh"]
+
+[node name="PlayerStateMachine" type="Node"]
+script = ExtResource("1_xy66x")
+
+[node name="Idle" type="Node" parent="."]
+script = ExtResource("2_sbupu")
+
+[node name="Move" type="Node" parent="."]
+script = ExtResource("3_q1soh")
