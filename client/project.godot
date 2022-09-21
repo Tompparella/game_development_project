@@ -9,6 +9,21 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "Item",
+"class": &"Consumable",
+"language": &"GDScript",
+"path": "res://Items/Consumable.gd"
+}, {
+"base": "RefCounted",
+"class": &"Inventory",
+"language": &"GDScript",
+"path": "res://Items/Inventory.gd"
+}, {
+"base": "RefCounted",
+"class": &"Item",
+"language": &"GDScript",
+"path": "res://Items/Item.gd"
+}, {
 "base": "State",
 "class": &"MotionState",
 "language": &"GDScript",
@@ -24,6 +39,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/State/PlayerStateMachine.gd"
 }, {
+"base": "Item",
+"class": &"Returnable",
+"language": &"GDScript",
+"path": "res://Items/Returnable.gd"
+}, {
 "base": "Node",
 "class": &"State",
 "language": &"GDScript",
@@ -35,9 +55,13 @@ _global_script_classes=[{
 "path": "res://Scenes/State/StateMachine.gd"
 }]
 _global_script_class_icons={
+"Consumable": "",
+"Inventory": "",
+"Item": "",
 "MotionState": "",
 "Player": "",
 "PlayerStateMachine": "",
+"Returnable": "",
 "State": "",
 "StateMachine": ""
 }

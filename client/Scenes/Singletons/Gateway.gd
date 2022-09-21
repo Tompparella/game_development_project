@@ -71,8 +71,10 @@ func ReturnRegistrationRequest(results: bool, message: int) -> void:
 		UIControl.ToggleLoginScreen()
 	else:
 		if message == 1:
+			# TODO: Message handling for creation fail
 			pass
 		elif message == 2:
+			# TODO: Message handling for existing username
 			pass
 	UIControl.EnableLoginButtons()
 	network.disconnect("connection_failed", self._OnConnectionFailed)
