@@ -55,6 +55,7 @@ func RequestRegistration() -> void:
 func ReturnLoginRequest(results: bool, token: String) -> void:
 	print("Results received")
 	if results:
+		print("Successfully logged in!")
 		GameServer.token = token
 		GameServer.ConnectToServer()
 	else:
@@ -71,10 +72,11 @@ func ReturnRegistrationRequest(results: bool, message: int) -> void:
 		UIControl.ToggleLoginScreen()
 	else:
 		if message == 1:
+			print("Registration failed on server")
 			# TODO: Message handling for creation fail
-			pass
 		elif message == 2:
 			# TODO: Message handling for existing username
+			print("That username already exists")
 			pass
 	UIControl.EnableLoginButtons()
 	network.disconnect("connection_failed", self._OnConnectionFailed)

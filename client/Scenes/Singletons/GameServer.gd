@@ -26,8 +26,8 @@ func ReturnToken() -> void:
 @rpc(authority)
 func ReturnTokenVerificationResult(result: bool) -> void:
 	if result:
-		UIControl.HideLoginScreen()
 		print("Successful token verification")
+		GameManager.Initialize()
 	else:
 		print("Login failed, please try again")
 		UIControl.EnableLoginButtons()

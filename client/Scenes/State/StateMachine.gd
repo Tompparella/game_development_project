@@ -36,7 +36,7 @@ func Initialize(_character: Node) -> void:
 func SetActive(value: bool) -> void:
 	_active = value
 	set_process(value)
-	set_process_input(value)
+	set_process_unhandled_input(value)
 	if !_active:
 		state_stack.clear()
 		current_state = null

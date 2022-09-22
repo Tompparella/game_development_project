@@ -22,6 +22,7 @@ func Verify(player_id: int, token: String) -> void:
 			await get_tree().create_timer(2).timeout
 	GameServer.ReturnTokenVerificationResult(player_id, verification)
 	if !verification:
+		print("Verification failed")
 		awaiting_verification.erase(player_id)
 		GameServer.emit_signal("peer_disconnected", player_id)
 	
