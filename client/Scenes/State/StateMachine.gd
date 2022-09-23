@@ -59,5 +59,3 @@ func _ChangeState(state_name: String):
 		state_stack[0] = state_map[state_name]
 		current_state = state_stack[0]
 		current_state.Enter()
-	print(current_state.name)
-

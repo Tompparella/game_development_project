@@ -7,5 +7,7 @@ func HandleInput(event: InputEvent) -> void:
 	|| event.is_action("MoveRight")\
 	|| event.is_action("MoveLeft"):
 		next_state = "move"
+	elif event.is_action_pressed("Interact"):
+		player.Interact()
 	if next_state:
 		emit_signal("finished", next_state)

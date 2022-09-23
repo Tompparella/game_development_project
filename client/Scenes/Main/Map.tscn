@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3yn322dvweki"]
+[gd_scene load_steps=10 format=3 uid="uid://dsjoqkdadvixb"]
 
 [ext_resource type="Texture2D" uid="uid://dms3se0yqa3fa" path="res://Assets/Media/Images/tilemap.png" id="1_pcakh"]
 [ext_resource type="PackedScene" uid="uid://hhyygar74cji" path="res://Scenes/Characters/Player.tscn" id="2_a8oia"]
+[ext_resource type="PackedScene" uid="uid://cedax1sscbarl" path="res://Scenes/Environment/Obstacles/Obstacle.tscn" id="3_0ggu8"]
 [ext_resource type="Script" path="res://Scenes/UI/Camera.gd" id="3_omojq"]
+[ext_resource type="PackedScene" uid="uid://dd225xv0u1xd" path="res://Scenes/Environment/Surroundings/Surrounding.tscn" id="4_q6veo"]
+[ext_resource type="PackedScene" uid="uid://bic1j3w2sb8of" path="res://Scenes/Environment/Surroundings/Interactable/Interactable.tscn" id="5_ma4xe"]
+[ext_resource type="PackedScene" uid="uid://cualqbgegg70u" path="res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn" id="6_ba6nr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jtax6"]
 texture = ExtResource("1_pcakh")
@@ -500,7 +504,7 @@ sources/0 = SubResource("TileSetAtlasSource_jtax6")
 [node name="Map" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
-scale = Vector2(2, 2)
+y_sort_enabled = true
 tile_set = SubResource("TileSet_mvhna")
 format = 2
 layer_0/name = "Background"
@@ -516,8 +520,18 @@ layer_1/z_index = -1
 layer_1/tile_data = PackedInt32Array(-65527, 851968, 5, -65528, 786432, 5, -65529, 786432, 5, -65530, 720896, 5, -131066, 655360, 3, -131067, 851968, 4, -196603, 655360, 3, -196604, 851968, 4, -262140, 655360, 3, -327677, 655360, 4, -393213, 655360, 3, -393214, 589824, 3, -393215, 589824, 3, -393216, 524288, 3, -327680, 524288, 4, -262144, 917504, 4, -196609, 524288, 3, -131073, 917504, 4, -131074, 524288, 3, -65538, 917504, 4, -65539, 589824, 3, -3, 589824, 5, -4, 589824, 5, -5, 786432, 5, -6, 786432, 5, -7, 720896, 5, -2, 917504, 3, 65534, 524288, 5, 65535, 589824, 5, 0, 917504, 3, 65536, 524288, 4, 131072, 524288, 5, 131073, 589824, 5, 131074, 589824, 5, 131075, 589824, 5, 65539, 589824, 4, 3, 589824, 4, -65533, 589824, 4, -65532, 589824, 4, -196606, 589824, 4, -262142, 589824, 4, -327678, 589824, 4, -327679, 589824, 4, -262143, 589824, 4, -196607, 589824, 4, -196608, 589824, 4, -131072, 589824, 4, -65537, 589824, 4, -1, 589824, 4, -65536, 589824, 4, -65535, 589824, 4, -131071, 589824, 4, -131070, 589824, 4, -65534, 589824, 4, 2, 589824, 4, 1, 589824, 4, 65537, 589824, 4, 65538, 589824, 4, -131069, 589824, 4, -196605, 589824, 4, -262141, 851968, 4, -131068, 589824, 4, 6, 655360, 5, -65531, 589824, 4, 5, 589824, 5, 65540, 655360, 4, 131076, 655360, 5, 4, 851968, 3, -65540, 524288, 3)
 
 [node name="Player" parent="TileMap" instance=ExtResource("2_a8oia")]
-scale = Vector2(0.5, 0.5)
-z_index = 1
+position = Vector2(32, -48)
+
+[node name="Obstacle" parent="TileMap" instance=ExtResource("3_0ggu8")]
+
+[node name="Surrounding" parent="TileMap" instance=ExtResource("4_q6veo")]
+position = Vector2(-64, -48)
+
+[node name="Interactable" parent="TileMap" instance=ExtResource("5_ma4xe")]
+position = Vector2(96, 48)
+
+[node name="Pickable" parent="TileMap" instance=ExtResource("6_ba6nr")]
+position = Vector2(128, -48)
 
 [node name="Camera" type="Camera2D" parent="."]
 script = ExtResource("3_omojq")

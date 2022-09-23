@@ -12,4 +12,8 @@ func Update(_delta: float) -> void:
 	player.move_and_slide()
 	if motion == Vector2.ZERO:
 		emit_signal("finished", "idle")
-		return
+
+func HandleInput(event: InputEvent) -> void:
+	# Check for stun/immobilization, etc.
+	if event.is_action_pressed("Interact"):
+		player.Interact()

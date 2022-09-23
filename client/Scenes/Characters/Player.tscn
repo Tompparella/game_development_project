@@ -1,22 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://hhyygar74cji"]
+[gd_scene load_steps=6 format=3 uid="uid://hhyygar74cji"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_djppd"]
 [ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="1_ntg77"]
 [ext_resource type="PackedScene" uid="uid://b20hoqso4mjay" path="res://Scenes/State/PlayerStateMachine.tscn" id="2_abv1c"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wlqs2"]
-size = Vector2(32, 48)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j584b"]
+radius = 16.0
+height = 32.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g2lgw"]
+radius = 16.0
+height = 64.0
 
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
+collision_mask = 31
 script = ExtResource("1_djppd")
 
-[node name="Sprite2d" type="Sprite2D" parent="."]
-position = Vector2(-4.76837e-07, 7.45058e-07)
-scale = Vector2(0.53125, 0.78125)
-texture = ExtResource("1_ntg77")
-
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_wlqs2")
+position = Vector2(0, -16)
+shape = SubResource("CapsuleShape2D_j584b")
+
+[node name="Sprite2d" type="Sprite2D" parent="."]
+position = Vector2(96, -32)
+scale = Vector2(0.5, 0.75)
+texture = ExtResource("1_ntg77")
+offset = Vector2(-192, 10.6667)
 
 [node name="PlayerStateMachine" parent="." instance=ExtResource("2_abv1c")]
+
+[node name="Interaction" type="Area2D" parent="."]
+collision_mask = 31
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Interaction"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_g2lgw")
+
+[connection signal="area_entered" from="Interaction" to="." method="_Interaction_Entered"]
+[connection signal="area_exited" from="Interaction" to="." method="_Interaction_Exited"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://du8pwgddv6cdv"]
 
-[ext_resource type="PackedScene" uid="uid://c3yn322dvweki" path="res://Scenes/Main/Map.tscn" id="1_j0ifr"]
+[ext_resource type="PackedScene" uid="uid://dsjoqkdadvixb" path="res://Scenes/Main/Map.tscn" id="1_j0ifr"]
 [ext_resource type="PackedScene" uid="uid://blo41h6k32n7j" path="res://Scenes/UI/LoginScreen.tscn" id="2_5ppj2"]
 
 [node name="Game" type="Node"]

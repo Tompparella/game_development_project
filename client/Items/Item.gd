@@ -1,14 +1,14 @@
 extends RefCounted
 class_name Item
 
-var texture: String
+var texture: Texture2D
 var value: float
 var consumable: bool = false
 var returnable: bool = false
-var itemName: String = ""
+var item_name: String = ""
 
 	
-func _init(_itemName: String ,_value: float, _texture: String) -> void:
-	itemName = _itemName
-	texture = _texture
+func _init(_item_name: String ,_value: float, _texture_path: String) -> void:
+	texture = load(_texture_path)
+	item_name = _item_name
 	value = _value
