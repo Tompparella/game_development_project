@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://desqwtxab8bja"]
+
+[ext_resource type="Script" path="res://Scenes/Environment/Surroundings/Interactable/ReturnMachine.gd" id="1_6oh3t"]
+[ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="2_0m52k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lmk60"]
+size = Vector2(96, 48)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fuoxy"]
+radius = 32.0
+height = 128.0
+
+[node name="Body" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 31
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_lmk60")
+
+[node name="Interactable" type="Area2D" parent="."]
+collision_layer = 12
+collision_mask = 17
+script = ExtResource("1_6oh3t")
+
+[node name="Sprite" type="Sprite2D" parent="Interactable"]
+modulate = Color(0.392157, 0.760784, 0.843137, 1)
+position = Vector2(-1.90735e-06, -16)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_0m52k")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Interactable"]
+position = Vector2(0, 16)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fuoxy")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="Interactable" method="_Replenish_Timer"]

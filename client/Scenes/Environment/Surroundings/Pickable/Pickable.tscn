@@ -24,7 +24,7 @@ collision_layer = 12
 collision_mask = 17
 script = ExtResource("1_kdo2c")
 texture = ExtResource("2_0m52k")
-item_name = "drink_copper"
+item_name = "can"
 
 [node name="Sprite" type="Sprite2D" parent="Pickable"]
 modulate = Color(0.768627, 0.745098, 1, 1)

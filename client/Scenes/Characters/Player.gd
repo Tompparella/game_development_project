@@ -24,6 +24,12 @@ func Interact() -> void:
 func AddItem(item: Item) -> bool:
 	return inventory.AddItem(item)
 
+func AddCurrency(currency: float) -> void:
+	inventory.AddCurrency(currency)
+
+func GetReturnables() -> Array[Returnable]:
+	return inventory.GetReturnables()
+
 func _Interaction_Entered(area: Area2D) -> void:
 	# TODO: Handle instance unloading/freeing with a signal (node.free() -> node.emit_signal(node_freed) -> this._Interaction_Exited)
 	var added: bool = false

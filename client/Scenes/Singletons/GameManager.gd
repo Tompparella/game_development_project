@@ -1,5 +1,6 @@
 extends Node
 
+var map: Node2D
 var player: Player
 var camera: Camera
 var placeholder_texture: String = "res://Assets/Media/Images/placeholder.png"
@@ -42,11 +43,24 @@ var ItemsList: Dictionary = {
 }
 
 func Initialize() -> void:
-	player = get_node("../Game/Map/TileMap/Player")
-	camera = get_node("../Game/Map/Camera")
+	map = get_node("../Game/Map")
+	player = map.get_node("TileMap/Player")
+	camera = map.get_node("Camera")
+	SpawnPickables()
 	camera.Initialize(player)
 	player.Initialize()
 	UIControl.HideLoginScreen()
+
+func SpawnPickables() -> void:
+	var pickable_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn")
+	var screen_size = get_viewport().get_visible_rect().size * 5
+	for i in range(0, 100):
+		randomize()
+		var pickable: RigidBody2D = pickable_scene.instantiate()
+		pickable.position = Vector2(randf_range(0, screen_size.x), randf_range(0, screen_size.y))
+		map.get_node("TileMap").add_child(pickable)
+		
+		
 
 func GetItem(item_name: String) -> Item:
 	return ItemsList.get(item_name, ItemsList.get("default"))

@@ -14,3 +14,6 @@ res://Scenes/Environment/Surroundings/Surrounding.gd
 res://Items/Inventory.gd
 res://Scenes/Characters/Player.gd
 res://Scenes/State/StateMachine.gd
+res://Scenes/Environment/Surroundings/Interactable/ReturnMachine.gd
+res://Scenes/Environment/Surroundings/Interactable/ReturnMachine.tscn
+res://Scenes/Singletons/GameManager.gd
