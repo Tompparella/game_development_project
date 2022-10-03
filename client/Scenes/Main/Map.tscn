@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dsjoqkdadvixb"]
+[gd_scene load_steps=12 format=3 uid="uid://dsjoqkdadvixb"]
 
 [ext_resource type="Texture2D" uid="uid://pp0m2802n27p" path="res://Assets/Tilemaps/Tilemap_Test.png" id="1_g75cb"]
 [ext_resource type="PackedScene" uid="uid://hhyygar74cji" path="res://Scenes/Characters/Player.tscn" id="2_a8oia"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bic1j3w2sb8of" path="res://Scenes/Environment/Surroundings/Interactable/Interactable.tscn" id="5_ma4xe"]
 [ext_resource type="PackedScene" uid="uid://cualqbgegg70u" path="res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn" id="6_ba6nr"]
 [ext_resource type="PackedScene" uid="uid://desqwtxab8bja" path="res://Scenes/Environment/Surroundings/Interactable/ReturnMachine.tscn" id="7_i2m4v"]
+[ext_resource type="PackedScene" uid="uid://gwifuoak5cc6" path="res://Scenes/Environment/Surroundings/Interactable/Shop.tscn" id="8_jc4ts"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6qb06"]
 texture = ExtResource("1_g75cb")
@@ -50,7 +51,7 @@ layer_2/tile_data = PackedInt32Array()
 position = Vector2(32, 96)
 
 [node name="Obstacle" parent="TileMap" instance=ExtResource("3_0ggu8")]
-position = Vector2(-32, 0)
+position = Vector2(880, 400)
 
 [node name="Surrounding" parent="TileMap" instance=ExtResource("4_q6veo")]
 position = Vector2(-112, -32)
@@ -75,6 +76,9 @@ position = Vector2(192, 16)
 
 [node name="Body2" parent="TileMap" instance=ExtResource("7_i2m4v")]
 position = Vector2(144, 16)
+
+[node name="Shop" parent="TileMap" instance=ExtResource("8_jc4ts")]
+position = Vector2(-32, 0)
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(1.5, 1.5)

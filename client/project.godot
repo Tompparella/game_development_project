@@ -34,8 +34,8 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Items/Item.gd"
 }, {
-"base": "Control",
-"class": &"ItemName",
+"base": "TextureButton",
+"class": &"ItemEntry",
 "language": &"GDScript",
 "path": "res://Scenes/UI/Interface/UserInterface/ItemEntry.gd"
 }, {
@@ -89,6 +89,16 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/UI/Interface/UserInterface/Score.gd"
 }, {
+"base": "Surrounding",
+"class": &"Shop",
+"language": &"GDScript",
+"path": "res://Scenes/Environment/Surroundings/Interactable/Shop.gd"
+}, {
+"base": "Control",
+"class": &"ShopModal",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/Modals/ShopModal.gd"
+}, {
 "base": "Node",
 "class": &"State",
 "language": &"GDScript",
@@ -125,7 +135,7 @@ _global_script_class_icons={
 "CurrencyView": "",
 "Inventory": "",
 "Item": "",
-"ItemName": "",
+"ItemEntry": "",
 "ItemsView": "",
 "LoginScreen": "",
 "MotionState": "",
@@ -136,6 +146,8 @@ _global_script_class_icons={
 "ReturnableEntry": "",
 "ReturnablesView": "",
 "ScoreView": "",
+"Shop": "",
+"ShopModal": "",
 "State": "",
 "StateMachine": "",
 "Surrounding": "",

@@ -26,9 +26,17 @@ func AddCurrency(_currency: float) -> float:
 	currency += _currency
 	return currency
 
+func TakeCurrency(_currency: float) -> float:
+	currency -= _currency
+	return currency
+
 func AddScore(_score: int) -> int:
 	score += _score
 	return score
+
+func CanBuy(price: float) -> bool:
+	# The 0.001 here is due to a float inaccuracy problem with godot 4.0 beta
+	return (items.size() < 9 && (currency + 0.001) >= price)
 
 func PopReturnable() -> Returnable:
 	return returnables.pop_back()

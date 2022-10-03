@@ -21,12 +21,12 @@ script = ExtResource("1_6oh3t")
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_b6n3b")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2d" type="Area2D" parent="."]
 collision_layer = 12
 collision_mask = 17
 script = ExtResource("2_cfgob")
 
-[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
 position = Vector2(0, 16)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_fuoxy")
@@ -39,5 +39,5 @@ texture = ExtResource("2_j6dwj")
 wait_time = 60.0
 autostart = true
 
-[connection signal="tree_exiting" from="Area2D" to="Area2D" method="_On_Surrounding_Exiting"]
+[connection signal="tree_exiting" from="Area2d" to="Area2d" method="_On_Surrounding_Exiting"]
 [connection signal="timeout" from="Timer" to="." method="_Replenish_Timer"]

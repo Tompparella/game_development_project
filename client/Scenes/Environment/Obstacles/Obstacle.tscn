@@ -6,6 +6,7 @@
 size = Vector2(128, 56)
 
 [node name="Obstacle" type="StaticBody2D"]
+modulate = Color(0.419608, 0.419608, 0.419608, 1)
 collision_layer = 2
 collision_mask = 29
 

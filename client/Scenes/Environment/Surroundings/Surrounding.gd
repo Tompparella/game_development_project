@@ -7,7 +7,7 @@ class_name Surrounding
 var item: Item
 
 func _ready() -> void:
-	get_node("Area2D").connect("interaction", Interact)
+	get_node("Area2d").connect("interaction", Interact)
 	if !item_name.is_empty():
 		item = GameManager.GetItem(item_name)
 		if !texture && item.texture:

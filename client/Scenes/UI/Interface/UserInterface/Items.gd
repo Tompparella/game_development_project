@@ -5,7 +5,7 @@ class_name ItemsView
 var packed_item = preload("res://Scenes/UI/Interface/UserInterface/Item.tscn")
 
 func AddItem(item: Item) -> void:
-	var instance = packed_item.instantiate()
+	var instance: ItemEntry = packed_item.instantiate()
 	items_container.add_child(instance)
 	instance.Initialize(item)
 

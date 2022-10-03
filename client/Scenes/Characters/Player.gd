@@ -23,6 +23,7 @@ func Initialize():
 func Interact() -> void:
 	if surroundings.size():
 		var entry: SurroundingArea = surroundings.back()
+		print(entry)
 		entry.Interact(self)
 		surroundings.shuffle()
 
@@ -36,11 +37,17 @@ func AddItem(item: Item) -> bool:
 func AddCurrency(currency: float) -> void:
 	emit_signal("currency_changed", inventory.AddCurrency(currency))
 
+func TakeCurrency(currency: float) -> void:
+	emit_signal("currency_changed", inventory.TakeCurrency(currency))
+
 func AddScore(score: int) -> void:
 	emit_signal("score_changed", inventory.AddScore(score))
 
 func AddVibe(vibe: float) -> void:
 	emit_signal("vibe_changed", inventory.AddVibe(vibe))
+
+func CanBuy(price: float) -> bool:
+	return inventory.CanBuy(price)
 
 func Recycle() -> Returnable:
 	var returnable: Returnable = inventory.PopReturnable()

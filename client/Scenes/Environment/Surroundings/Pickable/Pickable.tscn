@@ -19,16 +19,16 @@ script = ExtResource("1_kdo2c")
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fsh84")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2d" type="Area2D" parent="."]
 collision_layer = 12
 collision_mask = 17
 script = ExtResource("2_sl5v2")
 
-[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
 shape = SubResource("CircleShape2D_rl23u")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(0.768627, 0.745098, 1, 1)
 texture = ExtResource("3_huov1")
 
-[connection signal="tree_exiting" from="Area2D" to="Area2D" method="_On_Surrounding_Exiting"]
+[connection signal="tree_exiting" from="Area2d" to="Area2d" method="_On_Surrounding_Exiting"]

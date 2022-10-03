@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://gwifuoak5cc6"]
+
+[ext_resource type="Texture2D" uid="uid://d065nig3qlqqr" path="res://Assets/Environment/Shop_1.png" id="1_58kox"]
+[ext_resource type="Script" path="res://Scenes/Environment/Surroundings/Interactable/Shop.gd" id="1_r563q"]
+[ext_resource type="Script" path="res://Scenes/Environment/Surroundings/SurroundingArea.gd" id="3_ke8e5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vxrjv"]
+size = Vector2(128, 56)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tmvjo"]
+radius = 12.0
+height = 64.0
+
+[node name="Shop" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 29
+script = ExtResource("1_r563q")
+
+[node name="Sprite2d" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
+texture = ExtResource("1_58kox")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_vxrjv")
+
+[node name="Area2d" type="Area2D" parent="."]
+collision_layer = 12
+collision_mask = 17
+script = ExtResource("3_ke8e5")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
+position = Vector2(32, 20)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_tmvjo")
+
+[connection signal="body_exited" from="Area2d" to="." method="_Body_Exited"]
+[connection signal="tree_exiting" from="Area2d" to="Area2d" method="_On_Surrounding_Exiting"]

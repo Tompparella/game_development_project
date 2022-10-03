@@ -1,10 +1,13 @@
-extends Control
-class_name ItemName
+extends TextureButton
+class_name ItemEntry
 
-@onready var texture: TextureRect = $Texture
+signal item_selected(_item: Item)
 
 var item: Item
 
 func Initialize(_item: Item) -> void:
 	item = _item
-	texture.texture = item.texture
+	texture_normal = item.texture
+
+func ItemSelected() -> void:
+	emit_signal("item_selected", item)

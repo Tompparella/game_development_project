@@ -3,9 +3,7 @@ class_name Returnable
 
 var size: int
 
-func _init(_item_name: String, _value: float, _texture_path: String, _size: int) -> void:
-	item_name = _item_name
+func _init(_item_name: String, _description: String, _value: float, _texture_path: String, _size: int) -> void:
 	size = _size
-	value = _value
-	texture = load(_texture_path)
 	returnable = true
+	super._init(_item_name, _description, _value, _texture_path)
