@@ -3,7 +3,7 @@ extends Node
 var map: Node2D
 var player: Player
 var camera: Camera
-var placeholder_texture: String = "res://Assets/Media/Images/placeholder.png"
+var placeholder_texture: String = "res://Assets/Items/Can.png"
 
 # Temporary. In the end product, item data will be fetched from the server, and textures will be either also fetched from server, or referenced locally.
 var ItemsList: Dictionary = {
@@ -11,14 +11,14 @@ var ItemsList: Dictionary = {
 	"trash": Item.new("Trash" , 0.0, placeholder_texture),
 	# Returnables
 	"bottle": Returnable.new("Bottle", 0.2, placeholder_texture, 1),
-	"can": Returnable.new("Can", 0.15, placeholder_texture, 1),
+	"can": Returnable.new("Can", 0.15, "res://Assets/Items/Can.png", 1),
 	"bottle_big": Returnable.new("Big Bottle", 0.4, placeholder_texture, 2),
 	"bottle_liquor": Returnable.new("Liquor Bottle", 0.1, placeholder_texture, 2),
 	"bottle_wine": Returnable.new("Wine Bottle", 0.1, placeholder_texture, 1),
 	# Consumables
 		# Mild
 	"drink_red": Consumable.new("Hobo Delight", 0.9, placeholder_texture, 4.2, 5),
-	"drink_copper": Consumable.new("Can O' Copper", 1.0, placeholder_texture, 4.3, 4),
+	"drink_copper": Consumable.new("Can O' Copper", 1.0, "res://Assets/Items/Copper.png", 4.3, 4),
 	"drink_blue": Consumable.new("Friska & Njutbara", 1.15, placeholder_texture, 4.5, 6),
 	"drink_teddy": Consumable.new("Teddy Malt Smoothie", 2.0, placeholder_texture, 5.3, 10),
 	"drink_piss": Consumable.new("Reindeer Piss", 2.1, placeholder_texture, 5.2, 10),
@@ -47,16 +47,18 @@ func Initialize() -> void:
 	player = map.get_node("TileMap/Player")
 	camera = map.get_node("Camera")
 	SpawnPickables()
-	camera.Initialize(player)
 	player.Initialize()
+	camera.Initialize(player)
+	UIControl.Initialize(player)
 	UIControl.HideLoginScreen()
 
 func SpawnPickables() -> void:
 	var pickable_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn")
-	var screen_size = get_viewport().get_visible_rect().size * 5
+	var screen_size = get_viewport().get_visible_rect().size * 2
 	for i in range(0, 100):
 		randomize()
-		var pickable: RigidBody2D = pickable_scene.instantiate()
+		var pickable: Pickable = pickable_scene.instantiate()
+		pickable.Initialize(ItemsList["can"])
 		pickable.position = Vector2(randf_range(0, screen_size.x), randf_range(0, screen_size.y))
 		map.get_node("TileMap").add_child(pickable)
 		

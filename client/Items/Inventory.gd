@@ -5,6 +5,7 @@ var items: Array[Item] # TODO: Setters and getters
 var returnables: Array[Returnable]
 var maxReturnables: int = 10 # Default carry size
 var currency: float = 0.0
+var vibe: float = 0.0
 var score: int = 0
 
 func AddItem(item: Item) -> bool:
@@ -20,17 +21,25 @@ func AddItem(item: Item) -> bool:
 		print("Added item %s. Current items: %s" % [item.item_name, items.size()])
 	return result
 
-func AddCurrency(_currency: float) -> void:
+# Returns new total currency
+func AddCurrency(_currency: float) -> float:
 	currency += _currency
-	print(currency)
+	return currency
+
+func AddScore(_score: int) -> int:
+	score += _score
+	return score
+
+func PopReturnable() -> Returnable:
+	return returnables.pop_back()
 
 func GetReturnables() -> Array[Returnable]:
-	print("Before return: %s" % returnables.size())
 	return returnables
 
-func _init(_items: Array[Item], _returnables: Array[Returnable], _currency: float = 0.0, _score: int = 0) -> void:
+func _init(_items: Array[Item], _returnables: Array[Returnable], _currency: float = 0.0, _vibe: float = 25.00, _score: int = 0) -> void:
 	# The items maybe need to be parsed to distinct returnables from other items. This can be implemented here (Maybe actually before this?).
 	items = _items
 	returnables = _returnables
 	currency = _currency
+	vibe = _vibe
 	score = _score

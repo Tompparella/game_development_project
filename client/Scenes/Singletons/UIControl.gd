@@ -1,40 +1,33 @@
 extends Node
 
-@onready var login_screen: Control = get_node("../Game/UILayer/LoginScreen")
-@onready var login: VBoxContainer = login_screen.get_node("Menu/Login")
-@onready var register: VBoxContainer = login_screen.get_node("Menu/Register")
-@onready var username_input: LineEdit = login.get_node("Username")
-@onready var password_input: LineEdit = login.get_node("Password")
-@onready var login_button: BaseButton = login.get_node("LoginButton")
-@onready var register_button: BaseButton = login.get_node("RegisterButton")
-@onready var create_username_input: LineEdit = register.get_node("Username")
-@onready var create_password_input: LineEdit = register.get_node("Password")
-@onready var create_repeat_input: LineEdit = register.get_node("Repeat")
-@onready var confirm_button: BaseButton = register.get_node("ConfirmButton")
-@onready var back_button: BaseButton = register.get_node("BackButton")
+@onready var login_screen: LoginScreen = get_node("../Game/UILayer/LoginScreen")
+@onready var user_ui: UserInterface = get_node("../Game/UILayer/UserInterface")
+
+# Initialize UI variables
+
+func Initialize(player: Player) -> void:
+	user_ui.Initialize(player) # This needs to be move somewhere else (UI gets initialized before player is fetched)
+
+# Login screen controls
 
 func DisableLoginButtons() -> void:
-	login_button.disabled = true
-	register_button.disabled = true
-	confirm_button.disabled = true
-	back_button.disabled = true
+	login_screen.DisableLoginButtons()
 	
 func EnableLoginButtons() -> void:
-	login_button.disabled = false
-	register_button.disabled = false
-	confirm_button.disabled = false
-	back_button.disabled = false
+	login_screen.EnableLoginButtons()
 	
 func ToggleRegisterScreen() -> void:
-	login.hide()
-	register.show()
+	login_screen.ToggleRegisterScreen()
 	
 func ToggleLoginScreen() -> void:
-	register.hide()
-	login.show()
-	
+	login_screen.ToggleLoginScreen()
+
 func HideLoginScreen() -> void:
 	login_screen.hide()
 	
 func ShowLoginScreen() -> void:
 	login_screen.show()
+
+# Instance UI controls
+
+

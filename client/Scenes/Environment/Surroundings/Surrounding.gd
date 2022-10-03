@@ -1,27 +1,30 @@
-extends Area2D
+extends Node2D
 class_name Surrounding
 
-@onready var body: PhysicsBody2D = get_parent()
-@export var texture: Texture2D = Texture2D.new()
+@export var texture: Texture2D
 @export var item_name: String = ""
 
 var item: Item
 
-signal surrounding_removed(surrounding: Surrounding)
-
 func _ready() -> void:
+	get_node("Area2D").connect("interaction", Interact)
 	if !item_name.is_empty():
 		item = GameManager.GetItem(item_name)
+		if !texture && item.texture:
+			texture = item.texture
+			$Sprite.set_texture(texture)
 
-func Initialize(_texture: Texture2D, _item: Item) -> void:
-	texture = _texture
-	var sprite: Sprite2D = $Sprite
-	sprite.set_texture(texture)
-	sprite.scale = Vector2(0.2, 0.2)
+func Initialize(_item: Item = null, _texture: Texture2D = null) -> void:
+	item = _item
+	if _texture:
+		texture = _texture
+	elif item && item.texture:
+		texture = item.texture
+	if texture:
+		$Sprite.set_texture(texture)
 
 func Interact(_player: Player) -> void:
 	pass
 
 func Remove() -> void:
-	emit_signal("surrounding_removed", self)
-	body.queue_free()
+	queue_free()

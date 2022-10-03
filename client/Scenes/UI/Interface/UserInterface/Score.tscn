@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://7n1uhiepbtjq"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Interface/UserInterface/Score.gd" id="1_nk5jk"]
+[ext_resource type="Texture2D" uid="uid://jq8iwgcyfuyc" path="res://Assets/UI/Score.png" id="2_n27mc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4fogd"]
+font_size = 24
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 0.156863)
+shadow_offset = Vector2(3, 1)
+
+[node name="Score" type="Control"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+mouse_filter = 2
+script = ExtResource("1_nk5jk")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 64.0
+grow_horizontal = 0
+texture = ExtResource("2_n27mc")
+
+[node name="ScoreCounter" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -240.0
+offset_top = 8.0
+offset_right = -80.0
+offset_bottom = 56.0
+grow_horizontal = 0
+text = "0"
+label_settings = SubResource("LabelSettings_4fogd")
+horizontal_alignment = 2
+vertical_alignment = 1
+autowrap_mode = 1

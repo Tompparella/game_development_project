@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://blo41h6k32n7j"]
 
-[ext_resource type="Texture2D" uid="uid://d0oo8d7xvjume" path="res://Assets/Media/Images/placeholder_1.png" id="1"]
-[ext_resource type="Script" path="res://Scenes/UI/Login.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://d0oo8d7xvjume" path="res://Assets/Media/Images/placeholder_1.png" id="1_2yxar"]
+[ext_resource type="Script" path="res://Scenes/UI/Interface/Login/Login.gd" id="1_uehe6"]
 
 [node name="LoginScreen" type="Control"]
 layout_mode = 3
@@ -16,6 +16,7 @@ offset_right = 512.0
 offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_uehe6")
 
 [node name="Menu" type="NinePatchRect" parent="."]
 anchors_preset = 8
@@ -29,8 +30,7 @@ offset_right = 400.0
 offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1")
-script = ExtResource("2")
+texture = ExtResource("1_2yxar")
 
 [node name="Login" type="VBoxContainer" parent="Menu"]
 anchors_preset = 8
@@ -206,7 +206,7 @@ text = "Back to Login"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="Menu/Login/LoginButton" to="Menu" method="_Login_Button_Pressed"]
-[connection signal="pressed" from="Menu/Login/RegisterButton" to="Menu" method="_Register_Button_Pressed"]
-[connection signal="pressed" from="Menu/Register/ConfirmButton" to="Menu" method="_Confirm_Button_Pressed"]
-[connection signal="pressed" from="Menu/Register/BackButton" to="Menu" method="_Back_Button_Pressed"]
+[connection signal="pressed" from="Menu/Login/LoginButton" to="." method="_Login_Button_Pressed"]
+[connection signal="pressed" from="Menu/Login/RegisterButton" to="." method="_Register_Button_Pressed"]
+[connection signal="pressed" from="Menu/Register/ConfirmButton" to="." method="_Confirm_Button_Pressed"]
+[connection signal="pressed" from="Menu/Register/BackButton" to="." method="_Back_Button_Pressed"]

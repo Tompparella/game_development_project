@@ -1,19 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://cedax1sscbarl"]
 
-[ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="1_5l14o"]
+[ext_resource type="Texture2D" uid="uid://d065nig3qlqqr" path="res://Assets/Environment/Shop_1.png" id="1_58kox"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vxrjv"]
-size = Vector2(64, 32)
+size = Vector2(128, 56)
 
 [node name="Obstacle" type="StaticBody2D"]
 collision_layer = 2
 collision_mask = 29
 
-[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
-position = Vector2(32, 16)
-shape = SubResource("RectangleShape2D_vxrjv")
-
 [node name="Sprite2d" type="Sprite2D" parent="."]
-modulate = Color(0.192157, 0.168627, 0.180392, 1)
-position = Vector2(32, 0)
-texture = ExtResource("1_5l14o")
+position = Vector2(0, -32)
+texture = ExtResource("1_58kox")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_vxrjv")

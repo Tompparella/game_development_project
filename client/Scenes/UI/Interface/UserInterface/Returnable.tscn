@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://la4wev7413b3"]
+
+[ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="1_hmvur"]
+[ext_resource type="Script" path="res://Scenes/UI/Interface/UserInterface/ReturnableEntry.gd" id="1_s6376"]
+
+[node name="Returnable" type="Control"]
+custom_minimum_size = Vector2i(32, 32)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+script = ExtResource("1_s6376")
+
+[node name="Texture" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.349066
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_hmvur")

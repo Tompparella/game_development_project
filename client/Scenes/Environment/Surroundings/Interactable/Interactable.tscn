@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bic1j3w2sb8of"]
+[gd_scene load_steps=6 format=3 uid="uid://bic1j3w2sb8of"]
 
 [ext_resource type="Script" path="res://Scenes/Environment/Surroundings/Interactable/Interactable.gd" id="1_l7udo"]
 [ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="2_0m52k"]
+[ext_resource type="Script" path="res://Scenes/Environment/Surroundings/SurroundingArea.gd" id="2_mlapn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fsh84"]
 radius = 8.0
@@ -9,26 +10,31 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_rl23u"]
 radius = 16.0
 
-[node name="Body" type="RigidBody2D"]
+[node name="Interactable" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 31
 mass = 0.4
 gravity_scale = 0.0
+script = ExtResource("1_l7udo")
+item_name = null
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
 position = Vector2(0, 24)
 shape = SubResource("CircleShape2D_fsh84")
 
-[node name="Interactable" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
 position = Vector2(0, 24)
 collision_layer = 12
 collision_mask = 17
-script = ExtResource("1_l7udo")
+script = ExtResource("2_mlapn")
 
-[node name="Sprite" type="Sprite2D" parent="Interactable"]
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_rl23u")
+
+[node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(0.898039, 0.0156863, 0.494118, 1)
+position = Vector2(0, 24)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_0m52k")
 
-[node name="CollisionShape2d" type="CollisionShape2D" parent="Interactable"]
-shape = SubResource("CircleShape2D_rl23u")
+[connection signal="tree_exiting" from="Area2D" to="Area2D" method="_On_Surrounding_Exiting"]

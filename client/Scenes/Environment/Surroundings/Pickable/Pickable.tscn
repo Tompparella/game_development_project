@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cualqbgegg70u"]
+[gd_scene load_steps=6 format=3 uid="uid://cualqbgegg70u"]
 
 [ext_resource type="Script" path="res://Scenes/Environment/Surroundings/Pickable/Pickable.gd" id="1_kdo2c"]
-[ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="2_0m52k"]
+[ext_resource type="Script" path="res://Scenes/Environment/Surroundings/SurroundingArea.gd" id="2_sl5v2"]
+[ext_resource type="Texture2D" uid="uid://dq58tiap41t55" path="res://Assets/Items/Can.png" id="3_huov1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fsh84"]
 radius = 8.0
@@ -9,27 +10,25 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_rl23u"]
 radius = 16.0
 
-[node name="Body" type="RigidBody2D"]
+[node name="Pickable" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 31
 gravity_scale = 0.0
+script = ExtResource("1_kdo2c")
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
-position = Vector2(0, 24)
 shape = SubResource("CircleShape2D_fsh84")
 
-[node name="Pickable" type="Area2D" parent="."]
-position = Vector2(0, 24)
+[node name="Area2D" type="Area2D" parent="."]
 collision_layer = 12
 collision_mask = 17
-script = ExtResource("1_kdo2c")
-texture = ExtResource("2_0m52k")
-item_name = "can"
+script = ExtResource("2_sl5v2")
 
-[node name="Sprite" type="Sprite2D" parent="Pickable"]
-modulate = Color(0.768627, 0.745098, 1, 1)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_0m52k")
-
-[node name="CollisionShape2d" type="CollisionShape2D" parent="Pickable"]
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_rl23u")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.768627, 0.745098, 1, 1)
+texture = ExtResource("3_huov1")
+
+[connection signal="tree_exiting" from="Area2D" to="Area2D" method="_On_Surrounding_Exiting"]

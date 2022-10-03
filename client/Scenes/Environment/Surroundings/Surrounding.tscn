@@ -1,33 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://dd225xv0u1xd"]
+[gd_scene load_steps=6 format=3 uid="uid://dd225xv0u1xd"]
 
 [ext_resource type="Script" path="res://Scenes/Environment/Surroundings/Surrounding.gd" id="1_by1q4"]
-[ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="2_0m52k"]
+[ext_resource type="Texture2D" uid="uid://cr84xairuek6c" path="res://Assets/Environment/Trash_Can.png" id="2_gnv0c"]
+[ext_resource type="Script" path="res://Scenes/Environment/Surroundings/SurroundingArea.gd" id="2_ik8x8"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_fsh84"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxa8a"]
 radius = 8.0
+height = 24.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rl23u"]
-radius = 16.0
+radius = 20.0
 
-[node name="Body" type="RigidBody2D"]
+[node name="Surrounding" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 31
+mass = 10.0
 gravity_scale = 0.0
-
-[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
-position = Vector2(0, 24)
-shape = SubResource("CircleShape2D_fsh84")
-
-[node name="Surrounding" type="Area2D" parent="."]
-position = Vector2(0, 24)
-collision_layer = 12
-collision_mask = 17
 script = ExtResource("1_by1q4")
 
-[node name="Sprite" type="Sprite2D" parent="Surrounding"]
-modulate = Color(0.447059, 0.556863, 0, 1)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_0m52k")
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_dxa8a")
 
-[node name="CollisionShape2d" type="CollisionShape2D" parent="Surrounding"]
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 4)
+collision_layer = 12
+collision_mask = 17
+script = ExtResource("2_ik8x8")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_rl23u")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 4)
+texture = ExtResource("2_gnv0c")
+
+[connection signal="tree_exiting" from="Area2D" to="Area2D" method="_On_Surrounding_Exiting"]

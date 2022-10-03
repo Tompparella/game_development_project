@@ -4,7 +4,7 @@ var network : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var ip : String = "localhost" # For Development
 var port : int = 1108
 
-@onready var gameserver: Node = get_node("../GameServer")
+@onready var gameserver: GameServer = get_node("../GameServer")
 
 func _ready() -> void:
 	ConnectToServer()

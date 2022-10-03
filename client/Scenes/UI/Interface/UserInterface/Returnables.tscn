@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6vjhlgj1x5b0"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Interface/UserInterface/Returnables.gd" id="1_4dphp"]
+
+[node name="Returnables" type="Control"]
+layout_mode = 3
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+script = ExtResource("1_4dphp")
+
+[node name="Container" type="VFlowContainer" parent="."]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 288.0
+offset_right = 32.0
+offset_bottom = -80.0
+grow_vertical = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 0

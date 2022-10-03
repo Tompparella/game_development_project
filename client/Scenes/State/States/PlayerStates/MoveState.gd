@@ -1,7 +1,7 @@
 extends MotionState
 
-var movement_speed: float = 400.0 # TODO: Get this value from the player in an Initialize function
-var acceleration: float = 20.0
+var movement_speed: float = 300.0 # TODO: Get this value from the player in an Initialize function
+var acceleration: float = 15.0
 
 func Enter() -> void:
 	moving = true

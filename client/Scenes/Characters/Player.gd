@@ -1,11 +1,17 @@
 extends CharacterBody2D
 class_name Player
 
+signal item_added(item: Item)
+signal item_removed(item: Item)
+signal vibe_changed(vibe: float)
+signal currency_changed(currency: float)
+signal score_changed(score: int)
+
 var state_machine: PlayerStateMachine
 var inventory: Inventory = Inventory.new([], [])
 
 # Make sure that only interactable items are set on the same layer as Interaction area's layer
-var surroundings: Array[Surrounding] = Array()
+var surroundings: Array[SurroundingArea] = Array()
 
 # TODO: Initiate player inventory
 # TODO: Create an initialization function that runs when the user connects to a game
@@ -16,33 +22,45 @@ func Initialize():
 
 func Interact() -> void:
 	if surroundings.size():
-		var entry: Surrounding = surroundings.back()
+		var entry: SurroundingArea = surroundings.back()
 		entry.Interact(self)
 		surroundings.shuffle()
 
 # Returns true if item add successful. False if not (inventory full, etc.)
 func AddItem(item: Item) -> bool:
-	return inventory.AddItem(item)
+	if inventory.AddItem(item):
+		emit_signal("item_added", item)
+		return true
+	return false 
 
 func AddCurrency(currency: float) -> void:
-	inventory.AddCurrency(currency)
+	emit_signal("currency_changed", inventory.AddCurrency(currency))
 
-func GetReturnables() -> Array[Returnable]:
-	return inventory.GetReturnables()
+func AddScore(score: int) -> void:
+	emit_signal("score_changed", inventory.AddScore(score))
+
+func AddVibe(vibe: float) -> void:
+	emit_signal("vibe_changed", inventory.AddVibe(vibe))
+
+func Recycle() -> Returnable:
+	var returnable: Returnable = inventory.PopReturnable()
+	if returnable:
+		emit_signal("item_removed", returnable)
+	return returnable
 
 func _Interaction_Entered(area: Area2D) -> void:
 	# TODO: Handle instance unloading/freeing with a signal (node.free() -> node.emit_signal(node_freed) -> this._Interaction_Exited)
 	var added: bool = false
-	if area is Surrounding:
+	if area is SurroundingArea:
 		surroundings.append(area)
 		added = true
 		# area.Interact(self)
 	if added:
-		area.connect("surrounding_removed", _Interaction_Exited)
+		area.connect("surrounding_exiting", _Interaction_Exited)
 	# Other handling, t.ex. Npc: if area is Npc: do something
 
 func _Interaction_Exited(area: Area2D) -> void:
 	if area in surroundings:
 		surroundings.erase(area)
-	if area.is_connected("surrounding_removed", _Interaction_Exited):
-		area.disconnect("surrounding_removed", _Interaction_Exited)
+	if area.is_connected("surrounding_exiting", _Interaction_Exited):
+		area.disconnect("surrounding_exiting", _Interaction_Exited)

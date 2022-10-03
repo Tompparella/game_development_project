@@ -15,7 +15,7 @@ func StartServer() -> void:
 		print("Error while starting game server")
 		return
 	self.multiplayer.set_multiplayer_peer(network)
-	print("Game server started")
+	print("Server hub started")
 	if (network.peer_connected.connect(self._Peer_Connected) || network.peer_disconnected.connect(self._Peer_Disconnected)):
 		print("Error while connecting signals")
 		return

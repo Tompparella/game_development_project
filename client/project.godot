@@ -19,10 +19,10 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Items/Consumable.gd"
 }, {
-"base": "Surrounding",
-"class": &"Interactable",
+"base": "Control",
+"class": &"CurrencyView",
 "language": &"GDScript",
-"path": "res://Scenes/Environment/Surroundings/Interactable/Interactable.gd"
+"path": "res://Scenes/UI/Interface/UserInterface/Currency.gd"
 }, {
 "base": "RefCounted",
 "class": &"Inventory",
@@ -33,6 +33,21 @@ _global_script_classes=[{
 "class": &"Item",
 "language": &"GDScript",
 "path": "res://Items/Item.gd"
+}, {
+"base": "Control",
+"class": &"ItemName",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/UserInterface/ItemEntry.gd"
+}, {
+"base": "Control",
+"class": &"ItemsView",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/UserInterface/Items.gd"
+}, {
+"base": "Control",
+"class": &"LoginScreen",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/Login/Login.gd"
 }, {
 "base": "State",
 "class": &"MotionState",
@@ -54,15 +69,25 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/State/PlayerStateMachine.gd"
 }, {
-"base": "Surrounding",
-"class": &"ReturnMachine",
-"language": &"GDScript",
-"path": "res://Scenes/Environment/Surroundings/Interactable/ReturnMachine.gd"
-}, {
 "base": "Item",
 "class": &"Returnable",
 "language": &"GDScript",
 "path": "res://Items/Returnable.gd"
+}, {
+"base": "Control",
+"class": &"ReturnableEntry",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/UserInterface/ReturnableEntry.gd"
+}, {
+"base": "Control",
+"class": &"ReturnablesView",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/UserInterface/Returnables.gd"
+}, {
+"base": "Control",
+"class": &"ScoreView",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/UserInterface/Score.gd"
 }, {
 "base": "Node",
 "class": &"State",
@@ -74,26 +99,49 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/State/StateMachine.gd"
 }, {
-"base": "Area2D",
+"base": "Node2D",
 "class": &"Surrounding",
 "language": &"GDScript",
 "path": "res://Scenes/Environment/Surroundings/Surrounding.gd"
+}, {
+"base": "Area2D",
+"class": &"SurroundingArea",
+"language": &"GDScript",
+"path": "res://Scenes/Environment/Surroundings/SurroundingArea.gd"
+}, {
+"base": "Node",
+"class": &"UserInterface",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/UserInterface/UserInterface.gd"
+}, {
+"base": "Control",
+"class": &"VibeView",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/UserInterface/VibeMeter.gd"
 }]
 _global_script_class_icons={
 "Camera": "",
 "Consumable": "",
-"Interactable": "",
+"CurrencyView": "",
 "Inventory": "",
 "Item": "",
+"ItemName": "",
+"ItemsView": "",
+"LoginScreen": "",
 "MotionState": "",
 "Pickable": "",
 "Player": "",
 "PlayerStateMachine": "",
-"ReturnMachine": "",
 "Returnable": "",
+"ReturnableEntry": "",
+"ReturnablesView": "",
+"ScoreView": "",
 "State": "",
 "StateMachine": "",
-"Surrounding": ""
+"Surrounding": "",
+"SurroundingArea": "",
+"UserInterface": "",
+"VibeView": ""
 }
 
 [application]
@@ -179,4 +227,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 environment/default_environment="res://default_env.tres"

@@ -1,16 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://hhyygar74cji"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_djppd"]
-[ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="1_ntg77"]
+[ext_resource type="Texture2D" uid="uid://c5ysiy01t2f4x" path="res://Assets/Character/Character_Test.png" id="2_4ujso"]
 [ext_resource type="PackedScene" uid="uid://b20hoqso4mjay" path="res://Scenes/State/PlayerStateMachine.tscn" id="2_abv1c"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j584b"]
-radius = 16.0
-height = 32.0
+radius = 8.0
+height = 24.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g2lgw"]
-radius = 16.0
-height = 64.0
+radius = 12.0
+height = 48.0
 
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -18,14 +18,13 @@ collision_mask = 31
 script = ExtResource("1_djppd")
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(0, -8)
+rotation = 1.5708
 shape = SubResource("CapsuleShape2D_j584b")
 
 [node name="Sprite2d" type="Sprite2D" parent="."]
-position = Vector2(96, -32)
-scale = Vector2(0.5, 0.75)
-texture = ExtResource("1_ntg77")
-offset = Vector2(-192, 10.6667)
+position = Vector2(0, -24)
+texture = ExtResource("2_4ujso")
 
 [node name="PlayerStateMachine" parent="." instance=ExtResource("2_abv1c")]
 

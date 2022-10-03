@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfcyfljf10e23"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Interface/UserInterface/Currency.gd" id="1_ql3rd"]
+[ext_resource type="Texture2D" uid="uid://dgpo5m8omsble" path="res://Assets/UI/Currency.png" id="2_gxrt8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_46xd1"]
+font_size = 24
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.180392)
+shadow_offset = Vector2(3, 1)
+
+[node name="Currency" type="Control"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_ql3rd")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 64.0
+grow_horizontal = 0
+texture = ExtResource("2_gxrt8")
+
+[node name="CurrencyCounter" type="Label" parent="."]
+offset_left = -224.0
+offset_top = 16.0
+offset_right = -80.0
+offset_bottom = 48.0
+text = "125.55
+"
+label_settings = SubResource("LabelSettings_46xd1")
+horizontal_alignment = 2
+vertical_alignment = 1
