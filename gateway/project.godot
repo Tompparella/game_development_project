@@ -20,6 +20,11 @@ config/icon="res://icon.png"
 Authenticate="*res://Singletons/Authenticate.gd"
 Gateway="*res://Singletons/Gateway.gd"
 
+[display]
+
+window/size/viewport_width=0
+window/size/viewport_height=0
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true

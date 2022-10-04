@@ -7,6 +7,12 @@ class_name UserInterface
 @onready var returnables: ReturnablesView = $Returnables
 @onready var currency: CurrencyView = $Currency
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("NextItem"):
+		items.NextItem()
+	elif event.is_action_pressed("PreviousItem"):
+		items.PreviousItem()
+
 func Initialize(player: Player):
 	player.connect("item_added", _Item_Added)
 	player.connect("item_removed", _Item_Removed)

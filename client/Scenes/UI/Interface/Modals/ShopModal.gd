@@ -9,6 +9,8 @@ class_name ShopModal
 @onready var price_label: Label = $NinePatchRect/HSplitContainer/Panel2/VBoxContainer/HBoxContainer/Price
 @onready var stock_label: Label = $NinePatchRect/HSplitContainer/Panel2/VBoxContainer/HBoxContainer2/Stock
 
+signal item_unselected(emitter: Node)
+
 var packed_item = preload("res://Scenes/UI/Interface/UserInterface/Item.tscn")
 
 var player: Player
@@ -22,7 +24,6 @@ func SetView() -> void:
 	if (shop != null && shop.inventory != null):
 		for entry in shop.inventory:
 			AddItem(entry)
-			
 
 func AddItem(item: Item) -> void:
 	var instance = packed_item.instantiate()
@@ -31,15 +32,18 @@ func AddItem(item: Item) -> void:
 	instance.connect("item_selected", SelectItem)
 	instance.Initialize(item)
 
-func SelectItem(item: Item) -> void:
-	selected_item = item
-	item_label.text = item.item_name
-	description_label.text = item.description
-	price_label.text = "Price\n%s" % str(item.value)
-	stock_label.text = "Stock\n%sx" % str(shop.inventory[item])
-	if item is Consumable:
-		vibe_label.text = "Vibe\n%s" % str(item.potency)
-		flex_label.text = "Flex\n%s" % str(item.score)
+func SelectItem(item_entry: ItemEntry) -> void:
+	if item_entry.item != selected_item:
+		emit_signal('item_unselected', self)
+		connect('item_unselected', item_entry.UnSelected)
+		selected_item = item_entry.item
+		item_label.text = selected_item.item_name
+		description_label.text = selected_item.description
+		price_label.text = "Price\n%s" % str(selected_item.value)
+		stock_label.text = "Stock\n%sx" % str(shop.inventory[selected_item])
+		if selected_item is Consumable:
+			vibe_label.text = "Vibe\n%s" % str(selected_item.potency)
+			flex_label.text = "Flex\n%s" % str(selected_item.score)
 
 func Open(_shop: Shop):
 	shop = _shop
@@ -47,6 +51,7 @@ func Open(_shop: Shop):
 	visible = true
 
 func Close():
+	emit_signal('item_unselected', self)
 	visible = false
 	selected_item = null
 	item_label.text = ""

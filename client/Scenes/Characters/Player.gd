@@ -23,7 +23,6 @@ func Initialize():
 func Interact() -> void:
 	if surroundings.size():
 		var entry: SurroundingArea = surroundings.back()
-		print(entry)
 		entry.Interact(self)
 		surroundings.shuffle()
 
@@ -32,7 +31,7 @@ func AddItem(item: Item) -> bool:
 	if inventory.AddItem(item):
 		emit_signal("item_added", item)
 		return true
-	return false 
+	return false
 
 func AddCurrency(currency: float) -> void:
 	emit_signal("currency_changed", inventory.AddCurrency(currency))

@@ -10,6 +10,8 @@ func AddItem(returnable: Returnable) -> void:
 	returnable_container.add_child(instance)
 	returnable_entries[instance.name] = returnable.item_name
 	instance.Initialize(returnable)
+	instance.connect("item_highlighted", ShowItemHint)
+	instance.connect("mouse_exited", HideItemHint)
 
 func RemoveItem(returnable: Returnable) -> void:
 	var instance_name: String = returnable_entries.find_key(returnable.item_name)
@@ -17,3 +19,10 @@ func RemoveItem(returnable: Returnable) -> void:
 		returnable_entries.erase(instance_name)
 		if returnable_container.has_node(instance_name):
 			returnable_container.get_node(instance_name).queue_free()
+
+func ShowItemHint(returnable: Returnable) -> void:
+	if returnable:
+		UIControl.ShowItemHint(returnable)
+
+func HideItemHint() -> void:
+	UIControl.HideItemHint()

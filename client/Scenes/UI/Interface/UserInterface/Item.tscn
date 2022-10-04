@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/UI/Interface/UserInterface/ItemEntry.gd" id="1_0t35x"]
 [ext_resource type="Texture2D" uid="uid://bgk4mnorc1p4h" path="res://icon.png" id="1_jfpyc"]
 
-[node name="TextureButton" type="TextureButton"]
+[node name="ItemEntry" type="Button"]
 custom_minimum_size = Vector2i(64, 64)
 anchors_preset = 8
 anchor_left = 0.5
@@ -18,6 +18,15 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture_normal = ExtResource("1_jfpyc")
-stretch_mode = 5
+focus_mode = 0
+flat = true
 script = ExtResource("1_0t35x")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2i(64, 64)
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_jfpyc")
+stretch_mode = 5
+
+[connection signal="mouse_entered" from="." to="." method="_On_Mouse_Enter"]

@@ -3,6 +3,7 @@ extends Node
 @onready var login_screen: LoginScreen = get_node("../Game/UILayer/LoginScreen")
 @onready var user_ui: UserInterface = get_node("../Game/UILayer/UserInterface")
 @onready var shop_modal: ShopModal = get_node("../Game/UILayer/ShopModal")
+@onready var item_hint: ItemHint = get_node("../Game/UILayer/ItemHint")
 
 # Initialize UI variables
 
@@ -30,10 +31,18 @@ func HideLoginScreen() -> void:
 func ShowLoginScreen() -> void:
 	login_screen.show()
 
-# Instance UI controls
+# Shop UI controls
 
 func OpenShopModal(shop: Shop) -> void:
 	shop_modal.Open(shop)
 
 func CloseShopModal() -> void:
 	shop_modal.Close()
+
+# Item hint controls
+
+func ShowItemHint(item: Item) -> void:
+	item_hint.Show(item)
+
+func HideItemHint() -> void:
+	item_hint.Hide()

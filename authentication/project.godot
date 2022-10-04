@@ -21,6 +21,11 @@ Authenticate="*res://Scenes/Singletons/Authenticate.gd"
 GameServer="*res://Scenes/Singletons/GameServer.gd"
 PlayerData="*res://Data/PlayerData.gd"
 
+[display]
+
+window/size/viewport_width=0
+window/size/viewport_height=0
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
