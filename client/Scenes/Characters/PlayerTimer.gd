@@ -23,19 +23,16 @@ func StartUseItemTimer(_item: Item) -> void:
 	else:
 		start(base_wait_time)
 	set_process_unhandled_key_input(true)
-	print("Timer started")
 
 func StartConsumableTimer() -> void:
 	# TODO: Play consume audio, etc.
 	start(base_wait_time + ((item as Consumable).vibe) / 10)
 
 func UseItem() -> void:
-	print("Item used")
 	item.Use(player)
 	set_process_unhandled_key_input(false)
 
 func FailUseItem():
-	print("Item use stopped")
 	stop()
 
 func _unhandled_key_input(event: InputEvent) -> void:

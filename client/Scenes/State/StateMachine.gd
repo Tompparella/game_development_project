@@ -5,9 +5,7 @@
 #
 
 extends Node
-class_name StateMachine #,[logo path here]
-
-signal state_changed(new_state)
+class_name StateMachine
 
 var start_state: State
 var current_state: State
@@ -48,7 +46,7 @@ func _Animation_Finished(animation_name: String) -> void:
 	if _active:
 		current_state._Animation_Finished(animation_name)
 
-func _ChangeState(state_name: String):
+func _Change_State(state_name: String):
 	if !_active:
 		return
 	current_state.Exit()

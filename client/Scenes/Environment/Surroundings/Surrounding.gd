@@ -7,12 +7,15 @@ class_name Surrounding
 var item: Item
 
 func _ready() -> void:
-	get_node("Area2d").connect("interaction", Interact)
+	var area: SurroundingArea = get_node("Area2d")
+	area.connect("interaction", Interact)
 	if !item_name.is_empty():
 		item = GameManager.GetItem(item_name)
 		if !texture && item.texture:
 			texture = item.texture
 			$Sprite.set_texture(texture)
+	if item is Returnable:
+		area.auto_pickup = true
 
 func Initialize(_item: Item = null, _texture: Texture2D = null) -> void:
 	item = _item

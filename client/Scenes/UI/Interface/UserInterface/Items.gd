@@ -21,15 +21,25 @@ func AddItem(item: Item) -> void:
 
 func RemoveItem(item: Item) -> void:
 	var items = items_container.get_children()
+	var item_index: int
 	if selected_item.item == item && items.has(selected_item):
+		item_index = items.find(selected_item)
 		selected_item.queue_free()
-		selected_item = null
+		items.erase(selected_item)
 	else:
 		for entry in items:
 			if (entry is ItemEntry && entry.item == item):
+				item_index = items.find(entry)
 				entry.queue_free()
-				selected_item = null
-	NextItem()
+				items.erase(entry)
+				break
+	if items.size() > 0:
+		if items.size() == item_index:
+			items[items.size()-1].ItemSelected()
+		else:
+			items[item_index].ItemSelected()
+	else:
+		selected_item = null
 
 func SelectItem(item_entry: ItemEntry) -> void:
 	if item_entry != selected_item:

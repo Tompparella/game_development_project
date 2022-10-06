@@ -14,7 +14,6 @@ func Initialize(_item: Item) -> void:
 
 func ItemSelected() -> void:
 	texture.scale = Vector2(1.2, 1.2)
-	# This is to disable space from triggering further presses
 	emit_signal("item_selected", self)
 
 func UnSelected(emitter: Node) -> void:

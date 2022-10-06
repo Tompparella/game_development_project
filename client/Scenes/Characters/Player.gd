@@ -59,7 +59,10 @@ func AddFlex(flex: int) -> void:
 	flex_changed.emit(inventory.AddFlex(flex))
 
 func AddVibe(vibe: float) -> void:
-	vibe_changed.emit(inventory.AddVibe(vibe))
+	var new_vibe: float = inventory.AddVibe(vibe)
+	if new_vibe <= 0:
+		queue_free()
+	vibe_changed.emit(new_vibe)
 
 func GetVibe() -> float:
 	return inventory.GetVibe()
@@ -77,9 +80,11 @@ func _Interaction_Entered(area: Area2D) -> void:
 	# TODO: Handle instance unloading/freeing with a signal (node.free() -> node.emit_signal(node_freed) -> this._Interaction_Exited)
 	var added: bool = false
 	if area is SurroundingArea:
-		surroundings.append(area)
-		added = true
-		# area.Interact(self)
+		if area.auto_pickup:
+			area.Interact(self)
+		else:
+			surroundings.append(area)
+			added = true
 	if added:
 		area.connect("surrounding_exiting", _Interaction_Exited)
 	# Other handling, t.ex. Npc: if area is Npc: do something
@@ -89,3 +94,6 @@ func _Interaction_Exited(area: Area2D) -> void:
 		surroundings.erase(area)
 	if area.is_connected("surrounding_exiting", _Interaction_Exited):
 		area.disconnect("surrounding_exiting", _Interaction_Exited)
+
+func _Vibe_Timeout() -> void:
+	AddVibe(-1.0)

@@ -10,8 +10,8 @@ signal pulse() # TODO: Connect pulse signal to somewhere that plays pulse audio
 @export var warning_color: Color = Color.YELLOW
 @export var danger_color: Color = Color.RED
 @export var pulse_color: Color = Color.DARK_RED
-@export var warning_zone: float = 0.25
-@export var danger_zone: float = 0.1
+@export var warning_zone: float = 0.3
+@export var danger_zone: float = 0.15
 
 var pulse_tween: Tween
 var vibe_tween: Tween

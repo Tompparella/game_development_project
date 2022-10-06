@@ -18,6 +18,7 @@ grow_horizontal = 0
 script = ExtResource("1_ql3rd")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -27,12 +28,12 @@ grow_horizontal = 0
 texture = ExtResource("2_gxrt8")
 
 [node name="CurrencyCounter" type="Label" parent="."]
+layout_mode = 0
 offset_left = -224.0
 offset_top = 16.0
 offset_right = -80.0
 offset_bottom = 48.0
-text = "125.55
-"
+text = "0"
 label_settings = SubResource("LabelSettings_46xd1")
 horizontal_alignment = 2
 vertical_alignment = 1

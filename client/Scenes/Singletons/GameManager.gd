@@ -1,9 +1,14 @@
 extends Node
 
+const VIBE_TIMEOUT_TIME: float = 4.0
+
 var map: Node2D
 var player: Player
 var camera: Camera
+var game_timer: Timer
 var placeholder_texture: String = "res://Assets/Items/Can.png"
+var returnables_on_map: int = 0
+var returnables_per_player: int = 75
 
 # Temporary. In the end product, item data will be fetched from the server, and textures will be either also fetched from server, or referenced locally.
 var ItemsList: Dictionary = {
@@ -46,21 +51,40 @@ func Initialize() -> void:
 	map = get_node("../Game/Map")
 	player = map.get_node("TileMap/Player")
 	camera = map.get_node("Camera")
-	SpawnPickables()
 	player.Initialize()
 	camera.Initialize(player)
 	UIControl.Initialize(player)
 	UIControl.HideLoginScreen()
+	SpawnReturnables(returnables_per_player)
+	CreateGameTimer()
 
-func SpawnPickables() -> void:
+func CreateGameTimer() -> void:
+	game_timer = Timer.new()
+	game_timer.one_shot = false
+	game_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
+	game_timer.wait_time = VIBE_TIMEOUT_TIME
+	game_timer.timeout.connect(player._Vibe_Timeout)
+	game_timer.timeout.connect(SpawnReturnables)
+	add_child(game_timer)
+	game_timer.start()
+
+func SpawnReturnables(returnable_amount: int = 5) -> void:
+	# TODO: Change this so that returnables_per_player gets multiplied by the amount of players on the map.
+	if returnables_on_map >= returnables_per_player:
+		return
+	var returnables: Dictionary = { 1: ItemsList["can"], 2: ItemsList["bottle"], 3: ItemsList["bottle_big"], 4: ItemsList["bottle_liquor"], 5: ItemsList["bottle_wine"] }
+	var returnable_weights: Array[int] = [1,1,1,1,1,2,2,2,3,4,5]
 	var pickable_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn")
-	var screen_size = get_viewport().get_visible_rect().size * 2
-	for i in range(0, 250):
+	var screen_size = get_viewport().get_visible_rect().size
+	for i in range(0, returnable_amount):
 		randomize()
 		var pickable: Pickable = pickable_scene.instantiate()
-		pickable.Initialize(ItemsList["can"])
+		pickable.Initialize(returnables[returnable_weights[randi() % returnable_weights.size()]])
 		pickable.position = Vector2(randf_range(-screen_size.x, screen_size.x), randf_range(-screen_size.y, screen_size.y))
 		map.get_node("TileMap").add_child(pickable)
+		pickable.returnable_picked.connect(_Returnable_Picked)
+		returnables_on_map += 1
+	print("Spawned returnables: %s" % returnables_on_map)
 
 func GetItem(item_name: String) -> Item:
 	return ItemsList.get(item_name, ItemsList.get("default"))
@@ -75,3 +99,6 @@ func GetShopInventory() -> Array[Item]:
 		ItemsList["soda_cola"],
 		ItemsList["soda_yellow"],
 	]
+
+func _Returnable_Picked() -> void:
+	returnables_on_map -= 1

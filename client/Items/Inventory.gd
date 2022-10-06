@@ -3,6 +3,7 @@ class_name Inventory
 
 var items: Array[Item] # TODO: Setters and getters
 var returnables: Array[Returnable]
+var returnables_size: int = 0
 var maxReturnables: int = 10 # Default carry size
 var currency: float = 0.0
 var vibe: float = 0.0
@@ -12,14 +13,13 @@ var flex: int = 0
 func AddItem(item: Item) -> bool:
 	var result: bool = false
 	if item is Returnable:
-		if maxReturnables > returnables.size():
+		if maxReturnables >= (returnables_size + item.size):
+			returnables_size += item.size
 			returnables.append(item)
 			result = true
-			print("Added returnable %s. Current returnables: %s" % [item.item_name, returnables.size()])
 	elif items.size() < 9: # Max length
 		items.append(item)
 		result = true
-		print("Added item %s. Current items: %s" % [item.item_name, items.size()])
 	return result
 
 func RemoveItem(item: Item) -> bool:
@@ -53,7 +53,10 @@ func CanBuy(price: float) -> bool:
 	return (items.size() < 9 && (currency + 0.001) >= price)
 
 func PopReturnable() -> Returnable:
-	return returnables.pop_back()
+	var returnable: Returnable = returnables.pop_back()
+	if returnable:
+		returnables_size -= returnable.size
+	return returnable
 
 func GetReturnables() -> Array[Returnable]:
 	return returnables

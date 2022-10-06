@@ -7,7 +7,7 @@ var player: Player
 
 func Initialize(state_machine: StateMachine, _player: Player):
 	player = _player
-	finished.connect(state_machine._ChangeState)
+	finished.connect(state_machine._Change_State)
 
 func Enter() -> void:
 	return
