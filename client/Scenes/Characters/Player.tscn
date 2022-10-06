@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://hhyygar74cji"]
+[gd_scene load_steps=7 format=3 uid="uid://hhyygar74cji"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_djppd"]
 [ext_resource type="Texture2D" uid="uid://c5ysiy01t2f4x" path="res://Assets/Character/Character_Test.png" id="2_4ujso"]
 [ext_resource type="PackedScene" uid="uid://b20hoqso4mjay" path="res://Scenes/State/PlayerStateMachine.tscn" id="2_abv1c"]
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerTimer.gd" id="4_ewdl1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j584b"]
 radius = 6.0
@@ -34,6 +35,9 @@ collision_mask = 31
 [node name="CollisionShape2d" type="CollisionShape2D" parent="Interaction"]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_g2lgw")
+
+[node name="Timer" type="Timer" parent="."]
+script = ExtResource("4_ewdl1")
 
 [connection signal="area_entered" from="Interaction" to="." method="_Interaction_Entered"]
 [connection signal="area_exited" from="Interaction" to="." method="_Interaction_Exited"]

@@ -14,3 +14,6 @@ func _init(_item_name: String, _description: String ,_value: float, _texture_pat
 	item_name = _item_name
 	description = _description
 	value = _value
+
+func Use(_player: Player) -> void:
+	pass

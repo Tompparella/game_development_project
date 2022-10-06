@@ -42,8 +42,8 @@ func SelectItem(item_entry: ItemEntry) -> void:
 		price_label.text = "Price\n%s" % str(selected_item.value)
 		stock_label.text = "Stock\n%sx" % str(shop.inventory[selected_item])
 		if selected_item is Consumable:
-			vibe_label.text = "Vibe\n%s" % str(selected_item.potency)
-			flex_label.text = "Flex\n%s" % str(selected_item.score)
+			vibe_label.text = "Vibe\n%s" % str(selected_item.vibe)
+			flex_label.text = "Flex\n%s" % str(selected_item.flex)
 
 func Open(_shop: Shop):
 	shop = _shop

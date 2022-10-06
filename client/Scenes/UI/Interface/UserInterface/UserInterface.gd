@@ -14,12 +14,16 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		items.PreviousItem()
 
 func Initialize(player: Player):
-	player.connect("item_added", _Item_Added)
-	player.connect("item_removed", _Item_Removed)
-	player.connect("vibe_changed", vibe._Vibe_Changed)
-	player.connect("score_changed", score._Score_Changed)
-	player.connect("currency_changed", currency._Currency_Changed)
-	
+	# TODO: Could do a more thorough initialization for other UI elements as well (take example from vibe)
+	player.item_added.connect(_Item_Added)
+	player.item_removed.connect(_Item_Removed)
+	player.flex_changed.connect(score._Score_Changed)
+	player.currency_changed.connect(currency._Currency_Changed)
+	vibe.Initialize(player)
+
+func GetSelectedItem() -> Item:
+	return items.GetSelectedItem()
+
 func _Item_Added(item: Item):
 	if item is Returnable:
 		returnables.AddItem(item)

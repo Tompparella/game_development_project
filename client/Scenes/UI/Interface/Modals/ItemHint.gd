@@ -19,7 +19,7 @@ func Show(item: Item) -> void:
 	if item is Returnable:
 		SetFields(item.item_name, item.description, "Value: %s" % str(item.value), "Size: %s" % str(item.size))
 	elif item is Consumable:
-		SetFields(item.item_name, item.description, "Vibe: %s" % str(item.potency), "Flex: %s" % str(item.score))
+		SetFields(item.item_name, item.description, "Vibe: %s" % str(item.vibe), "Flex: %s" % str(item.flex))
 	else:
 		SetFields(item.item_name, item.description)
 	set_process(true)

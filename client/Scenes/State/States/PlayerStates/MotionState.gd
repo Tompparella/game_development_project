@@ -17,3 +17,5 @@ func HandleInput(event: InputEvent) -> void:
 	# Check for stun/immobilization, etc.
 	if event.is_action_pressed("Interact"):
 		player.Interact()
+	elif event.is_action_pressed("Use1"):
+		player.UseItem()

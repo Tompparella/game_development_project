@@ -1,12 +1,14 @@
 extends CharacterBody2D
 class_name Player
 
+signal use_selected_item(player: Player)
 signal item_added(item: Item)
 signal item_removed(item: Item)
 signal vibe_changed(vibe: float)
 signal currency_changed(currency: float)
-signal score_changed(score: int)
+signal flex_changed(flex: int)
 
+var timer: PlayerTimer
 var state_machine: PlayerStateMachine
 var inventory: Inventory = Inventory.new([], [])
 
@@ -18,7 +20,9 @@ var surroundings: Array[SurroundingArea] = Array()
 func Initialize():
 	# TODO: Inventory initialization with data
 	state_machine = $PlayerStateMachine
+	timer = $Timer
 	state_machine.Initialize(self)
+	timer.Initialize(self)
 
 func Interact() -> void:
 	if surroundings.size():
@@ -29,21 +33,36 @@ func Interact() -> void:
 # Returns true if item add successful. False if not (inventory full, etc.)
 func AddItem(item: Item) -> bool:
 	if inventory.AddItem(item):
-		emit_signal("item_added", item)
+		item_added.emit(item)
 		return true
 	return false
 
+func RemoveItem(item: Item) -> bool:
+	if inventory.RemoveItem(item):
+		item_removed.emit(item)
+		return true
+	return false
+
+# Use the item given as parameter. If no item is given, get selected item from UI
+func UseItem(_item: Item = null) -> void:
+	var item: Item = _item if _item != null else use_selected_item.emit(self)
+	if item:
+		timer.StartUseItemTimer(item)
+
 func AddCurrency(currency: float) -> void:
-	emit_signal("currency_changed", inventory.AddCurrency(currency))
+	currency_changed.emit(inventory.AddCurrency(currency))
 
 func TakeCurrency(currency: float) -> void:
-	emit_signal("currency_changed", inventory.TakeCurrency(currency))
+	currency_changed.emit(inventory.TakeCurrency(currency))
 
-func AddScore(score: int) -> void:
-	emit_signal("score_changed", inventory.AddScore(score))
+func AddFlex(flex: int) -> void:
+	flex_changed.emit(inventory.AddFlex(flex))
 
 func AddVibe(vibe: float) -> void:
-	emit_signal("vibe_changed", inventory.AddVibe(vibe))
+	vibe_changed.emit(inventory.AddVibe(vibe))
+
+func GetVibe() -> float:
+	return inventory.GetVibe()
 
 func CanBuy(price: float) -> bool:
 	return inventory.CanBuy(price)
@@ -51,7 +70,7 @@ func CanBuy(price: float) -> bool:
 func Recycle() -> Returnable:
 	var returnable: Returnable = inventory.PopReturnable()
 	if returnable:
-		emit_signal("item_removed", returnable)
+		item_removed.emit(returnable)
 	return returnable
 
 func _Interaction_Entered(area: Area2D) -> void:

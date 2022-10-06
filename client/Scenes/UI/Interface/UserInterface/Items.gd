@@ -20,8 +20,16 @@ func AddItem(item: Item) -> void:
 		instance.ItemSelected()
 
 func RemoveItem(item: Item) -> void:
-	# TODO: Add item removal logic.
-	print(item)
+	var items = items_container.get_children()
+	if selected_item.item == item && items.has(selected_item):
+		selected_item.queue_free()
+		selected_item = null
+	else:
+		for entry in items:
+			if (entry is ItemEntry && entry.item == item):
+				entry.queue_free()
+				selected_item = null
+	NextItem()
 
 func SelectItem(item_entry: ItemEntry) -> void:
 	if item_entry != selected_item:
@@ -29,11 +37,19 @@ func SelectItem(item_entry: ItemEntry) -> void:
 		emit_signal('item_unselected', self)
 		connect('item_unselected', item_entry.UnSelected)
 
+func GetSelectedItem() -> Item:
+	if (selected_item && selected_item.item):
+		return selected_item.item
+	else:
+		return null
+
 func NextItem() -> void:
 	var items: Array[Node] = items_container.get_children()
 	if items.size() < 2:
 		return
-	var index: int = items.find(selected_item)
+	var index: int = 0
+	if selected_item:
+		index = items.find(selected_item)
 	if index == -1:
 		return
 	index += 1
@@ -46,7 +62,9 @@ func PreviousItem() -> void:
 	var items: Array[Node] = items_container.get_children()
 	if items.size() < 2:
 		return
-	var index: int = items.find(selected_item)
+	var index: int = 0
+	if selected_item:
+		index = items.find(selected_item)
 	if index == -1:
 		return
 	elif index == 0:

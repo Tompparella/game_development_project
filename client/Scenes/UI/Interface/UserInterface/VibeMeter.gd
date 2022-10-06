@@ -6,7 +6,7 @@ signal pulse() # TODO: Connect pulse signal to somewhere that plays pulse audio
 @onready var vibe_over: TextureProgressBar = $VibeOver
 @onready var vibe_under: TextureProgressBar = $VibeUnder
 
-@export var normal_color: Color = Color.LAWN_GREEN
+@export var normal_color: Color = Color.WHITE
 @export var warning_color: Color = Color.YELLOW
 @export var danger_color: Color = Color.RED
 @export var pulse_color: Color = Color.DARK_RED
@@ -17,17 +17,28 @@ var pulse_tween: Tween
 var vibe_tween: Tween
 var pulsing: bool = false
 
+func Initialize(player: Player) -> void:
+	var player_vibe: float = player.GetVibe()
+	vibe_over.value = player_vibe
+	vibe_under.value = player_vibe
+	player.vibe_changed.connect(_Vibe_Changed)
+
 func _Vibe_Changed(vibe: float) -> void:
-	vibe_over.value = vibe
-	TweenVibeAmount(vibe)
+	# Select which progress to be interpolated depending on whether we're adding or taking vibe
+	if vibe_over.value > vibe:
+		vibe_over.value = vibe
+		TweenVibeAmount(vibe_under, vibe)
+	else:
+		vibe_under.value = vibe
+		TweenVibeAmount(vibe_over, vibe)
 	AssignColor(vibe)
 
 func EmitPulseSignal() -> void:
 	emit_signal('pulse')
 
-func TweenVibeAmount(vibe: float) -> void:
+func TweenVibeAmount(progress_bar: TextureProgressBar, vibe: float) -> void:
 	vibe_tween = create_tween()
-	vibe_tween.tween_property(vibe_under, "value", vibe, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	vibe_tween.tween_property(progress_bar, "value", vibe, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func PulseOn() -> void:
 	if !pulse_tween || !pulse_tween.is_running():

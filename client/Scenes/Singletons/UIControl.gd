@@ -8,6 +8,7 @@ extends Node
 # Initialize UI variables
 
 func Initialize(player: Player) -> void:
+	player.use_selected_item.connect(UseSelectedItem)
 	user_ui.Initialize(player) # This needs to be move somewhere else (UI gets initialized before player is fetched)
 	shop_modal.Initialize(player)
 
@@ -46,3 +47,10 @@ func ShowItemHint(item: Item) -> void:
 
 func HideItemHint() -> void:
 	item_hint.Hide()
+
+# Player specific controls
+
+func UseSelectedItem(player: Player) -> void:
+	var selected_item: Item = user_ui.GetSelectedItem()
+	if selected_item != null:
+		player.UseItem(selected_item)

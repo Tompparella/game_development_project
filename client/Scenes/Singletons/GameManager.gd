@@ -37,7 +37,7 @@ var ItemsList: Dictionary = {
 	"liquor_herbal": Consumable.new("The Green Fairy", "It's told that people have gone insane because of this stuff. It's been banned multiple times in history due to it generally not being very good for you. But drinking the whole bottle in four chugs? You do you buddy", 60.0, placeholder_texture, 80.0, 1750),
 		# Non-Potent
 	"soda_hippo": Consumable.new("Hippo Soda Pop", "Forest berry soda with your favorite white hippos on the label! What's not to like?", 2.5, placeholder_texture, 0.0, 20),
-	"soda_mystery": Consumable.new("Big Bottle of Weird Coloured Stuff", "I think the shopkeeper just had this lying in some hole for the last decade. Wonder how it'll taste like", 3.0, placeholder_texture, 0.0, 30 ), # Randomize score
+	"soda_mystery": Consumable.new("Big Bottle of Weird Coloured Stuff", "I think the shopkeeper just had this lying in some hole for the last decade. Wonder how it'll taste like", 3.0, placeholder_texture, 0.0, 30 ), # Randomize flex
 	"soda_cola": Consumable.new("Cola", "Good old cola", 2.5, placeholder_texture, 0.0, 15),
 	"soda_yellow": Consumable.new("Jeffe", "My name a' Jeffe", 3.0, placeholder_texture, 0.0, 20)
 }
