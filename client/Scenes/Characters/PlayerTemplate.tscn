@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bg65vgr163hy"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerTemplate.gd" id="1_ci3pn"]
+[ext_resource type="Texture2D" uid="uid://c5ysiy01t2f4x" path="res://Assets/Character/Character_Test.png" id="2_4ujso"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j584b"]
+radius = 6.0
+height = 24.0
+
+[node name="PlayerTemplate" type="CharacterBody2D"]
+modulate = Color(1, 0.309804, 0.282353, 1)
+y_sort_enabled = true
+collision_mask = 0
+script = ExtResource("1_ci3pn")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_j584b")
+
+[node name="Sprite2d" type="Sprite2D" parent="."]
+position = Vector2(0, -24)
+texture = ExtResource("2_4ujso")

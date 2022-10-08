@@ -6,6 +6,8 @@ var port : int = 1105
 
 var token: String
 
+# Server connection functions
+
 func ConnectToServer() -> void:
 	if (network.create_client(ip, port)):
 		print("Client creation failed")
@@ -14,7 +16,7 @@ func ConnectToServer() -> void:
 	if (network.connection_failed.connect(self._OnConnectionFailed) || network.connection_succeeded.connect(self._OnConnectionSucceeded)):
 		print("Signal connection failed")
 		return
-	
+
 @rpc(authority)
 func FetchToken() -> void:
 	ReturnToken()
@@ -37,3 +39,19 @@ func _OnConnectionFailed() -> void:
 
 func _OnConnectionSucceeded() -> void:
 	print("Connection successfully established")
+
+@rpc(authority)
+func SpawnNewPlayer(player_id: int, spawn_position: Vector2) -> void:
+	GameManager.SpawnNewPlayer(player_id, spawn_position)
+
+@rpc(authority)
+func DespawnPlayer(player_id: int) -> void:
+	GameManager.DespawnPlayer(player_id)
+
+@rpc(any_peer, unreliable_ordered)
+func UpdatePlayerState(player_state: Dictionary) -> void:
+	rpc_id(1, "UpdatePlayerState", player_state)
+
+@rpc(authority, unreliable_ordered)
+func UpdateWorldState(world_state: Dictionary) -> void:
+	GameManager.UpdateWorldState(world_state)

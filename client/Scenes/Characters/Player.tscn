@@ -6,8 +6,8 @@
 [ext_resource type="Script" path="res://Scenes/Characters/PlayerTimer.gd" id="4_ewdl1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j584b"]
-radius = 6.0
-height = 24.0
+radius = 4.0
+height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g2lgw"]
 radius = 12.0
@@ -19,7 +19,7 @@ collision_mask = 31
 script = ExtResource("1_djppd")
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6)
+position = Vector2(0, -4)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_j584b")
 

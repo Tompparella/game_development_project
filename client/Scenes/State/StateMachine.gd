@@ -17,7 +17,7 @@ var _active: bool
 func _ready() -> void:
 	SetActive(false)
 	
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	current_state.Update(delta)
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -33,7 +33,7 @@ func Initialize(_character: Node) -> void:
 
 func SetActive(value: bool) -> void:
 	_active = value
-	set_process(value)
+	set_physics_process(value)
 	set_process_unhandled_input(value)
 	if !_active:
 		state_stack.clear()

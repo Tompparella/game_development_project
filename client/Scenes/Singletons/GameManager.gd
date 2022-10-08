@@ -2,13 +2,17 @@ extends Node
 
 const VIBE_TIMEOUT_TIME: float = 4.0
 
-var map: Node2D
+var surroundings: Node2D
+var other_players: Node2D
 var player: Player
 var camera: Camera
 var game_timer: Timer
 var placeholder_texture: String = "res://Assets/Items/Can.png"
 var returnables_on_map: int = 0
 var returnables_per_player: int = 75
+var player_template: PackedScene = preload("res://Scenes/Characters/PlayerTemplate.tscn")
+# Run server sync only if GameManager has successfully initialized the game world on the client
+var initialized: bool = false
 
 # Temporary. In the end product, item data will be fetched from the server, and textures will be either also fetched from server, or referenced locally.
 var ItemsList: Dictionary = {
@@ -47,16 +51,27 @@ var ItemsList: Dictionary = {
 	"soda_yellow": Consumable.new("Jeffe", "My name a' Jeffe", 3.0, placeholder_texture, 0.0, 20)
 }
 
+func _ready() -> void:
+	set_physics_process(false)
+
+func _physics_process(_delta) -> void:
+	# TODO: When player is freed, this will throw error. Connect player freeing to gamemanager to stop physics_process on player free
+	var player_state: Dictionary = {"p": player.global_position}
+	GameServer.UpdatePlayerState(player_state)
+
 func Initialize() -> void:
-	map = get_node("../Game/Map")
-	player = map.get_node("TileMap/Player")
-	camera = map.get_node("Camera")
+	player = get_node("../Game/Map/TileMap/Player")
+	camera = get_node("../Game/Map/Camera")
+	surroundings = get_node("../Game/Map/TileMap/Surroundings")
+	other_players = get_node("../Game/Map/TileMap/OtherPlayers")
 	player.Initialize()
 	camera.Initialize(player)
 	UIControl.Initialize(player)
 	UIControl.HideLoginScreen()
 	SpawnReturnables(returnables_per_player)
 	CreateGameTimer()
+	set_physics_process(true)
+	initialized = true
 
 func CreateGameTimer() -> void:
 	game_timer = Timer.new()
@@ -81,7 +96,7 @@ func SpawnReturnables(returnable_amount: int = 5) -> void:
 		var pickable: Pickable = pickable_scene.instantiate()
 		pickable.Initialize(returnables[returnable_weights[randi() % returnable_weights.size()]])
 		pickable.position = Vector2(randf_range(-screen_size.x, screen_size.x), randf_range(-screen_size.y, screen_size.y))
-		map.get_node("TileMap").add_child(pickable)
+		surroundings.add_child(pickable)
 		pickable.returnable_picked.connect(_Returnable_Picked)
 		returnables_on_map += 1
 	print("Spawned returnables: %s" % returnables_on_map)
@@ -102,3 +117,35 @@ func GetShopInventory() -> Array[Item]:
 
 func _Returnable_Picked() -> void:
 	returnables_on_map -= 1
+
+# Sync functions
+
+func UpdateWorldState(world_state: Dictionary) -> void:
+	if initialized:
+		# We need to erase the timestamp property of the dictionary before iterating through player ids.
+		# It will be used for inter-and extrapolation.
+		world_state.erase("t")
+		# Erase this client from world state
+		world_state.erase(multiplayer.get_unique_id())
+		for player_id in world_state.keys():
+			if other_players.has_node(str(player_id)):
+				var entry: PlayerTemplate = other_players.get_node(str(player_id))
+				entry.MovePlayer(world_state[player_id]["p"])
+			else:
+				SpawnNewPlayer(player_id, world_state[player_id]["p"])
+
+func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
+	# Check if the rpc call is for this player. If yes, do nothing
+	if multiplayer.get_unique_id() == player_id:
+		return
+	# TODO: Add player specific visual things to show on the clientside
+	var new_player: PlayerTemplate = player_template.instantiate()
+	new_player.position = spawn_location
+	new_player.name = str(player_id)
+	other_players.add_child(new_player)
+	print("Player %s spawned" % str(player_id))
+
+func DespawnPlayer(player_id: int) -> void:
+	var despawned_player: Node = other_players.get_node(str(player_id))
+	if despawned_player:
+		despawned_player.queue_free()

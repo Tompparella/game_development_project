@@ -54,5 +54,3 @@ func _Verification_Expiration_Timeout():
 				if connected_peers.has(key):
 					GameServer.ReturnTokenVerificationResult(key, false)
 					GameServer.emit_signal("peer_disconnected", key)
-	#print("Awaiting verification:")
-	#print(awaiting_verification)
