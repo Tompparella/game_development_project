@@ -13,7 +13,7 @@ var player_states_collection: Dictionary = {}
 
 func _ready():
 	StartServer()
-	
+
 func StartServer() -> void:
 	if (network.create_server(port, max_players)):
 		print("Error while starting server")
@@ -47,8 +47,6 @@ func _Token_Expiration_Timeout() -> void:
 			if current_time - token_time >= 30:
 				expected_tokens.remove_at(i)
 
-# rpc calls
-
 ## Authentication
 
 @rpc(authority)
@@ -74,6 +72,26 @@ func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 @rpc(authority)
 func DespawnPlayer(player_id: int) -> void:
 	rpc_id(0, "DespawnPlayer", player_id)
+
+## Clock synchronization
+
+@rpc(any_peer)
+func FetchServerTime(client_time: float) -> void:
+	var player_id: int = multiplayer.get_remote_sender_id()
+	ReturnServerTime(client_time, player_id)
+
+@rpc(authority)
+func ReturnServerTime(client_time: float, player_id: int) -> void:
+	rpc_id(player_id, "ReturnServerTime", Time.get_unix_time_from_system(), client_time)
+
+@rpc(any_peer)
+func DetermineLatency(client_time: float) -> void:
+	var player_id: int = multiplayer.get_remote_sender_id()
+	ReturnLatency(client_time, player_id)
+
+@rpc(authority)
+func ReturnLatency(client_time: float, player_id: int) -> void:
+	rpc_id(player_id, "ReturnLatency", client_time)
 
 ## Game functions
 

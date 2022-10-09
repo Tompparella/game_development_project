@@ -135,7 +135,7 @@ func UpdateWorldState(world_state: Dictionary) -> void:
 
 func HandleWorldUpdate() -> void:
 	# TODO: Handle player despawning
-	var render_time: float = Time.get_unix_time_from_system() - INTERPOLATION_OFFSET
+	var render_time: float = GameServer.client_clock - INTERPOLATION_OFFSET
 	if world_state_buffer.size() > 1:
 		while (world_state_buffer.size() > 2) && (render_time > world_state_buffer[2]["t"]):
 			world_state_buffer.remove_at(0)
