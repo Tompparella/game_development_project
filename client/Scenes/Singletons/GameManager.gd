@@ -143,6 +143,7 @@ func HandleWorldUpdate() -> void:
 		var recent_past: Dictionary = world_state_buffer[1]
 		if world_state_buffer.size() > 2:
 			# Interpolation
+			print("Interpolation")
 			var nearest_future: Dictionary = world_state_buffer[2]
 			var interpolation_factor = float(render_time - nearest_future["t"]) / float(nearest_future["t"] - recent_past["t"])
 			for player_id in nearest_future.keys():
@@ -157,6 +158,7 @@ func HandleWorldUpdate() -> void:
 					SpawnNewPlayer(player_id, nearest_future[player_id]["p"])
 		elif render_time > recent_past["t"]:
 			# Extrapolation
+			print("Extrapolation")
 			var extrapolation_factor: float = (float(render_time - old_past["t"]) / float(recent_past["t"] - old_past["t"])) - INTERPOLATION_OFFSET
 			for player_id in recent_past.keys():
 				# If the current entry is timestamp, the client's character, or if it doesn't exist in the past world state, continue

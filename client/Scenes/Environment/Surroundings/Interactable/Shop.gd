@@ -40,7 +40,7 @@ func Buy(_item: Item, _player: Player) -> int:
 	return result
 
 func _Body_Exited(body: Node2D) -> void:
-	if (body in players):
+	if (body is Player && body in players):
 		players.erase(body)
 		# TODO: When transferring to server, this has to be an client specific rpc call
 		UIControl.CloseShopModal()

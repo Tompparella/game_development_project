@@ -12,7 +12,7 @@ radius = 16.0
 
 [node name="Interactable" type="RigidBody2D"]
 collision_layer = 2
-collision_mask = 31
+collision_mask = 15
 mass = 0.4
 gravity_scale = 0.0
 script = ExtResource("1_l7udo")
