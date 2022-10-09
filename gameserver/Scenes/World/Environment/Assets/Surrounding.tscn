@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://chxc24qf8lalr"]
+
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/Surrounding.gd" id="1_s75qr"]
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/SurroundingArea.gd" id="2_lyhc2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dxa8a"]
+radius = 8.0
+height = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rl23u"]
+radius = 20.0
+
+[node name="Surrounding" type="RigidBody2D"]
+position = Vector2(-112, -32)
+collision_layer = 2
+collision_mask = 15
+mass = 10.0
+gravity_scale = 0.0
+script = ExtResource("1_s75qr")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_dxa8a")
+
+[node name="Area2d" type="Area2D" parent="."]
+position = Vector2(0, 4)
+collision_layer = 12
+collision_mask = 17
+script = ExtResource("2_lyhc2")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_rl23u")
+
+[connection signal="tree_exiting" from="Area2d" to="Area2d" method="_On_Surrounding_Exiting"]

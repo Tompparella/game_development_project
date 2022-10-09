@@ -8,6 +8,64 @@
 
 config_version=5
 
+_global_script_classes=[{
+"base": "Item",
+"class": &"Consumable",
+"language": &"GDScript",
+"path": "res://Scenes/World/Items/Consumable.gd"
+}, {
+"base": "RefCounted",
+"class": &"Inventory",
+"language": &"GDScript",
+"path": "res://Scenes/World/Items/Inventory.gd"
+}, {
+"base": "RefCounted",
+"class": &"Item",
+"language": &"GDScript",
+"path": "res://Scenes/World/Items/Item.gd"
+}, {
+"base": "Surrounding",
+"class": &"Pickable",
+"language": &"GDScript",
+"path": "res://Scenes/World/Environment/Scripts/Pickable.gd"
+}, {
+"base": "CharacterBody2D",
+"class": &"Player",
+"language": &"GDScript",
+"path": "res://Scenes/World/Characters/Player.gd"
+}, {
+"base": "Item",
+"class": &"Returnable",
+"language": &"GDScript",
+"path": "res://Scenes/World/Items/Returnable.gd"
+}, {
+"base": "Surrounding",
+"class": &"Shop",
+"language": &"GDScript",
+"path": "res://Scenes/World/Environment/Scripts/Shop.gd"
+}, {
+"base": "Node2D",
+"class": &"Surrounding",
+"language": &"GDScript",
+"path": "res://Scenes/World/Environment/Scripts/Surrounding.gd"
+}, {
+"base": "Area2D",
+"class": &"SurroundingArea",
+"language": &"GDScript",
+"path": "res://Scenes/World/Environment/Scripts/SurroundingArea.gd"
+}]
+_global_script_class_icons={
+"Consumable": "",
+"Inventory": "",
+"Item": "",
+"Pickable": "",
+"Player": "",
+"Returnable": "",
+"Shop": "",
+"Surrounding": "",
+"SurroundingArea": ""
+}
+
 [application]
 
 config/name="project_server"
@@ -17,7 +75,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Movement="*res://Singletons/Movement.gd"
+GameManager="*res://Singletons/GameManager.gd"
 ServerHub="*res://Singletons/ServerHub.gd"
 GameServer="*res://Singletons/GameServer.gd"
 StateProcess="*res://Singletons/StateProcess.gd"
@@ -25,6 +83,14 @@ StateProcess="*res://Singletons/StateProcess.gd"
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Obstacle"
+2d_physics/layer_3="Pickable"
+2d_physics/layer_4="Interactable"
+2d_physics/layer_5="Npc"
 
 [physics]
 

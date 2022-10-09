@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnc4faebufca4"]
+
+[ext_resource type="Script" path="res://Scenes/World/Characters/Player.gd" id="1_pglxr"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j584b"]
+radius = 4.0
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g2lgw"]
+radius = 12.0
+height = 48.0
+
+[node name="Player" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_mask = 31
+script = ExtResource("1_pglxr")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_j584b")
+
+[node name="Interaction" type="Area2D" parent="."]
+collision_mask = 31
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Interaction"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_g2lgw")
+
+[connection signal="area_entered" from="Interaction" to="." method="_Interaction_Entered"]
+[connection signal="area_exited" from="Interaction" to="." method="_Interaction_Exited"]

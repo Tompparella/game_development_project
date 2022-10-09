@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://dagjc034ygf3w"]
+
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/Pickable.gd" id="1_tice1"]
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/SurroundingArea.gd" id="2_ufral"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ik2ph"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_anp5u"]
+radius = 16.0
+
+[node name="Pickable3" type="RigidBody2D"]
+position = Vector2(-288, 176)
+collision_layer = 2
+collision_mask = 15
+gravity_scale = 0.0
+script = ExtResource("1_tice1")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_ik2ph")
+
+[node name="Area2d" type="Area2D" parent="."]
+position = Vector2(0, 16)
+collision_layer = 12
+collision_mask = 17
+script = ExtResource("2_ufral")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
+shape = SubResource("CircleShape2D_anp5u")
+
+[connection signal="tree_exiting" from="Area2d" to="Area2d" method="_On_Surrounding_Exiting"]

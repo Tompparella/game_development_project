@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3hgrtl3ejnre"]
+
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/Interactable.gd" id="1_818d1"]
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/SurroundingArea.gd" id="2_r6sur"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fsh84"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4l3xj"]
+radius = 16.0
+
+[node name="Interactable" type="RigidBody2D"]
+position = Vector2(96, 48)
+collision_layer = 2
+collision_mask = 15
+mass = 0.4
+gravity_scale = 0.0
+script = ExtResource("1_818d1")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, 24)
+shape = SubResource("CircleShape2D_fsh84")
+
+[node name="Area2d" type="Area2D" parent="."]
+position = Vector2(0, 24)
+collision_layer = 12
+collision_mask = 17
+script = ExtResource("2_r6sur")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
+shape = SubResource("CircleShape2D_4l3xj")
+
+[connection signal="tree_exiting" from="Area2d" to="Area2d" method="_On_Surrounding_Exiting"]

@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvmokstko5cf5"]
+
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/Shop.gd" id="1_jhbvn"]
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/SurroundingArea.gd" id="2_syoxc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rj2ie"]
+size = Vector2(128, 56)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tmvjo"]
+radius = 12.0
+height = 64.0
+
+[node name="Shop" type="StaticBody2D"]
+position = Vector2(-32, -48)
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_jhbvn")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_rj2ie")
+
+[node name="Area2d" type="Area2D" parent="."]
+collision_layer = 12
+collision_mask = 17
+script = ExtResource("2_syoxc")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
+position = Vector2(32, 20)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_tmvjo")
+
+[connection signal="body_exited" from="Area2d" to="." method="_Body_Exited"]
+[connection signal="tree_exiting" from="Area2d" to="Area2d" method="_On_Surrounding_Exiting"]

@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://duwaawta810ja"]
+
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/ReturnMachine.gd" id="1_f8wqt"]
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/SurroundingArea.gd" id="2_mmcr2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b6n3b"]
+radius = 16.0
+height = 40.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fuoxy"]
+radius = 20.0
+height = 64.0
+
+[node name="Body2" type="StaticBody2D"]
+position = Vector2(144, 16)
+collision_layer = 2
+collision_mask = 15
+script = ExtResource("1_f8wqt")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_b6n3b")
+
+[node name="Area2d" type="Area2D" parent="."]
+collision_layer = 12
+collision_mask = 17
+script = ExtResource("2_mmcr2")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
+position = Vector2(0, 16)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fuoxy")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[connection signal="tree_exiting" from="Area2d" to="Area2d" method="_On_Surrounding_Exiting"]
+[connection signal="timeout" from="Timer" to="." method="_Replenish_Timer"]

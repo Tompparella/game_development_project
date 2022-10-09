@@ -23,6 +23,7 @@ func StartServer() -> void:
 	if (network.peer_connected.connect(self._Peer_Connected) || network.peer_disconnected.connect(self._Peer_Disconnected) || token_timer.timeout.connect(self._Token_Expiration_Timeout)):
 		print("Error while connecting gameserver signals")
 		return
+	GameManager.Initialize()
 
 func _Peer_Connected(player_id : int) -> void:
 	# The timeout is set here because in some cases the peer doesn't get registered in time before initiating this function
@@ -62,11 +63,11 @@ func ReturnToken(token: String):
 func ReturnTokenVerificationResult(player_id: int, result: bool) -> void:
 	rpc_id(player_id, "ReturnTokenVerificationResult", result)
 	if result:
-		SpawnNewPlayer(player_id, Vector2(0,0))
+		# TODO: Spawn player to their instance coordinates, otherwise to default (such as 0,0)
+		GameManager.SpawnNewPlayer(player_id, Vector2(0,0))
 
 @rpc(authority)
 func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
-	# TODO: Spawn player to their instance coordinates, otherwise to default (such as 0,0)
 	rpc_id(0, "SpawnNewPlayer", player_id, spawn_location)
 
 @rpc(authority)
@@ -98,7 +99,9 @@ func ReturnLatency(client_time: float, player_id: int) -> void:
 @rpc(any_peer, unreliable_ordered)
 func UpdatePlayerState(player_state: Dictionary) -> void:
 	# Since this is an ordered rpc call, packets are automatically discarded if they're not the most recent to arrive
-	player_states_collection[multiplayer.get_remote_sender_id()] = player_state
+	var player_id: int = multiplayer.get_remote_sender_id()
+	player_states_collection[player_id] = player_state
+	GameManager.MovePlayer(player_id, player_state["p"])
 
 @rpc(authority, unreliable_ordered)
 func UpdateWorldState(world_state: Dictionary) -> void:
