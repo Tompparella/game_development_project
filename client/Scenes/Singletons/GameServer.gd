@@ -39,10 +39,18 @@ func ReturnToken() -> void:
 func ReturnTokenVerificationResult(result: bool) -> void:
 	if result:
 		print("Successful token verification")
-		GameManager.Initialize()
+		FetchGameData()
 	else:
 		print("Login failed, please try again")
 		UIControl.EnableLoginButtons()
+
+@rpc(any_peer)
+func FetchGameData() -> void:
+	rpc_id(1, "FetchGameData")
+
+@rpc(authority)
+func ReturnGameData(game_data: Dictionary) -> void:
+	GameManager.Initialize(game_data)
 
 @rpc(authority)
 func SpawnNewPlayer(player_id: int, spawn_position: Vector2) -> void:

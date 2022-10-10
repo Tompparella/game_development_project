@@ -11,7 +11,7 @@ func _ready() -> void:
 	area.connect("interaction", Interact)
 	if !item_name.is_empty():
 		item = GameManager.GetItem(item_name)
-		if !texture && item.texture:
+		if item && item.texture:
 			texture = item.texture
 			$Sprite.set_texture(texture)
 	if item is Returnable:

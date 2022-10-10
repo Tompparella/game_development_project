@@ -96,12 +96,21 @@ func ReturnLatency(client_time: float, player_id: int) -> void:
 
 ## Game functions
 
+@rpc(any_peer)
+func FetchGameData() -> void:
+	var player_id: int = multiplayer.get_remote_sender_id()
+	GameManager.FetchGameData(player_id)
+
+@rpc(authority)
+func ReturnGameData(game_data: Dictionary, player_id: int) -> void:
+	rpc_id(player_id, "ReturnGameData", game_data)
+
 @rpc(any_peer, unreliable_ordered)
 func UpdatePlayerState(player_state: Dictionary) -> void:
 	# Since this is an ordered rpc call, packets are automatically discarded if they're not the most recent to arrive
 	var player_id: int = multiplayer.get_remote_sender_id()
 	player_states_collection[player_id] = player_state
-	GameManager.MovePlayer(player_id, player_state["p"])
+	GameManager.MovePlayer(player_id, player_state["position"])
 
 @rpc(authority, unreliable_ordered)
 func UpdateWorldState(world_state: Dictionary) -> void:

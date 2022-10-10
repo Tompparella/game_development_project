@@ -1,4 +1,5 @@
 extends Surrounding
+class_name Interactable
 
 @onready var body: PhysicsBody2D = get_node(".")
 # Could be extended t.ex. Carriable, for player to carry

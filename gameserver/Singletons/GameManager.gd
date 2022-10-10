@@ -98,8 +98,23 @@ func GetShopInventory() -> Array[Item]:
 		ItemsList["soda_yellow"],
 	]
 
-func _Returnable_Picked() -> void:
-	returnables_on_map -= 1
+func FetchGameData(player_id: int) -> void:
+	var game_data: Dictionary = {}
+	var pickables: Array = []
+	var interactables: Array = []
+	var shops: Array = []
+	var _surroundings: Array = []
+	game_data["items"] = ItemsList
+	for entry in surroundings.get_children():
+		if entry is Pickable:
+			pickables.append({"position": entry.position, "item": entry.item})
+		elif entry is Interactable:
+			pass
+		elif entry is Shop:
+			pass
+		elif entry is Surrounding:
+			pass
+	
 
 # Gameplay management functions
 
@@ -125,3 +140,6 @@ func DespawnPlayer(player_id: int) -> void:
 		await get_tree().create_timer(0.2).timeout
 		players.erase(despawned_player)
 		despawned_player.queue_free()
+
+func _Returnable_Picked() -> void:
+	returnables_on_map -= 1

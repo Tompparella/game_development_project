@@ -16,6 +16,7 @@ collision_layer = 2
 collision_mask = 15
 mass = 10.0
 gravity_scale = 0.0
+freeze = true
 script = ExtResource("1_by1q4")
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
