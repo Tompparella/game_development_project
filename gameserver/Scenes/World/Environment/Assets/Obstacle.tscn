@@ -1,13 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://covtp04lqpfah"]
+[gd_scene load_steps=3 format=3 uid="uid://covtp04lqpfah"]
+
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/Obstacle.gd" id="1_kdi0c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vxrjv"]
 size = Vector2(128, 56)
 
-[node name="Obstacle" type="StaticBody2D"]
+[node name="Obstacle" type="StaticBody2D" groups=["obstacle"]]
 modulate = Color(0.419608, 0.419608, 0.419608, 1)
-position = Vector2(880, 400)
 collision_layer = 2
 collision_mask = 13
+script = ExtResource("1_kdi0c")
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)

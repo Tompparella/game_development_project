@@ -54,6 +54,7 @@ func AddFlex(flex: int) -> void:
 func AddVibe(vibe: float) -> void:
 	var new_vibe: float = inventory.AddVibe(vibe)
 	if new_vibe <= 0:
+		rotation = 90.0
 		queue_free()
 	vibe_changed.emit(new_vibe)
 

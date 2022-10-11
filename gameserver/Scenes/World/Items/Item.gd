@@ -3,12 +3,14 @@ class_name Item
 
 var texture: String
 var value: float
+var vibe: float
+var flex: int
+var size: int
 var consumable: bool = false
 var returnable: bool = false
 var item_name: String = ""
 var description: String = ""
 
-	
 func _init(_item_name: String, _description: String ,_value: float, _texture: String) -> void:
 	texture = _texture
 	item_name = _item_name

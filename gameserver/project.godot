@@ -29,6 +29,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/World/Items/Item.gd"
 }, {
+"base": "Node2D",
+"class": &"Obstacle",
+"language": &"GDScript",
+"path": "res://Scenes/World/Environment/Scripts/Obstacle.gd"
+}, {
 "base": "Surrounding",
 "class": &"Pickable",
 "language": &"GDScript",
@@ -49,7 +54,7 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/World/Environment/Scripts/Shop.gd"
 }, {
-"base": "Node2D",
+"base": "Obstacle",
 "class": &"Surrounding",
 "language": &"GDScript",
 "path": "res://Scenes/World/Environment/Scripts/Surrounding.gd"
@@ -64,6 +69,7 @@ _global_script_class_icons={
 "Interactable": "",
 "Inventory": "",
 "Item": "",
+"Obstacle": "",
 "Pickable": "",
 "Player": "",
 "Returnable": "",
@@ -81,10 +87,10 @@ config/icon="res://icon.png"
 
 [autoload]
 
-GameManager="*res://Singletons/GameManager.gd"
 ServerHub="*res://Singletons/ServerHub.gd"
 GameServer="*res://Singletons/GameServer.gd"
 StateProcess="*res://Singletons/StateProcess.gd"
+GameManager="*res://Singletons/GameManager.gd"
 
 [gui]
 

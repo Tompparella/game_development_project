@@ -1,8 +1,6 @@
 extends Item
 class_name Returnable
 
-var size: int
-
 func _init(_item_name: String, _description: String, _value: float, _texture: String, _size: int) -> void:
 	size = _size
 	returnable = true

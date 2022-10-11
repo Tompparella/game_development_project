@@ -1,7 +1,6 @@
-extends Node2D
+extends Obstacle
 class_name Surrounding
 
-@export var texture: Texture2D
 @export var item_name: String = ""
 
 var item: Item
@@ -11,17 +10,14 @@ func _ready() -> void:
 	area.connect("interaction", Interact)
 	if !item_name.is_empty():
 		item = GameManager.GetItem(item_name)
-		if !texture && item.texture:
-			texture = item.texture
 	if item is Returnable:
 		area.auto_pickup = true
-
-func Initialize(_item: Item = null, _texture: Texture2D = null) -> void:
-	item = _item
-	if _texture:
-		texture = _texture
-	elif item && item.texture:
+	if item:
 		texture = item.texture
+
+func Initialize(_item: Item = null, _texture: String = "") -> void:
+	item = _item
+	texture = _texture
 
 func Interact(_player: Player) -> void:
 	pass

@@ -15,10 +15,6 @@ func Interact(_player: Player) -> void:
 	players.append(_player)
 	UIControl.OpenShopModal(self)
 
-func Initialize(_item: Item = null, _texture: Texture2D = null, _inventory: Dictionary = {}) -> void:
-	inventory = _inventory
-	super.Initialize(_item, _texture)
-
 func SetInventory() -> void:
 	var shop_items: Array[Item] = GameManager.GetShopInventory()
 	var _inventory: Dictionary = {}

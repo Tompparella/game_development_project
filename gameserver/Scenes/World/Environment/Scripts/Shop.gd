@@ -17,7 +17,7 @@ func Interact(_player: Player) -> void:
 	# TODO: Open shop modal for player
 	# UIControl.OpenShopModal(self)
 
-func Initialize(_item: Item = null, _texture: Texture2D = null, _inventory: Dictionary = {}) -> void:
+func Initialize(_item: Item = null, _texture: String = "", _inventory: Dictionary = {}) -> void:
 	inventory = _inventory
 	super.Initialize(_item, _texture)
 

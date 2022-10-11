@@ -1,7 +1,6 @@
-extends Node2D
+extends Obstacle
 class_name Surrounding
 
-@export var texture: Texture2D
 @export var item_name: String = ""
 
 var item: Item
@@ -17,14 +16,11 @@ func _ready() -> void:
 	if item is Returnable:
 		area.auto_pickup = true
 
-func Initialize(_item: Item = null, _texture: Texture2D = null) -> void:
+func Initialize(_texture: String, _position: Vector2, _item: Item = null) -> void:
 	item = _item
-	if _texture:
-		texture = _texture
-	elif item && item.texture:
+	if item && item.texture:
 		texture = item.texture
-	if texture:
-		$Sprite.set_texture(texture)
+	super.Initialize(_texture, _position)
 
 func Interact(_player: Player) -> void:
 	pass

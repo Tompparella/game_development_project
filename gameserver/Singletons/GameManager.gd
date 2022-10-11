@@ -100,20 +100,41 @@ func GetShopInventory() -> Array[Item]:
 
 func FetchGameData(player_id: int) -> void:
 	var game_data: Dictionary = {}
-	var pickables: Array = []
-	var interactables: Array = []
-	var shops: Array = []
-	var _surroundings: Array = []
-	game_data["items"] = ItemsList
+	var environment: Array = []
+	var items_data: Array = []
+	for entry in ItemsList:
+		var item: Item = ItemsList[entry]
+		var item_data = {
+			"id": entry,
+			"name": item.item_name,
+			"description": item.description,
+			"texture": item.texture,
+			"value": item.value,
+			"vibe": item.vibe,
+			"flex": item.flex,
+			"size": item.size,
+			"type": "consumable" if item.consumable else "returnable" if item.returnable else "default",
+		}
+		items_data.append(item_data)
+	game_data["items"] = items_data
 	for entry in surroundings.get_children():
-		if entry is Pickable:
-			pickables.append({"position": entry.position, "item": entry.item})
-		elif entry is Interactable:
-			pass
-		elif entry is Shop:
-			pass
-		elif entry is Surrounding:
-			pass
+		var position: Vector2 = entry.position
+		var type: String = ""
+		if entry.is_in_group("surrounding"):
+			type = "surrounding"
+		elif entry.is_in_group("interactable"):
+			type = "interactable"
+		elif entry.is_in_group("shop"):
+			type = "shop"
+		elif entry.is_in_group("obstacle"):
+			type = "obstacle"
+		elif entry.is_in_group("pickable"):
+			type = "pickable"
+		elif entry.is_in_group("returnmachine"):
+			type = "returnmachine"
+		environment.append({"position": position, "texture": entry.texture, "type": type})
+	game_data["environment"] = environment
+	GameServer.ReturnGameData(game_data, player_id)
 	
 
 # Gameplay management functions

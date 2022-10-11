@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cedax1sscbarl"]
+[gd_scene load_steps=4 format=3 uid="uid://cedax1sscbarl"]
 
 [ext_resource type="Texture2D" uid="uid://d065nig3qlqqr" path="res://Assets/Environment/Shop_1.png" id="1_58kox"]
+[ext_resource type="Script" path="res://Scenes/Environment/Obstacles/Obstacle.gd" id="1_qchar"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vxrjv"]
 size = Vector2(128, 56)
@@ -9,6 +10,7 @@ size = Vector2(128, 56)
 modulate = Color(0.419608, 0.419608, 0.419608, 1)
 collision_layer = 2
 collision_mask = 13
+script = ExtResource("1_qchar")
 
 [node name="Sprite2d" type="Sprite2D" parent="."]
 position = Vector2(0, -32)

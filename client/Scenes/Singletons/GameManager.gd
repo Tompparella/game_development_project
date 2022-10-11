@@ -7,10 +7,16 @@ var surroundings: Node2D
 var other_players: Node2D
 var player: Player
 var camera: Camera
-#var placeholder_texture: String = "res://Assets/Items/Can.png"
+
+# Scenes
 var player_template: PackedScene = load("res://Scenes/Characters/PlayerTemplate.tscn")
-var returnables_on_map: int = 0
-var returnables_per_player: int = 75
+var surrounding_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Surrounding.tscn")
+var interactable_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Interactable/Interactable.tscn")
+var shop_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Interactable/Shop.tscn")
+var obstacle_scene: PackedScene = load("res://Scenes/Environment/Obstacles/Obstacle.tscn")
+var pickable_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn")
+var returnmachine_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Interactable/ReturnMachine.tscn")
+
 var world_state_buffer: Array = []
 # Run server sync only if GameManager has successfully initialized the game world on the client
 var initialized: bool = false
@@ -26,7 +32,8 @@ func _physics_process(_delta) -> void:
 	HandlePlayerUpdate()
 
 func Initialize(game_data: Dictionary) -> void:
-	print(game_data)
+	LoadItems(game_data["items"])
+	LoadEnvironment(game_data["environment"])
 	EnablePlayer()
 	camera = get_node("../Game/Map/Camera")
 	surroundings = get_node("../Game/Map/TileMap/Surroundings")
@@ -37,6 +44,35 @@ func Initialize(game_data: Dictionary) -> void:
 	set_physics_process(true)
 	initialized = true
 
+func LoadItems(items_data: Array) -> void:
+	for entry in items_data:
+		match entry["type"]:
+			"consumable":
+				ItemsList[entry["id"]] = Consumable.new(entry["name"], entry["description"], entry["value"], entry["texture"], entry["vibe"], entry["flex"])
+			"returnable":
+				ItemsList[entry["id"]] = Returnable.new(entry["name"], entry["description"], entry["value"], entry["texture"], entry["size"])
+			_:
+				ItemsList[entry["id"]] = Item.new(entry["name"], entry["description"], entry["value"], entry["texture"])
+
+func LoadEnvironment(environment_data: Array) -> void:
+	for entry in environment_data:
+		var scene: Obstacle
+		match entry["type"]:
+			"surrounding":
+				scene = surrounding_scene.instantiate()
+			"interactable":
+				scene = interactable_scene.instantiate()
+			"shop":
+				scene = shop_scene.instantiate()
+			"pickable":
+				scene = pickable_scene.instantiate()
+			"returnmachine":
+				scene = returnmachine_scene.instantiate()
+			_:
+				scene = obstacle_scene.instantiate()
+		print(entry["texture"])
+		scene.Initialize(entry["texture"], entry["position"])
+
 func EnablePlayer() -> void:
 	if (has_node("../Game/Map/TileMap/Player")):
 		player = get_node("../Game/Map/TileMap/Player")
@@ -46,23 +82,17 @@ func EnablePlayer() -> void:
 func DisablePlayer() -> void:
 	player = null
 
-func SpawnReturnables(returnable_amount: int = 5) -> void:
-#	# TODO: Change this so that returnables_per_player gets multiplied by the amount of players on the map.
-#	if returnables_on_map >= returnables_per_player:
-#		return
-#	var returnables: Dictionary = { 1: ItemsList["can"], 2: ItemsList["bottle"], 3: ItemsList["bottle_big"], 4: ItemsList["bottle_liquor"], 5: ItemsList["bottle_wine"] }
-#	var returnable_weights: Array[int] = [1,1,1,1,1,2,2,2,3,4,5]
+#func SpawnItems() -> void:
+#	# TODO: Change this so that returnables_per_player gets multiplied by the amount of players on the map.ist["bottle_liquor"], 5: ItemsList["bottle_wine"] }
 #	var pickable_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn")
 #	var screen_size = get_viewport().get_visible_rect().size
-#	for i in range(0, returnable_amount):
-#		randomize()
-#		var pickable: Pickable = pickable_scene.instantiate()
-#		pickable.Initialize(returnables[returnable_weights[randi() % returnable_weights.size()]])
-#		pickable.position = Vector2(randf_range(-screen_size.x, screen_size.x), randf_range(-screen_size.y, screen_size.y))
-#		surroundings.add_child(pickable)
-#		pickable.returnable_picked.connect(_Returnable_Picked)
-#		returnables_on_map += 1
-	print("Spawned returnables: %s" % returnables_on_map)
+#
+#	var pickable: Pickable = pickable_scene.instantiate()
+#	pickable.Initialize(returnables[returnable_weights[randi() % returnable_weights.size()]])
+#	pickable.position = Vector2(randf_range(-screen_size.x, screen_size.x), randf_range(-screen_size.y, screen_size.y))
+#	surroundings.add_child(pickable)
+#	pickable.returnable_picked.connect(_Returnable_Picked)
+#	returnables_on_map += 1
 
 func GetItem(item_name: String) -> Item:
 	return ItemsList.get(item_name, ItemsList.get("default"))
@@ -70,9 +100,6 @@ func GetItem(item_name: String) -> Item:
 # TODO: This is a placeholder. Shop inventories are supposed to be returned depending on shop brand.
 func GetShopInventory() -> Array[Item]:
 	return []
-
-func _Returnable_Picked() -> void:
-	returnables_on_map -= 1
 
 # Sync functions
 
