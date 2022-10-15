@@ -10,7 +10,7 @@ var placeholder_texture: String = "res://Assets/Items/Can.png"
 var player_scene: PackedScene = load("res://Scenes/World/Characters/Player.tscn")
 var pickable_scene: PackedScene = load("res://Scenes/World/Environment/Assets/Pickable.tscn")
 var returnables_on_map: int = 0
-var returnables_per_player: int = 75
+var returnables_per_player: int = 40
 # Run server sync only if GameManager has successfully initialized the game world on the client
 var initialized: bool = false
 
@@ -67,23 +67,6 @@ func CreateGameTimer() -> void:
 	add_child(game_timer)
 	game_timer.start()
 
-func SpawnReturnables(returnable_amount: int = 5) -> void:
-	if returnables_on_map >= (returnables_per_player * players.size()):
-		return
-	var returnables: Dictionary = { 1: ItemsList["can"], 2: ItemsList["bottle"], 3: ItemsList["bottle_big"], 4: ItemsList["bottle_liquor"], 5: ItemsList["bottle_wine"] }
-	var returnable_weights: Array[int] = [1,1,1,1,1,2,2,2,3,4,5]
-	var screen_size = get_viewport().get_visible_rect().size
-	for i in range(0, returnable_amount):
-		# TODO: Rework pickable spawning to work on certain areas
-		randomize()
-		var pickable: Pickable = pickable_scene.instantiate()
-		pickable.Initialize(returnables[returnable_weights[randi() % returnable_weights.size()]])
-		pickable.position = Vector2(randf_range(-screen_size.x, screen_size.x), randf_range(-screen_size.y, screen_size.y))
-		surroundings.add_child(pickable)
-		pickable.returnable_picked.connect(_Returnable_Picked)
-		returnables_on_map += 1
-	print("Spawned returnables: %s" % returnables_on_map)
-
 func GetItem(item_name: String) -> Item:
 	return ItemsList.get(item_name, ItemsList.get("default"))
 
@@ -132,15 +115,57 @@ func FetchGameData(player_id: int) -> void:
 			type = "pickable"
 		elif entry.is_in_group("returnmachine"):
 			type = "returnmachine"
-		environment.append({"position": position, "texture": entry.texture, "type": type})
+		environment.append({"id": entry.get_instance_id(), "position": position, "texture": entry.texture, "type": type})
 	game_data["environment"] = environment
 	GameServer.ReturnGameData(game_data, player_id)
-	
+
+func SpawnReturnables(returnable_amount: int = 5) -> void:
+	if returnables_on_map >= (returnables_per_player * (players.size() + 1)):
+		return
+	var returnables: Dictionary = { 1: ItemsList["can"], 2: ItemsList["bottle"], 3: ItemsList["bottle_big"], 4: ItemsList["bottle_liquor"], 5: ItemsList["bottle_wine"] }
+	var returnable_weights: Array[int] = [1,1,1,1,1,2,2,2,3,4,5]
+	var item_data: Array = []
+	var screen_size = get_viewport().get_visible_rect().size
+	for i in range(0, returnable_amount):
+		# TODO: Rework pickable spawning to work on certain areas
+		randomize()
+		var pickable: Pickable = pickable_scene.instantiate()
+		pickable.Initialize(returnables[returnable_weights[randi() % returnable_weights.size()]])
+		pickable.position = Vector2(randf_range(-screen_size.x, screen_size.x), randf_range(-screen_size.y, screen_size.y))
+		surroundings.add_child(pickable)
+		pickable.returnable_picked.connect(_Returnable_Picked)
+		returnables_on_map += 1
+		item_data.append({"id": pickable.get_instance_id(), "position": pickable.position, "texture": pickable.texture, "type": "pickable"})
+	GameServer.SpawnReturnables(item_data)
 
 # Gameplay management functions
 
 func MovePlayer(player_id: int, new_position: Vector2) -> void:
 	players[player_id].global_position = new_position
+
+func PlayerInteract(player_id: int) -> void:
+	players[player_id].Interact()
+
+func PlayerAddItem(player_id: String, item: Item) -> void:
+	var item_id: String = ItemsList.find_key(item)
+	if item_id:
+		GameServer.PlayerAddItem(player_id.to_int(), item_id)
+
+func PlayerRemoveItem(player_id: String, item: Item) -> void:
+	var item_id: String = ItemsList.find_key(item)
+	if item_id:
+		GameServer.PlayerRemoveItem(player_id.to_int(), item_id)
+
+func PlayerChangeCurrency(player_id: String, currency: float) -> void:
+	GameServer.PlayerChangeCurrency(player_id.to_int(), currency)
+
+func PlayerRecycledItems(player_id: String, recycled_items: Array[Item], returnable_size: int) -> void:
+	var item_ids: Array[String] = []
+	for entry in recycled_items:
+		var item_id: String = ItemsList.find_key(entry)
+		if item_id:
+			item_ids.append(item_id)
+	GameServer.PlayerRecycledItems(player_id.to_int(), item_ids, returnable_size)
 
 func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 	# TODO: Add player specific visual things to show on the clientside
@@ -149,12 +174,19 @@ func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 	new_player.name = str(player_id)
 	players_container.add_child(new_player)
 	players[player_id] = new_player
+	new_player.item_added.connect(PlayerAddItem)
+	new_player.item_removed.connect(PlayerRemoveItem)
+	new_player.currency_changed.connect(PlayerChangeCurrency)
+	new_player.items_recycled.connect(PlayerRecycledItems)
+	# TODO: Connect the rest of player signals
+	# TODO: Update game_timer timeout to a function that updates vibe for all players at the same time
 	game_timer.timeout.connect(new_player._Vibe_Timeout)
 	print("Player %s spawned" % str(player_id))
 	GameServer.SpawnNewPlayer(player_id, spawn_location)
 
 func DespawnPlayer(player_id: int) -> void:
 	if players_container.has_node(str(player_id)):
+		GameServer.PlayerDespawned(player_id)
 		var despawned_player: Node = players_container.get_node(str(player_id))
 		# We need to await for a time in order to wait for the world state to empty its references to the despawned player.
 		# Without this, the player would despawn for a few milliseconds before being spawned again in the next world state update.

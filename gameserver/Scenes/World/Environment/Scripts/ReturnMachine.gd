@@ -12,10 +12,14 @@ func ReturnReturnables(player: Player) -> float:
 	var value: float = 0.0
 	if current_returnables >= max_returnables:
 		return value
-	var returnable: Returnable = player.Recycle()
+	var recycled_items: Array[Item] = []
+	var returnable: Returnable = player.PopReturnable()
 	while(returnable):
+		recycled_items.append(returnable)
 		value += returnable.value
-		returnable = player.Recycle()
+		returnable = player.PopReturnable()
+	if !recycled_items.is_empty():
+		player.RecyclingFinished(recycled_items)
 	return value
 
 func _Replenish_Timer() -> void:

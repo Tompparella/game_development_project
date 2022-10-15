@@ -23,26 +23,26 @@ func AddItem(item: Item) -> bool:
 	return result
 
 func RemoveItem(item: Item) -> bool:
-	var result: bool = items.has(item)
-	if result:
+	var result: bool = false
+	if items.has(item):
 		items.erase(item)
+		result = true
+	elif returnables.has(item):
+		returnables.erase(item)
+		result = true
 	return result
 
 # Returns new total currency
-func AddCurrency(_currency: float) -> float:
-	currency += _currency
+func SetCurrency(_currency: float) -> float:
+	currency = _currency
 	return currency
 
-func TakeCurrency(_currency: float) -> float:
-	currency -= _currency
-	return currency
-
-func AddFlex(_flex: int) -> int:
-	flex += _flex
+func SetFlex(_flex: int) -> int:
+	flex = _flex
 	return flex
 
-func AddVibe(_vibe: float) -> float:
-	vibe += _vibe
+func SetVibe(_vibe: float) -> float:
+	vibe = _vibe
 	return vibe
 
 func GetVibe() -> float:
@@ -52,11 +52,14 @@ func CanBuy(price: float) -> bool:
 	# The 0.001 here is due to a float inaccuracy problem with godot 4.0 beta
 	return (items.size() < 9 && (currency + 0.001) >= price)
 
-func PopReturnable() -> Returnable:
-	var returnable: Returnable = returnables.pop_back()
-	if returnable:
-		returnables_size -= returnable.size
-	return returnable
+#func PopReturnable() -> Returnable:
+#	var returnable: Returnable = returnables.pop_back()
+#	if returnable:
+#		returnables_size -= returnable.size
+#	return returnable
+
+func SetReturnablesSize(_returnables_size: int) -> void:
+	returnables_size = _returnables_size
 
 func GetReturnables() -> Array[Returnable]:
 	return returnables

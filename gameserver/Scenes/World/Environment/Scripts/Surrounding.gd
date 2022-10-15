@@ -21,6 +21,3 @@ func Initialize(_item: Item = null, _texture: String = "") -> void:
 
 func Interact(_player: Player) -> void:
 	pass
-
-func Remove() -> void:
-	queue_free()

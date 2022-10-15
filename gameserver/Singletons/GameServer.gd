@@ -115,3 +115,36 @@ func UpdatePlayerState(player_state: Dictionary) -> void:
 @rpc(authority, unreliable_ordered)
 func UpdateWorldState(world_state: Dictionary) -> void:
 	rpc_id(0, "UpdateWorldState", world_state)
+
+@rpc(any_peer)
+func PlayerInteract() -> void:
+	var player_id: int = multiplayer.get_remote_sender_id()
+	GameManager.PlayerInteract(player_id)
+
+@rpc(authority)
+func PlayerAddItem(player_id: int, item_id: String) -> void:
+	rpc_id(player_id, "PlayerAddItem", item_id)
+
+@rpc(authority)
+func PlayerChangeCurrency(player_id: int, currency: float) -> void:
+	rpc_id(player_id, "PlayerChangeCurrency", currency)
+
+@rpc(authority)
+func PlayerRecycledItems(player_id: int, item_ids: Array[String], returnable_size: int) -> void:
+	rpc_id(player_id, "PlayerRecycledItems", item_ids, returnable_size)
+
+@rpc(authority)
+func PlayerRemoveItem(player_id: int, item_id: String) -> void:
+	rpc_id(player_id, "PlayerRemoveItem", item_id)
+
+@rpc(authority)
+func PlayerDespawned(player_id: int) -> void:
+	rpc_id(player_id, "PlayerDespawned")
+
+@rpc(authority)
+func SpawnReturnables(returnables: Array) -> void:
+	rpc_id(0, "SpawnReturnables", returnables)
+
+@rpc(authority)
+func RemoveSurrounding(id: int) -> void:
+	rpc_id(0, "RemoveSurrounding", id)

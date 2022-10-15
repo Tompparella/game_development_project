@@ -1,12 +1,12 @@
 extends CharacterBody2D
 class_name Player
 
-signal use_selected_item(player: Player)
-signal item_added(item: Item)
-signal item_removed(item: Item)
-signal vibe_changed(vibe: float)
-signal currency_changed(currency: float)
-signal flex_changed(flex: int)
+signal item_added(player_id: String, item: Item)
+signal item_removed(player_id: String, item: Item)
+signal items_recycled(player_id: String, recycled_items: Array[Item], returnable_size: int)
+signal vibe_changed(player_id: String, vibe: float)
+signal currency_changed(player_id: String, currency: float)
+signal flex_changed(player_id: String, flex: int)
 
 var inventory: Inventory = Inventory.new([], [])
 
@@ -28,13 +28,13 @@ func Interact() -> void:
 # Returns true if item add successful. False if not (inventory full, etc.)
 func AddItem(item: Item) -> bool:
 	if inventory.AddItem(item):
-		item_added.emit(item)
+		item_added.emit(name, item)
 		return true
 	return false
 
 func RemoveItem(item: Item) -> bool:
 	if inventory.RemoveItem(item):
-		item_removed.emit(item)
+		item_removed.emit(name, item)
 		return true
 	return false
 
@@ -43,10 +43,10 @@ func UseItem(item: Item) -> void:
 	item.Use(self)
 
 func AddCurrency(currency: float) -> void:
-	currency_changed.emit(inventory.AddCurrency(currency))
+	currency_changed.emit(name, inventory.AddCurrency(currency))
 
 func TakeCurrency(currency: float) -> void:
-	currency_changed.emit(inventory.TakeCurrency(currency))
+	currency_changed.emit(name, inventory.TakeCurrency(currency))
 
 func AddFlex(flex: int) -> void:
 	flex_changed.emit(inventory.AddFlex(flex))
@@ -64,11 +64,11 @@ func GetVibe() -> float:
 func CanBuy(price: float) -> bool:
 	return inventory.CanBuy(price)
 
-func Recycle() -> Returnable:
-	var returnable: Returnable = inventory.PopReturnable()
-	if returnable:
-		item_removed.emit(returnable)
-	return returnable
+func PopReturnable() -> Returnable:
+	return inventory.PopReturnable()
+
+func RecyclingFinished(items: Array[Item]) -> void:
+	items_recycled.emit(name, items, inventory.returnables_size)
 
 func _Interaction_Entered(area: Area2D) -> void:
 	# TODO: Handle instance unloading/freeing with a signal (node.free() -> node.emit_signal(node_freed) -> this._Interaction_Exited)

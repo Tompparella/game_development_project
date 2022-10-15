@@ -1,14 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dsjoqkdadvixb"]
+[gd_scene load_steps=6 format=3 uid="uid://dsjoqkdadvixb"]
 
 [ext_resource type="Texture2D" uid="uid://pp0m2802n27p" path="res://Assets/Tilemaps/Tilemap_Test.png" id="1_g75cb"]
 [ext_resource type="PackedScene" uid="uid://hhyygar74cji" path="res://Scenes/Characters/Player.tscn" id="2_a8oia"]
-[ext_resource type="PackedScene" uid="uid://cedax1sscbarl" path="res://Scenes/Environment/Obstacles/Obstacle.tscn" id="3_0ggu8"]
 [ext_resource type="Script" path="res://Scenes/UI/Camera.gd" id="3_omojq"]
-[ext_resource type="PackedScene" uid="uid://dd225xv0u1xd" path="res://Scenes/Environment/Surroundings/Surrounding.tscn" id="4_q6veo"]
-[ext_resource type="PackedScene" uid="uid://bic1j3w2sb8of" path="res://Scenes/Environment/Surroundings/Interactable/Interactable.tscn" id="5_ma4xe"]
-[ext_resource type="PackedScene" uid="uid://cualqbgegg70u" path="res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn" id="6_ba6nr"]
-[ext_resource type="PackedScene" uid="uid://desqwtxab8bja" path="res://Scenes/Environment/Surroundings/Interactable/ReturnMachine.tscn" id="7_i2m4v"]
-[ext_resource type="PackedScene" uid="uid://gwifuoak5cc6" path="res://Scenes/Environment/Surroundings/Interactable/Shop.tscn" id="8_jc4ts"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6qb06"]
 texture = ExtResource("1_g75cb")
@@ -51,36 +45,6 @@ layer_2/tile_data = PackedInt32Array()
 
 [node name="Surroundings" type="Node2D" parent="TileMap"]
 y_sort_enabled = true
-
-[node name="Obstacle" parent="TileMap/Surroundings" instance=ExtResource("3_0ggu8")]
-position = Vector2(880, 400)
-
-[node name="Surrounding" parent="TileMap/Surroundings" instance=ExtResource("4_q6veo")]
-position = Vector2(-112, -32)
-
-[node name="Interactable" parent="TileMap/Surroundings" instance=ExtResource("5_ma4xe")]
-position = Vector2(96, 48)
-
-[node name="Pickable" parent="TileMap/Surroundings" instance=ExtResource("6_ba6nr")]
-position = Vector2(128, -48)
-item_name = "drink_copper"
-
-[node name="Pickable2" parent="TileMap/Surroundings" instance=ExtResource("6_ba6nr")]
-position = Vector2(448, 224)
-item_name = "drink_copper"
-
-[node name="Pickable3" parent="TileMap/Surroundings" instance=ExtResource("6_ba6nr")]
-position = Vector2(-288, 176)
-item_name = "drink_copper"
-
-[node name="Body" parent="TileMap/Surroundings" instance=ExtResource("7_i2m4v")]
-position = Vector2(192, 16)
-
-[node name="Body2" parent="TileMap/Surroundings" instance=ExtResource("7_i2m4v")]
-position = Vector2(144, 16)
-
-[node name="Shop" parent="TileMap/Surroundings" instance=ExtResource("8_jc4ts")]
-position = Vector2(-32, -48)
 
 [node name="OtherPlayers" type="Node2D" parent="TileMap"]
 y_sort_enabled = true

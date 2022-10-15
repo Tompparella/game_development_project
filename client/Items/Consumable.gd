@@ -12,6 +12,7 @@ func _init(_item_name: String, _description: String, _value: float, _texture_pat
 
 # Use item only if they have it in their inventory
 func Use(_player: Player) -> void:
-	if _player.RemoveItem(self):
-		_player.AddVibe(vibe)
-		_player.AddFlex(flex)
+#	if _player.RemoveItem(self):
+#		_player.AddVibe(vibe)
+#		_player.AddFlex(flex)
+	pass

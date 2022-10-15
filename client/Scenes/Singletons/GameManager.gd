@@ -32,12 +32,12 @@ func _physics_process(_delta) -> void:
 	HandlePlayerUpdate()
 
 func Initialize(game_data: Dictionary) -> void:
+	surroundings = get_node("../Game/Map/TileMap/Surroundings")
+	other_players = get_node("../Game/Map/TileMap/OtherPlayers")
 	LoadItems(game_data["items"])
 	LoadEnvironment(game_data["environment"])
 	EnablePlayer()
 	camera = get_node("../Game/Map/Camera")
-	surroundings = get_node("../Game/Map/TileMap/Surroundings")
-	other_players = get_node("../Game/Map/TileMap/OtherPlayers")
 	camera.Initialize(player)
 	UIControl.Initialize(player)
 	UIControl.HideLoginScreen()
@@ -70,29 +70,47 @@ func LoadEnvironment(environment_data: Array) -> void:
 				scene = returnmachine_scene.instantiate()
 			_:
 				scene = obstacle_scene.instantiate()
-		print(entry["texture"])
 		scene.Initialize(entry["texture"], entry["position"])
+		surroundings.add_child(scene)
+		scene.name = str(entry["id"])
 
 func EnablePlayer() -> void:
 	if (has_node("../Game/Map/TileMap/Player")):
 		player = get_node("../Game/Map/TileMap/Player")
 		player.tree_exiting.connect(DisablePlayer)
+		player.interact.connect(Interact)
 		player.Initialize()
 
 func DisablePlayer() -> void:
+	if has_node("../Game/Map/TileMap/Player"):
+		player.queue_free()
 	player = null
 
-#func SpawnItems() -> void:
-#	# TODO: Change this so that returnables_per_player gets multiplied by the amount of players on the map.ist["bottle_liquor"], 5: ItemsList["bottle_wine"] }
-#	var pickable_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Pickable/Pickable.tscn")
-#	var screen_size = get_viewport().get_visible_rect().size
-#
-#	var pickable: Pickable = pickable_scene.instantiate()
-#	pickable.Initialize(returnables[returnable_weights[randi() % returnable_weights.size()]])
-#	pickable.position = Vector2(randf_range(-screen_size.x, screen_size.x), randf_range(-screen_size.y, screen_size.y))
-#	surroundings.add_child(pickable)
-#	pickable.returnable_picked.connect(_Returnable_Picked)
-#	returnables_on_map += 1
+func AddItem(item_id: String) -> void:
+	var item: Item = ItemsList[item_id]
+	player.AddItem(item)
+
+func RemoveItem(item_id: String) -> void:
+	var item: Item = ItemsList[item_id]
+	player.RemoveItem(item)
+
+func ChangeCurrency(currency: float) -> void:
+	player.SetCurrency(currency)
+
+func Interact() -> void:
+	GameServer.PlayerInteract()
+
+func RemoveSurrounding(id: String) -> void:
+	if surroundings.has_node(id):
+		print("Poista")
+		surroundings.get_node(id).queue_free()
+		
+func SpawnReturnables(returnables: Array) -> void:
+	for entry in returnables:
+		var pickable: Pickable = pickable_scene.instantiate()
+		pickable.Initialize(entry["texture"], entry["position"])
+		surroundings.add_child(pickable)
+		pickable.name = str(entry["id"])
 
 func GetItem(item_name: String) -> Item:
 	return ItemsList.get(item_name, ItemsList.get("default"))
@@ -122,6 +140,14 @@ func HandlePlayerUpdate() -> void:
 	if player:
 		var player_state: Dictionary = {"position": player.global_position}
 		GameServer.UpdatePlayerState(player_state)
+
+func HandleItemsRecycled(item_ids: Array, returnable_size: int) -> void:
+	if player:
+		for entry in item_ids:
+			var item: Item = ItemsList[entry]
+			if item:
+				player.RemoveItem(item)
+	player.SetReturnableSize(returnable_size)
 
 func InterpolatePlayers(render_time: float) -> void:
 	var recent_past: Dictionary = world_state_buffer[1]

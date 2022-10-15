@@ -44,6 +44,8 @@ func ReturnTokenVerificationResult(result: bool) -> void:
 		print("Login failed, please try again")
 		UIControl.EnableLoginButtons()
 
+# Game functions
+
 @rpc(any_peer)
 func FetchGameData() -> void:
 	rpc_id(1, "FetchGameData")
@@ -67,6 +69,38 @@ func UpdatePlayerState(player_state: Dictionary) -> void:
 @rpc(authority, unreliable_ordered)
 func UpdateWorldState(world_state: Dictionary) -> void:
 	GameManager.UpdateWorldState(world_state)
+
+@rpc(authority)
+func SpawnReturnables(returnables: Array) -> void:
+	GameManager.SpawnReturnables(returnables)
+
+@rpc(authority)
+func RemoveSurrounding(id: int) -> void:
+	GameManager.RemoveSurrounding(str(id))
+
+@rpc(any_peer)
+func PlayerInteract() -> void:
+	rpc_id(1, "PlayerInteract")
+
+@rpc(authority)
+func PlayerAddItem(item_id: String) -> void:
+	GameManager.AddItem(item_id)
+
+@rpc(authority)
+func PlayerRemoveItem(item_id: String) -> void:
+	GameManager.RemoveItem(item_id)
+
+@rpc(authority)
+func PlayerChangeCurrency(currency: float) -> void:
+	GameManager.ChangeCurrency(currency)
+
+@rpc(authority)
+func PlayerRecycledItems(item_ids: Array, returnable_size: int) -> void:
+	GameManager.HandleItemsRecycled(item_ids, returnable_size)
+
+@rpc(authority)
+func PlayerDespawned() -> void:
+	GameManager.DisablePlayer()
 
 # Clock synchronization
 
