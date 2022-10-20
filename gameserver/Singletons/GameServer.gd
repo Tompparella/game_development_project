@@ -7,6 +7,7 @@ var max_players : int = 100
 
 var expected_tokens: Array = ["dfsfdsa"] # This is just here to check that token verification works as supposed to
 var player_states_collection: Dictionary = {}
+var surrounding_states_collection: Dictionary = {}
 
 @onready var user_verification: Node = get_node("../Server/UserVerification")
 @onready var token_timer: Timer = get_node("../Server/TokenExpiration")

@@ -23,9 +23,12 @@ position = Vector2(-120, 96)
 
 [node name="Interactable" parent="TileMap/Surroundings" instance=ExtResource("3_lskfi")]
 position = Vector2(0, 80)
+item_name = ""
+texture = ""
 
 [node name="Pickable" parent="TileMap/Surroundings" instance=ExtResource("4_vggd0")]
 position = Vector2(136, 88)
+item_name = "can"
 
 [node name="Body2" parent="TileMap/Surroundings" instance=ExtResource("5_yeo5h")]
 position = Vector2(144, 16)

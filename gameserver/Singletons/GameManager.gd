@@ -140,6 +140,12 @@ func SpawnReturnables(returnable_amount: int = 5) -> void:
 
 # Gameplay management functions
 
+func UpdateSurrounding(entry: Node2D) -> void:
+	GameServer.surrounding_states_collection[entry.get_instance_id()] = {
+		"position": entry.global_position
+	}
+	print("Jeejee")
+
 func MovePlayer(player_id: int, new_position: Vector2) -> void:
 	players[player_id].global_position = new_position
 

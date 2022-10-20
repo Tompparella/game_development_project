@@ -7,5 +7,6 @@ var world_state: Dictionary = {}
 func _physics_process(_delta: float) -> void:
 	if !GameServer.player_states_collection.is_empty():
 		world_state["players"] = GameServer.player_states_collection.duplicate(true)
+		world_state["surroundings"] = GameServer.surrounding_states_collection.duplicate(true)
 		world_state["timestamp"] = Time.get_unix_time_from_system()
 		GameServer.UpdateWorldState(world_state)

@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dq58tiap41t55" path="res://Assets/Items/Can.png" id="3_huov1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fsh84"]
-radius = 8.0
+radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rl23u"]
 radius = 16.0

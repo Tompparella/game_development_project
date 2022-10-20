@@ -102,7 +102,6 @@ func Interact() -> void:
 
 func RemoveSurrounding(id: String) -> void:
 	if surroundings.has_node(id):
-		print("Poista")
 		surroundings.get_node(id).queue_free()
 		
 func SpawnReturnables(returnables: Array) -> void:
@@ -132,9 +131,9 @@ func HandleWorldUpdate() -> void:
 		while (world_state_buffer.size() > 2) && (render_time > world_state_buffer[2]["timestamp"]):
 			world_state_buffer.remove_at(0)
 		if world_state_buffer.size() > 2:
-			InterpolatePlayers(render_time)
+			InterpolateWorld(render_time)
 		elif render_time > world_state_buffer[1]["timestamp"]:
-			ExtrapolatePlayers(render_time)
+			ExtrapolateWorld(render_time)
 
 func HandlePlayerUpdate() -> void:
 	if player:
@@ -149,7 +148,7 @@ func HandleItemsRecycled(item_ids: Array, returnable_size: int) -> void:
 				player.RemoveItem(item)
 	player.SetReturnableSize(returnable_size)
 
-func InterpolatePlayers(render_time: float) -> void:
+func InterpolateWorld(render_time: float) -> void:
 	var recent_past: Dictionary = world_state_buffer[1]
 	var nearest_future: Dictionary = world_state_buffer[2]
 	var interpolation_factor = float(render_time - nearest_future["timestamp"]) / float(nearest_future["timestamp"] - recent_past["timestamp"])
@@ -163,8 +162,15 @@ func InterpolatePlayers(render_time: float) -> void:
 			entry.MovePlayer(new_position)
 		else:
 			SpawnNewPlayer(player_id, nearest_future["position"][player_id]["position"])
-	
-func ExtrapolatePlayers(render_time: float) -> void:
+	for surrounding_id in nearest_future["surroundings"].keys():
+		if !recent_past.has(surrounding_id):
+			continue
+		if surroundings.has_node(str(surrounding_id)):
+			var entry: Node2D = surroundings.get_node(str(surrounding_id))
+			var new_position: Vector2 = lerp(recent_past["surroundings"][surrounding_id]["position"], nearest_future["surroundings"][surrounding_id]["position"], interpolation_factor)
+			entry.global_position = new_position
+
+func ExtrapolateWorld(render_time: float) -> void:
 	var old_past: Dictionary = world_state_buffer[0]
 	var recent_past: Dictionary = world_state_buffer[1]
 	var extrapolation_factor: float = (float(render_time - old_past["timestamp"]) / float(recent_past["timestamp"] - old_past["timestamp"])) - INTERPOLATION_OFFSET
@@ -177,6 +183,14 @@ func ExtrapolatePlayers(render_time: float) -> void:
 			var position_delta: Vector2 = recent_past[player_id]["p"] - old_past[player_id]["p"]
 			var new_position: Vector2 = recent_past[player_id]["p"] + (position_delta * extrapolation_factor)
 			entry.MovePlayer(new_position)
+	for surrounding_id in recent_past["surroundings"].keys():
+		if !old_past.has(surrounding_id):
+			continue
+		if surroundings.has_node(str(surrounding_id)):
+			var entry: Node2D = surroundings.get_node(str(surrounding_id))
+			var position_delta: Vector2 = recent_past[surrounding_id]["p"] - old_past[surrounding_id]["p"]
+			var new_position: Vector2 = recent_past[surrounding_id]["p"] + (position_delta * extrapolation_factor)
+			entry.global_position = new_position
 
 func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 	# Check if the rpc call is for this player. If yes, do nothing
