@@ -10,20 +10,15 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_rl23u"]
 radius = 16.0
 
-[node name="Interactable" type="RigidBody2D"]
+[node name="Interactable" type="StaticBody2D"]
 collision_layer = 2
 collision_mask = 15
-mass = 0.4
-gravity_scale = 0.0
 script = ExtResource("1_l7udo")
-item_name = null
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
-position = Vector2(0, 24)
 shape = SubResource("CircleShape2D_fsh84")
 
 [node name="Area2d" type="Area2D" parent="."]
-position = Vector2(0, 24)
 collision_layer = 12
 collision_mask = 17
 script = ExtResource("2_mlapn")
@@ -33,7 +28,6 @@ shape = SubResource("CircleShape2D_rl23u")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(0.898039, 0.0156863, 0.494118, 1)
-position = Vector2(0, 24)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_0m52k")
 

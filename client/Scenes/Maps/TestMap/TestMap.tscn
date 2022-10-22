@@ -1,26 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dsjoqkdadvixb"]
+[gd_scene load_steps=2 format=3 uid="uid://bqk1yekkpbofh"]
 
-[ext_resource type="Texture2D" uid="uid://pp0m2802n27p" path="res://Assets/Tilemaps/Tilemap_Test.png" id="1_g75cb"]
-[ext_resource type="PackedScene" uid="uid://hhyygar74cji" path="res://Scenes/Characters/Player.tscn" id="2_a8oia"]
-[ext_resource type="Script" path="res://Scenes/UI/Camera.gd" id="3_omojq"]
+[ext_resource type="TileSet" uid="uid://bh71nl2c4xun0" path="res://Scenes/Maps/TestMap/TestMap.tres" id="1_sxrd8"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6qb06"]
-texture = ExtResource("1_g75cb")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-1:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_mvhna"]
-tile_size = Vector2i(32, 32)
-sources/3 = SubResource("TileSetAtlasSource_6qb06")
-
-[node name="Map" type="Node2D"]
-
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap"]
 y_sort_enabled = true
-tile_set = SubResource("TileSet_mvhna")
+tile_set = ExtResource("1_sxrd8")
 format = 2
 layer_0/name = "Background"
 layer_0/y_sort_enabled = true
@@ -41,14 +25,8 @@ layer_2/y_sort_origin = 0
 layer_2/z_index = -1
 layer_2/tile_data = PackedInt32Array()
 
-[node name="Player" parent="TileMap" instance=ExtResource("2_a8oia")]
-
-[node name="Surroundings" type="Node2D" parent="TileMap"]
+[node name="Surroundings" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="OtherPlayers" type="Node2D" parent="TileMap"]
+[node name="OtherPlayers" type="Node2D" parent="."]
 y_sort_enabled = true
-
-[node name="Camera" type="Camera2D" parent="."]
-zoom = Vector2(1.5, 1.5)
-script = ExtResource("3_omojq")

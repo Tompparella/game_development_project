@@ -35,8 +35,11 @@ func _Peer_Connected(player_id : int) -> void:
 func _Peer_Disconnected(player_id : int) -> void:
 	print("Player %s disconnected" % player_id)
 	var player_container_path: String = "../Server/UserContainer/" + str(player_id)
+	var player_map_path: String = "../Server/Map/TileMap/Players/" + str(player_id)
 	if (has_node(player_container_path)):
 		get_node(player_container_path).queue_free()
+	if (has_node(player_map_path)):
+		get_node(player_map_path).queue_free()
 	DespawnPlayer(player_id)
 	player_states_collection.erase(player_id)
 

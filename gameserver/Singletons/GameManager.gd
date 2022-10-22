@@ -10,7 +10,7 @@ var placeholder_texture: String = "res://Assets/Items/Can.png"
 var player_scene: PackedScene = load("res://Scenes/World/Characters/Player.tscn")
 var pickable_scene: PackedScene = load("res://Scenes/World/Environment/Assets/Pickable.tscn")
 var returnables_on_map: int = 0
-var returnables_per_player: int = 40
+var returnables_per_player: int = 10
 # Run server sync only if GameManager has successfully initialized the game world on the client
 var initialized: bool = false
 
@@ -144,7 +144,6 @@ func UpdateSurrounding(entry: Node2D) -> void:
 	GameServer.surrounding_states_collection[entry.get_instance_id()] = {
 		"position": entry.global_position
 	}
-	print("Jeejee")
 
 func MovePlayer(player_id: int, new_position: Vector2) -> void:
 	players[player_id].global_position = new_position

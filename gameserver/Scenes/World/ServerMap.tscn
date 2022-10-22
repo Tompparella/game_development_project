@@ -1,42 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://del3pnk5cmx33"]
+[gd_scene load_steps=2 format=3 uid="uid://del3pnk5cmx33"]
 
-[ext_resource type="PackedScene" uid="uid://covtp04lqpfah" path="res://Scenes/World/Environment/Assets/Obstacle.tscn" id="1_nw4xp"]
-[ext_resource type="PackedScene" uid="uid://chxc24qf8lalr" path="res://Scenes/World/Environment/Assets/Surrounding.tscn" id="2_2pbrm"]
-[ext_resource type="PackedScene" uid="uid://b3hgrtl3ejnre" path="res://Scenes/World/Environment/Assets/Interactable.tscn" id="3_lskfi"]
-[ext_resource type="PackedScene" uid="uid://dagjc034ygf3w" path="res://Scenes/World/Environment/Assets/Pickable.tscn" id="4_vggd0"]
-[ext_resource type="PackedScene" uid="uid://duwaawta810ja" path="res://Scenes/World/Environment/Assets/ReturnMachine.tscn" id="5_yeo5h"]
-[ext_resource type="PackedScene" uid="uid://bvmokstko5cf5" path="res://Scenes/World/Environment/Assets/Shop.tscn" id="6_nan3w"]
+[ext_resource type="PackedScene" uid="uid://bqk1yekkpbofh" path="res://Scenes/Maps/TestMap/TestMap.tscn" id="1_wxwsh"]
 
 [node name="Map" type="Node2D"]
 
-[node name="TileMap" type="TileMap" parent="."]
-format = 2
-
-[node name="Surroundings" type="Node2D" parent="TileMap"]
-y_sort_enabled = true
-
-[node name="Obstacle" parent="TileMap/Surroundings" instance=ExtResource("1_nw4xp")]
-position = Vector2(304, 8)
-
-[node name="Surrounding" parent="TileMap/Surroundings" instance=ExtResource("2_2pbrm")]
-position = Vector2(-120, 96)
-
-[node name="Interactable" parent="TileMap/Surroundings" instance=ExtResource("3_lskfi")]
-position = Vector2(0, 80)
-item_name = ""
-texture = ""
-
-[node name="Pickable" parent="TileMap/Surroundings" instance=ExtResource("4_vggd0")]
-position = Vector2(136, 88)
-item_name = "can"
-
-[node name="Body2" parent="TileMap/Surroundings" instance=ExtResource("5_yeo5h")]
-position = Vector2(144, 16)
-
-[node name="Body3" parent="TileMap/Surroundings" instance=ExtResource("5_yeo5h")]
-position = Vector2(192, 16)
-
-[node name="Shop" parent="TileMap/Surroundings" instance=ExtResource("6_nan3w")]
-
-[node name="Players" type="Node2D" parent="TileMap"]
-y_sort_enabled = true
+[node name="TileMap" parent="." instance=ExtResource("1_wxwsh")]

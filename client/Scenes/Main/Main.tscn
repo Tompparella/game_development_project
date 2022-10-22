@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8vli38vlmx5f"]
+
+[ext_resource type="PackedScene" uid="uid://bqk1yekkpbofh" path="res://Scenes/Maps/TestMap/TestMap.tscn" id="1_2hluu"]
+[ext_resource type="Script" path="res://Scenes/UI/Camera.gd" id="2_ifh5j"]
+
+[node name="Main" type="Node2D"]
+
+[node name="TileMap" parent="." instance=ExtResource("1_2hluu")]
+
+[node name="Camera" type="Camera2D" parent="."]
+script = ExtResource("2_ifh5j")

@@ -9,6 +9,7 @@ var player: Player
 var camera: Camera
 
 # Scenes
+var player_scene: PackedScene = load("res://Scenes/Characters/Player.tscn")
 var player_template: PackedScene = load("res://Scenes/Characters/PlayerTemplate.tscn")
 var surrounding_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Surrounding.tscn")
 var interactable_scene: PackedScene = load("res://Scenes/Environment/Surroundings/Interactable/Interactable.tscn")
@@ -25,6 +26,8 @@ var initialized: bool = false
 var ItemsList: Dictionary = {}
 
 func _ready() -> void:
+	surroundings = get_node("../Game/Main/TileMap/Surroundings")
+	other_players = get_node("../Game/Main/TileMap/OtherPlayers")
 	set_physics_process(false)
 
 func _physics_process(_delta) -> void:
@@ -32,12 +35,10 @@ func _physics_process(_delta) -> void:
 	HandlePlayerUpdate()
 
 func Initialize(game_data: Dictionary) -> void:
-	surroundings = get_node("../Game/Map/TileMap/Surroundings")
-	other_players = get_node("../Game/Map/TileMap/OtherPlayers")
 	LoadItems(game_data["items"])
 	LoadEnvironment(game_data["environment"])
 	EnablePlayer()
-	camera = get_node("../Game/Map/Camera")
+	camera = get_node("../Game/Main/Camera")
 	camera.Initialize(player)
 	UIControl.Initialize(player)
 	UIControl.HideLoginScreen()
@@ -75,14 +76,14 @@ func LoadEnvironment(environment_data: Array) -> void:
 		scene.name = str(entry["id"])
 
 func EnablePlayer() -> void:
-	if (has_node("../Game/Map/TileMap/Player")):
-		player = get_node("../Game/Map/TileMap/Player")
-		player.tree_exiting.connect(DisablePlayer)
-		player.interact.connect(Interact)
-		player.Initialize()
+	player = player_scene.instantiate()
+	get_node("../Game/Main/TileMap").add_child(player)
+	player.tree_exiting.connect(DisablePlayer)
+	player.interact.connect(Interact)
+	player.Initialize()
 
 func DisablePlayer() -> void:
-	if has_node("../Game/Map/TileMap/Player"):
+	if has_node("../Game/Main/TileMap/Player"):
 		player.queue_free()
 	player = null
 
@@ -154,16 +155,16 @@ func InterpolateWorld(render_time: float) -> void:
 	var interpolation_factor = float(render_time - nearest_future["timestamp"]) / float(nearest_future["timestamp"] - recent_past["timestamp"])
 	for player_id in nearest_future["players"].keys():
 		# If the current entry is timestamp, the client's character, or if it doesn't exist in the past world state, continue
-		if (player_id == multiplayer.get_unique_id() || !recent_past.has(player_id)):
+		if (player_id == multiplayer.get_unique_id() || !recent_past["players"].has(player_id)):
 			continue
 		if other_players.has_node(str(player_id)):
 			var entry: PlayerTemplate = other_players.get_node(str(player_id))
 			var new_position: Vector2 = lerp(recent_past["players"][player_id]["position"], nearest_future["players"][player_id]["position"], interpolation_factor)
 			entry.MovePlayer(new_position)
 		else:
-			SpawnNewPlayer(player_id, nearest_future["position"][player_id]["position"])
+			SpawnNewPlayer(player_id, nearest_future["players"][player_id]["position"])
 	for surrounding_id in nearest_future["surroundings"].keys():
-		if !recent_past.has(surrounding_id):
+		if !recent_past["surroundings"].has(surrounding_id):
 			continue
 		if surroundings.has_node(str(surrounding_id)):
 			var entry: Node2D = surroundings.get_node(str(surrounding_id))
@@ -176,20 +177,20 @@ func ExtrapolateWorld(render_time: float) -> void:
 	var extrapolation_factor: float = (float(render_time - old_past["timestamp"]) / float(recent_past["timestamp"] - old_past["timestamp"])) - INTERPOLATION_OFFSET
 	for player_id in recent_past["players"].keys():
 		# If the current entry is timestamp, the client's character, or if it doesn't exist in the past world state, continue
-		if (player_id == multiplayer.get_unique_id() || !old_past.has(player_id)):
+		if (player_id == multiplayer.get_unique_id() || !old_past["players"].has(player_id)):
 			continue
 		if other_players.has_node(str(player_id)):
 			var entry: PlayerTemplate = other_players.get_node(str(player_id))
-			var position_delta: Vector2 = recent_past[player_id]["p"] - old_past[player_id]["p"]
-			var new_position: Vector2 = recent_past[player_id]["p"] + (position_delta * extrapolation_factor)
+			var position_delta: Vector2 = recent_past["players"][player_id]["position"] - old_past["players"][player_id]["position"]
+			var new_position: Vector2 = recent_past["players"][player_id]["position"] + (position_delta * extrapolation_factor)
 			entry.MovePlayer(new_position)
 	for surrounding_id in recent_past["surroundings"].keys():
-		if !old_past.has(surrounding_id):
+		if !old_past["surroundings"].has(surrounding_id):
 			continue
 		if surroundings.has_node(str(surrounding_id)):
 			var entry: Node2D = surroundings.get_node(str(surrounding_id))
-			var position_delta: Vector2 = recent_past[surrounding_id]["p"] - old_past[surrounding_id]["p"]
-			var new_position: Vector2 = recent_past[surrounding_id]["p"] + (position_delta * extrapolation_factor)
+			var position_delta: Vector2 = recent_past["surroundings"][surrounding_id]["position"] - old_past["surroundings"][surrounding_id]["position"]
+			var new_position: Vector2 = recent_past["surroundings"][surrounding_id]["position"] + (position_delta * extrapolation_factor)
 			entry.global_position = new_position
 
 func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:

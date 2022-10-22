@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://5nt8yaq5xr6s" path="res://Assets/Theme/Connection/ConnectionIi-2wj8.otf" id="1"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ielj"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xb5vj"]
 bg_color = Color(0.266667, 0.266667, 0.266667, 1)
 border_width_left = 2
 border_width_top = 2
@@ -14,7 +14,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shhiq"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qkdx7"]
 bg_color = Color(0.537255, 0.435294, 0.160784, 1)
 border_color = Color(0.760784, 0.709804, 0.352941, 1)
 corner_radius_top_left = 4
@@ -22,7 +22,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m32jp"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tsi36"]
 bg_color = Color(0.309804, 0.270588, 0.207843, 1)
 border_width_left = 2
 border_width_top = 2
@@ -36,14 +36,14 @@ corner_radius_bottom_left = 4
 shadow_color = Color(0.380392, 0.380392, 0.380392, 0.6)
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7pgis"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpka6"]
 bg_color = Color(0.65098, 0.847059, 0.364706, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="FontFile" id="FontFile_usgkl"]
+[sub_resource type="FontFile" id="FontFile_ys84o"]
 fallbacks = [ExtResource("1")]
 face_index = null
 embolden = null
@@ -350,14 +350,14 @@ cache/0/23/0/kerning_overrides/22/0 = Vector2(0, 0)
 cache/0/23/0/kerning_overrides/23/0 = Vector2(0, 0)
 
 [resource]
-default_font = SubResource("FontFile_usgkl")
+default_font = SubResource("FontFile_ys84o")
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_color_disabled = Color(1, 1, 1, 0.388235)
 Button/colors/font_color_hover = Color(1, 0.952941, 0.631373, 1)
 Button/colors/font_color_pressed = Color(1, 0.984314, 0, 1)
 Button/colors/font_outline_color = Color(0, 0, 0, 1)
 Button/constants/outline_size = 6
-Button/styles/disabled = SubResource("StyleBoxFlat_6ielj")
-Button/styles/hover = SubResource("StyleBoxFlat_shhiq")
-Button/styles/normal = SubResource("StyleBoxFlat_m32jp")
-Button/styles/pressed = SubResource("StyleBoxFlat_7pgis")
+Button/styles/disabled = SubResource("StyleBoxFlat_xb5vj")
+Button/styles/hover = SubResource("StyleBoxFlat_qkdx7")
+Button/styles/normal = SubResource("StyleBoxFlat_tsi36")
+Button/styles/pressed = SubResource("StyleBoxFlat_fpka6")

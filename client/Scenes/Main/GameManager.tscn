@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c0lnqe1x5218l"]
 
-[ext_resource type="PackedScene" uid="uid://dsjoqkdadvixb" path="res://Scenes/Main/Map.tscn" id="1_j0ifr"]
+[ext_resource type="PackedScene" uid="uid://b8vli38vlmx5f" path="res://Scenes/Main/Main.tscn" id="1_vpq4p"]
 [ext_resource type="PackedScene" uid="uid://cs7ahsa8btj8g" path="res://Scenes/UI/Interface/UserInterface/UserInterface.tscn" id="3_j8typ"]
 [ext_resource type="PackedScene" uid="uid://blo41h6k32n7j" path="res://Scenes/UI/Interface/Login/LoginScreen.tscn" id="3_s678a"]
 [ext_resource type="PackedScene" uid="uid://uqot4bww7sud" path="res://Scenes/UI/Interface/Modals/ShopModal.tscn" id="4_n308m"]
@@ -8,7 +8,7 @@
 
 [node name="Game" type="Node"]
 
-[node name="Map" parent="." instance=ExtResource("1_j0ifr")]
+[node name="Main" parent="." instance=ExtResource("1_vpq4p")]
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
