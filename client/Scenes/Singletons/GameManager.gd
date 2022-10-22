@@ -78,7 +78,6 @@ func LoadEnvironment(environment_data: Array) -> void:
 func EnablePlayer() -> void:
 	player = player_scene.instantiate()
 	get_node("../Game/Main/TileMap").add_child(player)
-	player.tree_exiting.connect(DisablePlayer)
 	player.interact.connect(Interact)
 	player.Initialize()
 
@@ -112,6 +111,17 @@ func SpawnReturnables(returnables: Array) -> void:
 		surroundings.add_child(pickable)
 		pickable.name = str(entry["id"])
 
+func UpdateStats(stats_data: Array) -> void:
+	for entry in stats_data:
+		if other_players.has_node(entry["id"]):
+			other_players.get_node(entry["id"]).UpdateStats(entry["vibe"])
+		elif str(multiplayer.get_unique_id()) == entry["id"]:
+			player.SetVibe(entry["vibe"])
+
+func GameTimerTimeout(game_data: Dictionary) -> void:
+	SpawnReturnables(game_data["returnable_data" ])
+	UpdateStats(game_data["stats_data"])
+
 func GetItem(item_name: String) -> Item:
 	return ItemsList.get(item_name, ItemsList.get("default"))
 
@@ -126,7 +136,6 @@ func UpdateWorldState(world_state: Dictionary) -> void:
 		world_state_buffer.append(world_state)
 
 func HandleWorldUpdate() -> void:
-	# TODO: Handle player despawning
 	var render_time: float = GameServer.client_clock - INTERPOLATION_OFFSET
 	if world_state_buffer.size() > 1:
 		while (world_state_buffer.size() > 2) && (render_time > world_state_buffer[2]["timestamp"]):
@@ -147,7 +156,7 @@ func HandleItemsRecycled(item_ids: Array, returnable_size: int) -> void:
 			var item: Item = ItemsList[entry]
 			if item:
 				player.RemoveItem(item)
-	player.SetReturnableSize(returnable_size)
+		player.SetReturnableSize(returnable_size)
 
 func InterpolateWorld(render_time: float) -> void:
 	var recent_past: Dictionary = world_state_buffer[1]
@@ -204,10 +213,13 @@ func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 	other_players.add_child(new_player)
 	print("Player %s spawned" % str(player_id))
 
+func PlayerDespawned() -> void:
+	DisablePlayer()
+
 func DespawnPlayer(player_id: int) -> void:
 	if other_players.has_node(str(player_id)):
 		var despawned_player: Node = other_players.get_node(str(player_id))
 		# We need to await for a time in order to wait for the world state to empty its references to the despawned player.
 		# Without this, the player would despawn for a few milliseconds before being spawned again in the next world state update.
-		await get_tree().create_timer(0.2).timeout
+		await get_tree().create_timer(1.0).timeout
 		despawned_player.queue_free()

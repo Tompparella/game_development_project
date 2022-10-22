@@ -41,7 +41,6 @@ func _Peer_Disconnected(player_id : int) -> void:
 	if (has_node(player_map_path)):
 		get_node(player_map_path).queue_free()
 	DespawnPlayer(player_id)
-	player_states_collection.erase(player_id)
 
 func _Token_Expiration_Timeout() -> void:
 	var current_time: int = int(Time.get_unix_time_from_system())
@@ -75,7 +74,12 @@ func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 	rpc_id(0, "SpawnNewPlayer", player_id, spawn_location)
 
 @rpc(authority)
+func PlayerDespawned(player_id: int) -> void:
+	rpc_id(player_id, "PlayerDespawned")
+
+@rpc(authority)
 func DespawnPlayer(player_id: int) -> void:
+	player_states_collection.erase(player_id)
 	rpc_id(0, "DespawnPlayer", player_id)
 
 ## Clock synchronization
@@ -142,12 +146,12 @@ func PlayerRemoveItem(player_id: int, item_id: String) -> void:
 	rpc_id(player_id, "PlayerRemoveItem", item_id)
 
 @rpc(authority)
-func PlayerDespawned(player_id: int) -> void:
-	rpc_id(player_id, "PlayerDespawned")
-
-@rpc(authority)
 func SpawnReturnables(returnables: Array) -> void:
 	rpc_id(0, "SpawnReturnables", returnables)
+
+@rpc(authority)
+func GameTimerTimeout(game_data: Dictionary) -> void:
+	rpc_id(0, "GameTimerTimeout", game_data)
 
 @rpc(authority)
 func RemoveSurrounding(id: int) -> void:

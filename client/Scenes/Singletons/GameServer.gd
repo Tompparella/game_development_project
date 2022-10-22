@@ -59,6 +59,10 @@ func SpawnNewPlayer(player_id: int, spawn_position: Vector2) -> void:
 	GameManager.SpawnNewPlayer(player_id, spawn_position)
 
 @rpc(authority)
+func PlayerDespawned() -> void:
+	GameManager.PlayerDespawned()
+
+@rpc(authority)
 func DespawnPlayer(player_id: int) -> void:
 	GameManager.DespawnPlayer(player_id)
 
@@ -73,6 +77,10 @@ func UpdateWorldState(world_state: Dictionary) -> void:
 @rpc(authority)
 func SpawnReturnables(returnables: Array) -> void:
 	GameManager.SpawnReturnables(returnables)
+
+@rpc(authority)
+func GameTimerTimeout(game_data: Dictionary) -> void:
+	GameManager.GameTimerTimeout(game_data)
 
 @rpc(authority)
 func RemoveSurrounding(id: int) -> void:
@@ -97,10 +105,6 @@ func PlayerChangeCurrency(currency: float) -> void:
 @rpc(authority)
 func PlayerRecycledItems(item_ids: Array, returnable_size: int) -> void:
 	GameManager.HandleItemsRecycled(item_ids, returnable_size)
-
-@rpc(authority)
-func PlayerDespawned() -> void:
-	GameManager.DisablePlayer()
 
 # Clock synchronization
 

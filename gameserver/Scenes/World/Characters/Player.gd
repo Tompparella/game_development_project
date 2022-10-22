@@ -7,6 +7,7 @@ signal items_recycled(player_id: String, recycled_items: Array[Item], returnable
 signal vibe_changed(player_id: String, vibe: float)
 signal currency_changed(player_id: String, currency: float)
 signal flex_changed(player_id: String, flex: int)
+signal game_over(player_id: String)
 
 var inventory: Inventory = Inventory.new([], [])
 
@@ -51,12 +52,17 @@ func TakeCurrency(currency: float) -> void:
 func AddFlex(flex: int) -> void:
 	flex_changed.emit(inventory.AddFlex(flex))
 
-func AddVibe(vibe: float) -> void:
+func AddVibe(vibe: float, send_results: bool = true) -> float:
 	var new_vibe: float = inventory.AddVibe(vibe)
 	if new_vibe <= 0:
-		rotation = 90.0
-		queue_free()
-	vibe_changed.emit(new_vibe)
+		game_over.emit(name)
+	#	rotation = 90.0
+	#	queue_free()
+	#vibe_changed.emit(new_vibe)
+	if send_results:
+		# TODO: Handle result broadcasting
+		pass
+	return new_vibe
 
 func GetVibe() -> float:
 	return inventory.GetVibe()
@@ -84,10 +90,8 @@ func _Interaction_Entered(area: Area2D) -> void:
 	# Other handling, t.ex. Npc: if area is Npc: do something
 
 func _Interaction_Exited(area: Area2D) -> void:
-	if area in surroundings:
-		surroundings.erase(area)
-	if area.is_connected("surrounding_exiting", _Interaction_Exited):
-		area.disconnect("surrounding_exiting", _Interaction_Exited)
-
-func _Vibe_Timeout() -> void:
-	AddVibe(-1.0)
+	if area is SurroundingArea:
+		if area in surroundings:
+			surroundings.erase(area)
+		if area.is_connected("surrounding_exiting", _Interaction_Exited):
+			area.disconnect("surrounding_exiting", _Interaction_Exited)

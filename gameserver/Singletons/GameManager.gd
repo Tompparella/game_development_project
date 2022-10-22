@@ -1,6 +1,6 @@
 extends Node
 
-const VIBE_TIMEOUT_TIME: float = 4.0
+const VIBE_TIMEOUT_TIME: float = 10.0
 
 var surroundings: Node2D
 var players_container: Node2D
@@ -11,6 +11,7 @@ var player_scene: PackedScene = load("res://Scenes/World/Characters/Player.tscn"
 var pickable_scene: PackedScene = load("res://Scenes/World/Environment/Assets/Pickable.tscn")
 var returnables_on_map: int = 0
 var returnables_per_player: int = 10
+var vibe_tick: float = -3.0
 # Run server sync only if GameManager has successfully initialized the game world on the client
 var initialized: bool = false
 
@@ -63,7 +64,7 @@ func CreateGameTimer() -> void:
 	game_timer.one_shot = false
 	game_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
 	game_timer.wait_time = VIBE_TIMEOUT_TIME
-	game_timer.timeout.connect(SpawnReturnables)
+	game_timer.timeout.connect(_Timer_Timeout)
 	add_child(game_timer)
 	game_timer.start()
 
@@ -119,9 +120,9 @@ func FetchGameData(player_id: int) -> void:
 	game_data["environment"] = environment
 	GameServer.ReturnGameData(game_data, player_id)
 
-func SpawnReturnables(returnable_amount: int = 5) -> void:
+func SpawnReturnables(returnable_amount: int = 5 * (players.size() + 1)) -> Array:
 	if returnables_on_map >= (returnables_per_player * (players.size() + 1)):
-		return
+		return []
 	var returnables: Dictionary = { 1: ItemsList["can"], 2: ItemsList["bottle"], 3: ItemsList["bottle_big"], 4: ItemsList["bottle_liquor"], 5: ItemsList["bottle_wine"] }
 	var returnable_weights: Array[int] = [1,1,1,1,1,2,2,2,3,4,5]
 	var item_data: Array = []
@@ -136,7 +137,7 @@ func SpawnReturnables(returnable_amount: int = 5) -> void:
 		pickable.returnable_picked.connect(_Returnable_Picked)
 		returnables_on_map += 1
 		item_data.append({"id": pickable.get_instance_id(), "position": pickable.position, "texture": pickable.texture, "type": "pickable"})
-	GameServer.SpawnReturnables(item_data)
+	return item_data
 
 # Gameplay management functions
 
@@ -183,21 +184,38 @@ func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 	new_player.item_removed.connect(PlayerRemoveItem)
 	new_player.currency_changed.connect(PlayerChangeCurrency)
 	new_player.items_recycled.connect(PlayerRecycledItems)
+	new_player.game_over.connect(PlayerGameOver)
 	# TODO: Connect the rest of player signals
 	# TODO: Update game_timer timeout to a function that updates vibe for all players at the same time
-	game_timer.timeout.connect(new_player._Vibe_Timeout)
 	print("Player %s spawned" % str(player_id))
 	GameServer.SpawnNewPlayer(player_id, spawn_location)
 
 func DespawnPlayer(player_id: int) -> void:
 	if players_container.has_node(str(player_id)):
 		GameServer.PlayerDespawned(player_id)
-		var despawned_player: Node = players_container.get_node(str(player_id))
+		var despawned_player: Player = players_container.get_node(str(player_id))
 		# We need to await for a time in order to wait for the world state to empty its references to the despawned player.
 		# Without this, the player would despawn for a few milliseconds before being spawned again in the next world state update.
 		await get_tree().create_timer(0.2).timeout
-		players.erase(despawned_player)
+		GameServer.DespawnPlayer(player_id)
+		players.erase(player_id)
 		despawned_player.queue_free()
+		print("Player %s despawned" % str(player_id))
+
+func PlayerGameOver(player_id: String) -> void:
+	DespawnPlayer(player_id.to_int())
+
+func _Timer_Timeout() -> void:
+	var game_data: Dictionary = {}
+	game_data["returnable_data"] = SpawnReturnables()
+	var stats_data: Array = []
+	for entry in players:
+		var player: Player = players[entry]
+		var new_vibe: float = player.AddVibe(vibe_tick, false)
+		if new_vibe > 0:
+			stats_data.append({"id": str(player.name), "vibe": new_vibe})
+	game_data["stats_data"] = stats_data
+	GameServer.GameTimerTimeout(game_data)
 
 func _Returnable_Picked() -> void:
 	returnables_on_map -= 1

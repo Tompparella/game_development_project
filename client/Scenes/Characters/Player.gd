@@ -59,8 +59,6 @@ func SetFlex(flex: int) -> void:
 
 func SetVibe(vibe: float) -> void:
 	var new_vibe: float = inventory.SetVibe(vibe)
-	if new_vibe <= 0:
-		queue_free()
 	vibe_changed.emit(new_vibe)
 
 func SetReturnableSize(returnables_size: int) -> void:
