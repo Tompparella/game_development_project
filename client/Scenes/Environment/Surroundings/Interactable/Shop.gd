@@ -11,10 +11,6 @@ func _init() -> void:
 		pass
 	SetInventory()
 
-func Interact(_player: Player) -> void:
-	players.append(_player)
-	UIControl.OpenShopModal(self)
-
 func SetInventory() -> void:
 #	var shop_items: Array[Item] = GameManager.GetShopInventory()
 	var _inventory: Dictionary = {}
@@ -40,5 +36,5 @@ func _Body_Exited(body: Node2D) -> void:
 	if (body is Player && body in players):
 		players.erase(body)
 		# TODO: When transferring to server, this has to be an client specific rpc call
-		UIControl.CloseShopModal()
+		#UIControl.CloseShopModal()
 		

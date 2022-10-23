@@ -69,19 +69,6 @@ func ReturnTokenVerificationResult(player_id: int, result: bool) -> void:
 		# TODO: Spawn player to their instance coordinates, otherwise to default (such as 0,0)
 		GameManager.SpawnNewPlayer(player_id, Vector2(0,0))
 
-@rpc(authority)
-func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
-	rpc_id(0, "SpawnNewPlayer", player_id, spawn_location)
-
-@rpc(authority)
-func PlayerDespawned(player_id: int) -> void:
-	rpc_id(player_id, "PlayerDespawned")
-
-@rpc(authority)
-func DespawnPlayer(player_id: int) -> void:
-	player_states_collection.erase(player_id)
-	rpc_id(0, "DespawnPlayer", player_id)
-
 ## Clock synchronization
 
 @rpc(any_peer)
@@ -101,6 +88,26 @@ func DetermineLatency(client_time: float) -> void:
 @rpc(authority)
 func ReturnLatency(client_time: float, player_id: int) -> void:
 	rpc_id(player_id, "ReturnLatency", client_time)
+
+## Player UI functions
+
+@rpc(authority)
+func OpenShop(player_id: int, shop_data: Dictionary) -> void:
+	rpc_id(player_id, "OpenShop", shop_data)
+
+@rpc(authority)
+func CloseShop(player_id: int) -> void:
+	rpc_id(player_id, "CloseShop")
+
+@rpc(authority)
+func UpdateShopInventory(player_id: String, item_id: String, amount: int):
+	rpc_id(player_id.to_int(), "UpdateShopInventory", item_id, amount)
+
+## Shop functions
+
+@rpc(any_peer)
+func BuyItem(item_id: String, shop_id: String) -> void:
+	GameManager.PlayerBuyItem(multiplayer.get_remote_sender_id() ,item_id, shop_id)
 
 ## Game functions
 
@@ -123,6 +130,19 @@ func UpdatePlayerState(player_state: Dictionary) -> void:
 @rpc(authority, unreliable_ordered)
 func UpdateWorldState(world_state: Dictionary) -> void:
 	rpc_id(0, "UpdateWorldState", world_state)
+
+@rpc(authority)
+func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
+	rpc_id(0, "SpawnNewPlayer", player_id, spawn_location)
+
+@rpc(authority)
+func PlayerDespawned(player_id: int) -> void:
+	rpc_id(player_id, "PlayerDespawned")
+
+@rpc(authority)
+func DespawnPlayer(player_id: int) -> void:
+	player_states_collection.erase(player_id)
+	rpc_id(0, "DespawnPlayer", player_id)
 
 @rpc(any_peer)
 func PlayerInteract() -> void:

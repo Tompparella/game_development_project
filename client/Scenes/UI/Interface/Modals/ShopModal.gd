@@ -13,24 +13,25 @@ signal item_unselected(emitter: Node)
 
 var packed_item = preload("res://Scenes/UI/Interface/UserInterface/Item.tscn")
 
+var shop_id: String
 var player: Player
-var shop: Shop
+var inventory: Dictionary
 var selected_item: Item
 
 func Initialize(_player: Player):
 	player = _player
 
 func SetView() -> void:
-	if (shop != null && shop.inventory != null):
-		for entry in shop.inventory:
+	if (inventory != null):
+		for entry in inventory:
 			AddItem(entry)
 
-func AddItem(item: Item) -> void:
+func AddItem(item_id: String) -> void:
 	var instance = packed_item.instantiate()
 	items_view.add_child(instance)
 	instance.connect("pressed", instance.ItemSelected)
 	instance.connect("item_selected", SelectItem)
-	instance.Initialize(item)
+	instance.Initialize(GameManager.GetItem(item_id))
 
 func SelectItem(item_entry: ItemEntry) -> void:
 	if item_entry.item != selected_item:
@@ -40,13 +41,20 @@ func SelectItem(item_entry: ItemEntry) -> void:
 		item_label.text = selected_item.item_name
 		description_label.text = selected_item.description
 		price_label.text = "Price\n%s" % str(selected_item.value)
-		stock_label.text = "Stock\n%sx" % str(shop.inventory[selected_item])
+		stock_label.text = "Stock\n%sx" % str(inventory[selected_item.item_id])
 		if selected_item is Consumable:
 			vibe_label.text = "Vibe\n%s" % str(selected_item.vibe)
 			flex_label.text = "Flex\n%s" % str(selected_item.flex)
 
-func Open(_shop: Shop):
-	shop = _shop
+func UpdateInventory(item_id: String, amount: int) -> void:
+	inventory[item_id] = amount
+	if item_id == selected_item.item_id:
+		stock_label.text = "Stock\n%sx" % str(amount)
+	
+
+func Open(shop_data: Dictionary):
+	inventory = shop_data["inventory"]
+	shop_id = shop_data["shop_id"]
 	SetView()
 	visible = true
 
@@ -64,14 +72,21 @@ func Close():
 	var items: Array = items_view.get_children()
 	for entry in items:
 		entry.queue_free()
-	shop = null
+	inventory = {}
 
 func _Buy_Pressed() -> void:
-	if !selected_item:
+	if (!selected_item || shop_id.is_empty()):
 		description_label.text = "Select an item first!"
 		return
-	var result: int = shop.Buy(selected_item, player)
-	if result != 1:
-		description_label.text = "Sorry! There's no stock left. Come check later!" if result == 2 else "You can't buy that! Come back with more money and/or inventory space"
+	elif inventory[selected_item.item_id] == 0:
+		description_label.text = "Sorry! We're sold out!"
+	elif selected_item.value > player.GetCurrency():
+		description_label.text = "Hey! You don't have money for that!"
 	else:
-		stock_label.text = "Stock\n%sx" % str(shop.inventory[selected_item])
+		GameManager.BuyItem(selected_item.item_id, shop_id)
+	# TODO: Buy logic here
+	#var result: int = shop.Buy(selected_item, player)
+	#if result != 1:
+	#	description_label.text = "Sorry! There's no stock left. Come check later!" if result == 2 else "You can't buy that! Come back with more money and/or inventory space"
+	#else:
+	#	stock_label.text = "Stock\n%sx" % str(shop.inventory[selected_item])

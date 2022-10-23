@@ -18,38 +18,38 @@ var initialized: bool = false
 # Temporary. In the end product, item data will be fetched from the server, and textures will be either also fetched from server, or referenced locally.
 var ItemsList: Dictionary = {
 	# Default
-	"trash": Item.new("Trash", "Why did I pick this up?" , 0.0, placeholder_texture),
+	"trash": Item.new("trash", "Trash", "Why did I pick this up?" , 0.0, placeholder_texture),
 	# Returnables
-	"bottle": Returnable.new("Bottle", "Ah, deposit bottle. The backbone of civilizations", 0.2, placeholder_texture, 1),
-	"can": Returnable.new("Can", "Cool, it's not wrinkled.. that bad", 0.15, "res://Assets/Items/Can.png", 1),
-	"bottle_big": Returnable.new("Big Bottle", "The lord truly is bountiful with their blessings!", 0.4, placeholder_texture, 2),
-	"bottle_liquor": Returnable.new("Liquor Bottle", "A ghost of memories past", 0.1, placeholder_texture, 2),
-	"bottle_wine": Returnable.new("Wine Bottle", "I can still feel the headache", 0.1, placeholder_texture, 2),
+	"bottle": Returnable.new("bottle", "Bottle", "Ah, deposit bottle. The backbone of civilizations", 0.2, placeholder_texture, 1),
+	"can": Returnable.new("can", "Can", "Cool, it's not wrinkled.. that bad", 0.15, "res://Assets/Items/Can.png", 1),
+	"bottle_big": Returnable.new("bottle_big", "Big Bottle", "The lord truly is bountiful with their blessings!", 0.4, placeholder_texture, 2),
+	"bottle_liquor": Returnable.new("bottle_liquor", "Liquor Bottle", "A ghost of memories past", 0.1, placeholder_texture, 2),
+	"bottle_wine": Returnable.new("bottle_wine", "Wine Bottle", "I can still feel the headache", 0.1, placeholder_texture, 2),
 	# Consumables
 		# Mild
-	"drink_red": Consumable.new("Hobo Delight", "A drink deemed worthy only for the true professionals of the arts", 0.9, placeholder_texture, 4.2, 5),
-	"drink_copper": Consumable.new("Can O' Copper", "The ol' reliable!", 1.0, "res://Assets/Items/Copper.png", 4.3, 4),
-	"drink_blue": Consumable.new("Friska & Njutbara", "The cheapest option from the more expensive shop. What's the point?", 1.15, placeholder_texture, 4.5, 6),
-	"drink_teddy": Consumable.new("Teddy Malt Smoothie", "Kindles feelings of happiness in most students", 2.0, placeholder_texture, 5.3, 10),
-	"drink_piss": Consumable.new("Reindeer Piss", "Stories are told that it actually once tasted pretty okay", 2.1, placeholder_texture, 5.2, 10),
-	"drink_kangaroo": Consumable.new("Kangaroo's Choice", "Oi' cunt! You're few stubbies short a' six-pac", 1.6, placeholder_texture, 4.5, 10),
-	"drink_hipster": Consumable.new("Artsy Drink", "Tis' the one that's more expensive than most, but you'll still buy it 'cause of the pretty label", 4.5 , placeholder_texture, 5.0, 25),
+	"drink_red": Consumable.new("drink_red", "Hobo Delight", "A drink deemed worthy only for the true professionals of the arts", 0.9, placeholder_texture, 4.2, 5),
+	"drink_copper": Consumable.new("drink_copper", "Can O' Copper", "The ol' reliable!", 1.0, "res://Assets/Items/Copper.png", 4.3, 4),
+	"drink_blue": Consumable.new("drink_blue", "Friska & Njutbara", "The cheapest option from the more expensive shop. What's the point?", 1.15, placeholder_texture, 4.5, 6),
+	"drink_teddy": Consumable.new("drink_teddy", "Teddy Malt Smoothie", "Kindles feelings of happiness in most students", 2.0, placeholder_texture, 5.3, 10),
+	"drink_piss": Consumable.new("drink_piss", "Reindeer Piss", "Stories are told that it actually once tasted pretty okay", 2.1, placeholder_texture, 5.2, 10),
+	"drink_kangaroo": Consumable.new("drink_kangaroo", "Kangaroo's Choice", "Oi' cunt! You're few stubbies short a' six-pac", 1.6, placeholder_texture, 4.5, 10),
+	"drink_hipster": Consumable.new("drink_hipster", "Artsy Drink", "Tis' the one that's more expensive than most, but you'll still buy it 'cause of the pretty label", 4.5 , placeholder_texture, 5.0, 25),
 		# Medium
-	"wine_white": Consumable.new("White Stuff", "Tastes like grapes and bad decisions", 12.5, placeholder_texture, 12.0, 100),
-	"wine_red": Consumable.new("Headache Malbec", "I know you're trying to look fancy, but this one's always a mistake", 10.0, placeholder_texture, 12.5, 100),
-	"liqueur_bitter": Consumable.new("The Ol' Bittersweet", "Some people say to never touch this stuff. Some people say it's drinkable if you mix it with orange juice. Some people drink it raw. You stay away from the last kind of people", 14.5, placeholder_texture, 21.0, 175),
-	"liqueur_ruby": Consumable.new("Rubinrot", "Its ruby waves beckon you with their froth. Let the moot begin", 14.5, placeholder_texture, 21.0, 175),
+	"wine_white": Consumable.new("wine_white", "White Stuff", "Tastes like grapes and bad decisions", 12.5, placeholder_texture, 12.0, 100),
+	"wine_red": Consumable.new("wine_red", "Headache Malbec", "I know you're trying to look fancy, but this one's always a mistake", 10.0, placeholder_texture, 12.5, 100),
+	"liqueur_bitter": Consumable.new("liqueur_bitter", "The Ol' Bittersweet", "Some people say to never touch this stuff. Some people say it's drinkable if you mix it with orange juice. Some people drink it raw. You stay away from the last kind of people", 14.5, placeholder_texture, 21.0, 175),
+	"liqueur_ruby": Consumable.new("liqueur_ruby", "Rubinrot", "Its ruby waves beckon you with their froth. Let the moot begin", 14.5, placeholder_texture, 21.0, 175),
 		# High
-	"liquor_clear": Consumable.new("White-Water's Ear", "It's clear, so it counts as drinking water, right?", 20.0, placeholder_texture, 38.0, 400),
-	"liquor_german": Consumable.new("German Sunrise", "It's made with herbs, so it's basically a salad", 24.0, placeholder_texture, 35.0, 500),
-	"liquor_pirate": Consumable.new("Yarrr-Liquid", "It's told that if you drink the whole bottle in one go, you'll actually learn to speak pirate", 30.0, placeholder_texture, 40.0, 750),
-	"liquor_scottish": Consumable.new("Scottish Malt Juice", "For the last time, it's not 'getting wasted', it's called 'tasting', and it's a fine scottish label!", 55.0, placeholder_texture, 40.0, 1150),
-	"liquor_herbal": Consumable.new("The Green Fairy", "It's told that people have gone insane because of this stuff. It's been banned multiple times in history due to it generally not being very good for you. But drinking the whole bottle in four chugs? You do you buddy", 60.0, placeholder_texture, 80.0, 1750),
+	"liquor_clear": Consumable.new("liquor_clear", "White-Water's Ear", "It's clear, so it counts as drinking water, right?", 20.0, placeholder_texture, 38.0, 400),
+	"liquor_german": Consumable.new("liquor_german", "German Sunrise", "It's made with herbs, so it's basically a salad", 24.0, placeholder_texture, 35.0, 500),
+	"liquor_pirate": Consumable.new("liquor_pirate", "Yarrr-Liquid", "It's told that if you drink the whole bottle in one go, you'll actually learn to speak pirate", 30.0, placeholder_texture, 40.0, 750),
+	"liquor_scottish": Consumable.new("liquor_scottish", "Scottish Malt Juice", "For the last time, it's not 'getting wasted', it's called 'tasting', and it's a fine scottish label!", 55.0, placeholder_texture, 40.0, 1150),
+	"liquor_herbal": Consumable.new("liquor_herbal", "The Green Fairy", "It's told that people have gone insane because of this stuff. It's been banned multiple times in history due to it generally not being very good for you. But drinking the whole bottle in four chugs? You do you buddy", 60.0, placeholder_texture, 80.0, 1750),
 		# Non-Potent
-	"soda_hippo": Consumable.new("Hippo Soda Pop", "Forest berry soda with your favorite white hippos on the label! What's not to like?", 2.5, placeholder_texture, 0.0, 20),
-	"soda_mystery": Consumable.new("Big Bottle of Weird Coloured Stuff", "I think the shopkeeper just had this lying in some hole for the last decade. Wonder how it'll taste like", 3.0, placeholder_texture, 0.0, 30 ), # Randomize flex
-	"soda_cola": Consumable.new("Cola", "Good old cola", 2.5, placeholder_texture, 0.0, 15),
-	"soda_yellow": Consumable.new("Jeffe", "My name a' Jeffe", 3.0, placeholder_texture, 0.0, 20)
+	"soda_hippo": Consumable.new("soda_hippo", "Hippo Soda Pop", "Forest berry soda with your favorite white hippos on the label! What's not to like?", 2.5, placeholder_texture, 0.0, 20),
+	"soda_mystery": Consumable.new("soda_mystery", "Big Bottle of Weird Coloured Stuff", "I think the shopkeeper just had this lying in some hole for the last decade. Wonder how it'll taste like", 3.0, placeholder_texture, 0.0, 30 ), # Randomize flex
+	"soda_cola": Consumable.new("soda_cola", "Cola", "Good old cola", 2.5, placeholder_texture, 0.0, 15),
+	"soda_yellow": Consumable.new("soda_yellow", "Jeffe", "My name a' Jeffe", 3.0, placeholder_texture, 0.0, 20)
 }
 
 func Initialize() -> void:
@@ -72,15 +72,19 @@ func GetItem(item_name: String) -> Item:
 	return ItemsList.get(item_name, ItemsList.get("default"))
 
 # TODO: This is a placeholder. Shop inventories are supposed to be returned depending on shop brand.
-func GetShopInventory() -> Array[Item]:
+func GetShopInventory() -> Array[String]:
 	return [
-		ItemsList["drink_copper"],
-		ItemsList["drink_teddy"],
-		ItemsList["drink_kangaroo"],
-		ItemsList["soda_hippo"],
-		ItemsList["soda_cola"],
-		ItemsList["soda_yellow"],
+		"drink_copper",
+		"drink_teddy",
+		"drink_kangaroo",
+		"soda_hippo",
+		"soda_cola",
+		"soda_yellow",
 	]
+
+func UpdateShopInventory(shop_players: Array[Player], _item_id: String, _amount: int) -> void:
+	for entry in shop_players:
+		GameServer.UpdateShopInventory(entry.name, _item_id, _amount)
 
 func FetchGameData(player_id: int) -> void:
 	var game_data: Dictionary = {}
@@ -145,6 +149,24 @@ func UpdateSurrounding(entry: Node2D) -> void:
 	GameServer.surrounding_states_collection[entry.get_instance_id()] = {
 		"position": entry.global_position
 	}
+
+## Shop functions
+
+func OpenShop(player_id: String, shop_data: Dictionary) -> void:
+	GameServer.OpenShop(player_id.to_int(), shop_data)
+
+func CloseShop(player_id: String) -> void:
+	GameServer.CloseShop(player_id.to_int())
+
+func PlayerBuyItem(player_id: int, item_id: String, shop_id: String) -> void:
+	var shop: Shop = surroundings.get_node(shop_id)
+	var player: Player = players[player_id]
+	var item: Item = ItemsList[item_id]
+	if shop && item && player:
+		shop.Buy(item, player)
+	else:
+		# TODO: Handle bad buy action
+		print("Kakke")
 
 func MovePlayer(player_id: int, new_position: Vector2) -> void:
 	players[player_id].global_position = new_position

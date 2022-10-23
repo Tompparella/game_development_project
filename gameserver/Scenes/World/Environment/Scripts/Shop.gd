@@ -13,16 +13,16 @@ func _init() -> void:
 	SetInventory()
 
 func Interact(_player: Player) -> void:
-	players.append(_player)
-	# TODO: Open shop modal for player
-	# UIControl.OpenShopModal(self)
+	if !(_player in players):
+		players.append(_player)
+	GameManager.OpenShop(_player.name, {"inventory": inventory, "shop_id": name})
 
 func Initialize(_item: Item = null, _texture: String = "", _inventory: Dictionary = {}) -> void:
 	inventory = _inventory
 	super.Initialize(_item, _texture)
 
 func SetInventory() -> void:
-	var shop_items: Array[Item] = GameManager.GetShopInventory()
+	var shop_items: Array[String] = GameManager.GetShopInventory()
 	var _inventory: Dictionary = {}
 	for entry in shop_items:
 		randomize()
@@ -31,19 +31,21 @@ func SetInventory() -> void:
 
 func Buy(_item: Item, _player: Player) -> int:
 	var result: int = 1 # Result code. 1 = Good
-	if (inventory[_item] <= 0):
+	if (inventory[_item.item_id] <= 0):
 		result =  2 # = Insufficient supply
 	if (!_player.CanBuy(_item.value)):
 		result = 3 # = Player can't buy
 	if result == 1:
 		_player.TakeCurrency(_item.value)
 		_player.AddItem(_item)
-		inventory[_item] -= 1
+		inventory[_item.item_id] -= 1
+		GameManager.UpdateShopInventory(players, _item.item_id, inventory[_item.item_id])
 	return result
 
 func _Body_Exited(body: Node2D) -> void:
 	if (body is Player && body in players):
 		players.erase(body)
+		GameManager.CloseShop(name)
 		# TODO: When transferring to server, this has to be an client specific rpc call
 		# UIControl.CloseShopModal()
 		

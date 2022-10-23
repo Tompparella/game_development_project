@@ -49,11 +49,11 @@ func LoadItems(items_data: Array) -> void:
 	for entry in items_data:
 		match entry["type"]:
 			"consumable":
-				ItemsList[entry["id"]] = Consumable.new(entry["name"], entry["description"], entry["value"], entry["texture"], entry["vibe"], entry["flex"])
+				ItemsList[entry["id"]] = Consumable.new(entry["id"], entry["name"], entry["description"], entry["value"], entry["texture"], entry["vibe"], entry["flex"])
 			"returnable":
-				ItemsList[entry["id"]] = Returnable.new(entry["name"], entry["description"], entry["value"], entry["texture"], entry["size"])
+				ItemsList[entry["id"]] = Returnable.new(entry["id"], entry["name"], entry["description"], entry["value"], entry["texture"], entry["size"])
 			_:
-				ItemsList[entry["id"]] = Item.new(entry["name"], entry["description"], entry["value"], entry["texture"])
+				ItemsList[entry["id"]] = Item.new(entry["id"], entry["name"], entry["description"], entry["value"], entry["texture"])
 
 func LoadEnvironment(environment_data: Array) -> void:
 	for entry in environment_data:
@@ -122,9 +122,19 @@ func GameTimerTimeout(game_data: Dictionary) -> void:
 	SpawnReturnables(game_data["returnable_data" ])
 	UpdateStats(game_data["stats_data"])
 
-func GetItem(item_name: String) -> Item:
-	return ItemsList.get(item_name, ItemsList.get("default"))
+# Shop Logic
 
+func OpenShop(shop_data: Dictionary) -> void:
+	UIControl.OpenShopModal(shop_data)
+
+func BuyItem(item_id: String, shop_id: String) -> void:
+	GameServer.BuyItem(item_id, shop_id)
+
+# Item logic
+
+func GetItem(item_id: String) -> Item:
+	return ItemsList.get(item_id, ItemsList.get("default"))
+ 
 # TODO: This is a placeholder. Shop inventories are supposed to be returned depending on shop brand.
 func GetShopInventory() -> Array[Item]:
 	return []

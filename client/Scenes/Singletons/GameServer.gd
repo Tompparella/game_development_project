@@ -44,6 +44,24 @@ func ReturnTokenVerificationResult(result: bool) -> void:
 		print("Login failed, please try again")
 		UIControl.EnableLoginButtons()
 
+# UI functions
+
+@rpc(authority)
+func OpenShop(shop_data: Dictionary) -> void:
+	GameManager.OpenShop(shop_data)
+
+@rpc(authority)
+func CloseShop() -> void:
+	UIControl.CloseShopModal()
+
+@rpc(any_peer)
+func BuyItem(item_id: String, shop_id: String) -> void:
+	rpc_id(1, "BuyItem", item_id, shop_id)
+
+@rpc(authority)
+func UpdateShopInventory(item_id: String, amount: int):
+	UIControl.UpdateShopInventory(item_id, amount)
+
 # Game functions
 
 @rpc(any_peer)

@@ -34,11 +34,14 @@ func ShowLoginScreen() -> void:
 
 # Shop UI controls
 
-func OpenShopModal(shop: Shop) -> void:
-	shop_modal.Open(shop)
+func OpenShopModal(inventory: Dictionary) -> void:
+	shop_modal.Open(inventory)
 
 func CloseShopModal() -> void:
 	shop_modal.Close()
+
+func UpdateShopInventory(item_id: String, amount: int) -> void:
+	shop_modal.UpdateInventory(item_id, amount)
 
 # Item hint controls
 

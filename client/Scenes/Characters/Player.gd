@@ -51,6 +51,9 @@ func UseItem(_item: Item = null) -> void:
 	if item:
 		timer.StartUseItemTimer(item)
 
+func GetCurrency() -> float:
+	return inventory.currency
+
 func SetCurrency(currency: float) -> void:
 	currency_changed.emit(inventory.SetCurrency(currency))
 
