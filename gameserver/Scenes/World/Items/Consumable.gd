@@ -8,7 +8,6 @@ func _init(_item_id: String, _item_name: String, _description: String, _value: f
 	super._init(_item_id, _item_name, _description, _value, _texture)
 
 # Use item only if they have it in their inventory
-func Use(_player: Player) -> void:
-	if _player.RemoveItem(self):
-		_player.AddVibe(vibe)
-		_player.AddFlex(flex)
+func Use(player: Player) -> void:
+	if player.RemoveItem(self):
+		GameManager.PlayerUpdateStats(player.name, player.AddVibe(vibe), player.AddFlex(flex))

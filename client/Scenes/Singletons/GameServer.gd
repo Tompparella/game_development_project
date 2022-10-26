@@ -58,9 +58,13 @@ func CloseShop() -> void:
 func BuyItem(item_id: String, shop_id: String) -> void:
 	rpc_id(1, "BuyItem", item_id, shop_id)
 
+@rpc(any_peer)
+func PlayerUseItem(item_id: String) -> void:
+	rpc_id(1, "PlayerUseItem", item_id)
+
 @rpc(authority)
-func UpdateShopInventory(item_id: String, amount: int):
-	UIControl.UpdateShopInventory(item_id, amount)
+func UpdateShopInventory(updated_items: Dictionary):
+	UIControl.UpdateShopInventory(updated_items)
 
 # Game functions
 
@@ -119,6 +123,10 @@ func PlayerRemoveItem(item_id: String) -> void:
 @rpc(authority)
 func PlayerChangeCurrency(currency: float) -> void:
 	GameManager.ChangeCurrency(currency)
+
+@rpc(authority)
+func PlayerUpdateStats(player_stats: Dictionary) -> void:
+	GameManager.UpdateStats([player_stats])
 
 @rpc(authority)
 func PlayerRecycledItems(item_ids: Array, returnable_size: int) -> void:

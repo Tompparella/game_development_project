@@ -3,6 +3,7 @@ class_name Player
 
 signal interact()
 signal use_selected_item(player: Player) # Deprecated
+signal item_used(item_id: String)
 signal item_added(item: Item)
 signal item_removed(item: Item)
 signal vibe_changed(vibe: float)

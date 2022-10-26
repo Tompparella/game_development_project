@@ -40,8 +40,8 @@ func OpenShopModal(inventory: Dictionary) -> void:
 func CloseShopModal() -> void:
 	shop_modal.Close()
 
-func UpdateShopInventory(item_id: String, amount: int) -> void:
-	shop_modal.UpdateInventory(item_id, amount)
+func UpdateShopInventory(updated_items: Dictionary) -> void:
+	shop_modal.UpdateInventory(updated_items)
 
 # Item hint controls
 

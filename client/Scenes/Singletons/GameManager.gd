@@ -79,6 +79,7 @@ func EnablePlayer() -> void:
 	player = player_scene.instantiate()
 	get_node("../Game/Main/TileMap").add_child(player)
 	player.interact.connect(Interact)
+	player.item_used.connect(UseItem)
 	player.Initialize()
 
 func DisablePlayer() -> void:
@@ -113,10 +114,18 @@ func SpawnReturnables(returnables: Array) -> void:
 
 func UpdateStats(stats_data: Array) -> void:
 	for entry in stats_data:
-		if other_players.has_node(entry["id"]):
-			other_players.get_node(entry["id"]).UpdateStats(entry["vibe"])
-		elif str(multiplayer.get_unique_id()) == entry["id"]:
-			player.SetVibe(entry["vibe"])
+		var player_id = entry.get("id")
+		var vibe = entry.get("vibe")
+		var flex = entry.get("flex")
+		if player_id != null:
+			if other_players.has_node(player_id):
+				var peer: PlayerTemplate = other_players.get_node(player_id)
+				peer.UpdateStats(vibe, flex)
+			elif str(multiplayer.get_unique_id()) == player_id:
+				if vibe != null:
+					player.SetVibe(vibe)
+				if flex != null:
+					player.SetFlex(flex)
 
 func GameTimerTimeout(game_data: Dictionary) -> void:
 	SpawnReturnables(game_data["returnable_data" ])
@@ -138,6 +147,9 @@ func GetItem(item_id: String) -> Item:
 # TODO: This is a placeholder. Shop inventories are supposed to be returned depending on shop brand.
 func GetShopInventory() -> Array[Item]:
 	return []
+
+func UseItem(item_id: String) -> void:
+	GameServer.PlayerUseItem(item_id)
 
 # Sync functions
 

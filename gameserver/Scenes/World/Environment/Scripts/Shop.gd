@@ -1,6 +1,9 @@
 extends Surrounding
 class_name Shop
 
+const MINIMUM_INVENTORY_PER_PLAYER: int = 3
+
+
 # TODO: Shop title is supposed to make up the inventory of the store. Make this happen when logic is moved to the server.
 @export var shop_title: String
 var players: Array[Player] = []
@@ -29,6 +32,14 @@ func SetInventory() -> void:
 		_inventory[entry] = randi_range(1, 10)
 	inventory = _inventory
 
+func Restock(player_amount: int = 1) -> void:
+	var minimum_inventory: int = player_amount * MINIMUM_INVENTORY_PER_PLAYER
+	for entry in inventory:
+		if inventory[entry] < minimum_inventory:
+			randomize()
+			inventory[entry] += randi_range(minimum_inventory, minimum_inventory * 3)
+	GameManager.UpdateShopInventory(players, inventory)
+
 func Buy(_item: Item, _player: Player) -> int:
 	var result: int = 1 # Result code. 1 = Good
 	if (inventory[_item.item_id] <= 0):
@@ -39,7 +50,7 @@ func Buy(_item: Item, _player: Player) -> int:
 		_player.TakeCurrency(_item.value)
 		_player.AddItem(_item)
 		inventory[_item.item_id] -= 1
-		GameManager.UpdateShopInventory(players, _item.item_id, inventory[_item.item_id])
+		GameManager.UpdateShopInventory(players, {_item.item_id: inventory[_item.item_id]})
 	return result
 
 func _Body_Exited(body: Node2D) -> void:

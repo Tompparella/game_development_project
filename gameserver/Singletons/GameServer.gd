@@ -35,12 +35,9 @@ func _Peer_Connected(player_id : int) -> void:
 func _Peer_Disconnected(player_id : int) -> void:
 	print("Player %s disconnected" % player_id)
 	var player_container_path: String = "../Server/UserContainer/" + str(player_id)
-	var player_map_path: String = "../Server/Map/TileMap/Players/" + str(player_id)
 	if (has_node(player_container_path)):
 		get_node(player_container_path).queue_free()
-	if (has_node(player_map_path)):
-		get_node(player_map_path).queue_free()
-	DespawnPlayer(player_id)
+	GameManager.DespawnPlayer(player_id, false)
 
 func _Token_Expiration_Timeout() -> void:
 	var current_time: int = int(Time.get_unix_time_from_system())
@@ -100,8 +97,8 @@ func CloseShop(player_id: int) -> void:
 	rpc_id(player_id, "CloseShop")
 
 @rpc(authority)
-func UpdateShopInventory(player_id: String, item_id: String, amount: int):
-	rpc_id(player_id.to_int(), "UpdateShopInventory", item_id, amount)
+func UpdateShopInventory(player_id: String, updated_items: Dictionary):
+	rpc_id(player_id.to_int(), "UpdateShopInventory", updated_items)
 
 ## Shop functions
 
@@ -158,8 +155,17 @@ func PlayerChangeCurrency(player_id: int, currency: float) -> void:
 	rpc_id(player_id, "PlayerChangeCurrency", currency)
 
 @rpc(authority)
+func PlayerUpdateStats(player_stats: Dictionary) -> void:
+	rpc_id(0, "PlayerUpdateStats", player_stats)
+
+@rpc(authority)
 func PlayerRecycledItems(player_id: int, item_ids: Array[String], returnable_size: int) -> void:
 	rpc_id(player_id, "PlayerRecycledItems", item_ids, returnable_size)
+
+@rpc(any_peer)
+func PlayerUseItem(item_id: String) -> void:
+	var player_id: int = multiplayer.get_remote_sender_id()
+	GameManager.PlayerUseItem(player_id, item_id)
 
 @rpc(authority)
 func PlayerRemoveItem(player_id: int, item_id: String) -> void:

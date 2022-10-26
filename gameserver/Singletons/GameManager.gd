@@ -1,17 +1,22 @@
 extends Node
 
 const VIBE_TIMEOUT_TIME: float = 10.0
+# The amount of game time ticks required to trigger a re-stock for shops
+const SHOP_RESTOCK_TICKS: int = 10
 
 var surroundings: Node2D
 var players_container: Node2D
 var players: Dictionary = {}
+var shops: Dictionary = {}
 var game_timer: Timer
 var placeholder_texture: String = "res://Assets/Items/Can.png"
 var player_scene: PackedScene = load("res://Scenes/World/Characters/Player.tscn")
 var pickable_scene: PackedScene = load("res://Scenes/World/Environment/Assets/Pickable.tscn")
 var returnables_on_map: int = 0
 var returnables_per_player: int = 10
-var vibe_tick: float = -3.0
+var vibe_tick: float = -1.5
+var vibe_tick_limit: float = 25.0
+var current_restock_ticks: int = 0
 # Run server sync only if GameManager has successfully initialized the game world on the client
 var initialized: bool = false
 
@@ -54,6 +59,9 @@ var ItemsList: Dictionary = {
 
 func Initialize() -> void:
 	surroundings = get_node("../Server/Map/TileMap/Surroundings")
+	for entry in surroundings.get_children():
+		if entry.is_in_group("shop"):
+			shops[entry.name] = entry
 	players_container = get_node("../Server/Map/TileMap/Players")
 	SpawnReturnables(returnables_per_player)
 	CreateGameTimer()
@@ -81,10 +89,6 @@ func GetShopInventory() -> Array[String]:
 		"soda_cola",
 		"soda_yellow",
 	]
-
-func UpdateShopInventory(shop_players: Array[Player], _item_id: String, _amount: int) -> void:
-	for entry in shop_players:
-		GameServer.UpdateShopInventory(entry.name, _item_id, _amount)
 
 func FetchGameData(player_id: int) -> void:
 	var game_data: Dictionary = {}
@@ -158,15 +162,25 @@ func OpenShop(player_id: String, shop_data: Dictionary) -> void:
 func CloseShop(player_id: String) -> void:
 	GameServer.CloseShop(player_id.to_int())
 
+func UpdateShopInventory(shop_players: Array[Player], updated_items: Dictionary) -> void:
+	for entry in shop_players:
+		GameServer.UpdateShopInventory(entry.name, updated_items)
+
+func RestockShopInventories() -> void:
+	for entry in shops:
+		shops[entry].Restock(players.size())
+
 func PlayerBuyItem(player_id: int, item_id: String, shop_id: String) -> void:
-	var shop: Shop = surroundings.get_node(shop_id)
+	var shop: Shop = shops.get(shop_id)
 	var player: Player = players[player_id]
 	var item: Item = ItemsList[item_id]
-	if shop && item && player:
+	if shop != null && item != null && player != null:
 		shop.Buy(item, player)
 	else:
 		# TODO: Handle bad buy action
 		print("Kakke")
+
+## Player functions
 
 func MovePlayer(player_id: int, new_position: Vector2) -> void:
 	players[player_id].global_position = new_position
@@ -179,10 +193,18 @@ func PlayerAddItem(player_id: String, item: Item) -> void:
 	if item_id:
 		GameServer.PlayerAddItem(player_id.to_int(), item_id)
 
+func PlayerUseItem(player_id: int, item_id: String) -> void:
+	if ItemsList.has(item_id) && players.has(player_id):
+		players[player_id].UseItem(ItemsList[item_id])
+
 func PlayerRemoveItem(player_id: String, item: Item) -> void:
 	var item_id: String = ItemsList.find_key(item)
 	if item_id:
 		GameServer.PlayerRemoveItem(player_id.to_int(), item_id)
+
+func PlayerUpdateStats(player_id: String, vibe: float, flex: int) -> void:
+	var player_stats: Dictionary = {"id": player_id, "vibe": vibe, "flex": flex}
+	GameServer.PlayerUpdateStats(player_stats)
 
 func PlayerChangeCurrency(player_id: String, currency: float) -> void:
 	GameServer.PlayerChangeCurrency(player_id.to_int(), currency)
@@ -212,9 +234,10 @@ func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 	print("Player %s spawned" % str(player_id))
 	GameServer.SpawnNewPlayer(player_id, spawn_location)
 
-func DespawnPlayer(player_id: int) -> void:
+func DespawnPlayer(player_id: int, notify_player: bool = true) -> void:
 	if players_container.has_node(str(player_id)):
-		GameServer.PlayerDespawned(player_id)
+		if notify_player:
+			GameServer.PlayerDespawned(player_id)
 		var despawned_player: Player = players_container.get_node(str(player_id))
 		# We need to await for a time in order to wait for the world state to empty its references to the despawned player.
 		# Without this, the player would despawn for a few milliseconds before being spawned again in the next world state update.
@@ -228,14 +251,23 @@ func PlayerGameOver(player_id: String) -> void:
 	DespawnPlayer(player_id.to_int())
 
 func _Timer_Timeout() -> void:
+	current_restock_ticks += 1
 	var game_data: Dictionary = {}
+	if current_restock_ticks >= SHOP_RESTOCK_TICKS:
+		current_restock_ticks = 0
+		RestockShopInventories()
+		print("Shop inventories restocked")
 	game_data["returnable_data"] = SpawnReturnables()
 	var stats_data: Array = []
 	for entry in players:
-		var player: Player = players[entry]
-		var new_vibe: float = player.AddVibe(vibe_tick, false)
-		if new_vibe > 0:
-			stats_data.append({"id": str(player.name), "vibe": new_vibe})
+		var player = players.get(entry)
+		if player != null:
+			var vibe_reduction: float = vibe_tick
+			if player.GetVibe() > vibe_tick_limit:
+				vibe_reduction = (player.GetVibe() / vibe_tick_limit) * vibe_tick
+			var new_vibe: float = player.AddVibe(vibe_reduction, false)
+			if new_vibe > 0:
+				stats_data.append({"id": str(player.name), "vibe": new_vibe})
 	game_data["stats_data"] = stats_data
 	GameServer.GameTimerTimeout(game_data)
 

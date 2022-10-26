@@ -29,7 +29,8 @@ func StartConsumableTimer() -> void:
 	start(base_wait_time + ((item as Consumable).vibe) / 10)
 
 func UseItem() -> void:
-	item.Use(player)
+	player.item_used.emit(item.item_id)
+	#item.Use(player)
 	set_process_unhandled_key_input(false)
 
 func FailUseItem():

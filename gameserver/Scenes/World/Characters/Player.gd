@@ -49,8 +49,10 @@ func AddCurrency(currency: float) -> void:
 func TakeCurrency(currency: float) -> void:
 	currency_changed.emit(name, inventory.TakeCurrency(currency))
 
-func AddFlex(flex: int) -> void:
-	flex_changed.emit(inventory.AddFlex(flex))
+func AddFlex(flex: int) -> int:
+	var new_flex: int = inventory.AddFlex(flex)
+	flex_changed.emit(new_flex)
+	return new_flex
 
 func AddVibe(vibe: float, send_results: bool = true) -> float:
 	var new_vibe: float = inventory.AddVibe(vibe)

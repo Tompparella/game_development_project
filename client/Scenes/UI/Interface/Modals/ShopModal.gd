@@ -46,10 +46,11 @@ func SelectItem(item_entry: ItemEntry) -> void:
 			vibe_label.text = "Vibe\n%s" % str(selected_item.vibe)
 			flex_label.text = "Flex\n%s" % str(selected_item.flex)
 
-func UpdateInventory(item_id: String, amount: int) -> void:
-	inventory[item_id] = amount
-	if item_id == selected_item.item_id:
-		stock_label.text = "Stock\n%sx" % str(amount)
+func UpdateInventory(updated_items: Dictionary) -> void:
+	for entry in updated_items:
+		inventory[entry] = updated_items[entry]
+		if selected_item != null && entry == selected_item.item_id:
+			stock_label.text = "Stock\n%sx" % str(updated_items[entry])
 	
 
 func Open(shop_data: Dictionary):
