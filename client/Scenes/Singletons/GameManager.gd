@@ -5,6 +5,7 @@ const INTERPOLATION_OFFSET: float = 0.1
 
 var surroundings: Node2D
 var other_players: Node2D
+var npcs: Node2D
 var player: Player
 var camera: Camera
 
@@ -28,6 +29,7 @@ var ItemsList: Dictionary = {}
 func _ready() -> void:
 	surroundings = get_node("../Game/Main/TileMap/Surroundings")
 	other_players = get_node("../Game/Main/TileMap/OtherPlayers")
+	npcs = get_node("../Game/Main/TileMap/Npcs")
 	set_physics_process(false)
 
 func _physics_process(_delta) -> void:
@@ -88,7 +90,7 @@ func LoadCharacters(characters_data: Array) -> void:
 				scene = player_template.instantiate()
 		#scene.Initialize(entry["texture"], entry["position"])
 		scene.global_position = entry["position"]
-		surroundings.add_child(scene)
+		npcs.add_child(scene)
 		scene.name = str(entry["id"])
 
 func EnablePlayer() -> void:

@@ -30,3 +30,5 @@ y_sort_enabled = true
 
 [node name="OtherPlayers" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="Npcs" type="Node2D" parent="."]
