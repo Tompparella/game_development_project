@@ -19,6 +19,7 @@ func _init(_description: String, _conditions: Dictionary, _rewards: Dictionary) 
 	# TODO: Rewards could be randomized based on task difficulty
 	conditions = _conditions
 	rewards = _rewards
+	description = _description
 
 func Start(giver_id: String, giver_name: String, time_given: float = -1.0) -> void:
 	if time_given > 0:

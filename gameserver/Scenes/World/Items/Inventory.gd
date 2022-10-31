@@ -32,7 +32,7 @@ func RemoveItem(item: Item) -> bool:
 	return result
 
 func AddTask(_task: Task) -> bool:
-	if tasks.size() <= MAX_TASKS:
+	if tasks.size() <= MAX_TASKS && !tasks.has(_task):
 		tasks.append(_task)
 		return true
 	return false

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cx8rxxeaurqp2"]
+[gd_scene load_steps=5 format=3 uid="uid://cx8rxxeaurqp2"]
 
 [ext_resource type="Script" path="res://Scenes/World/Characters/Npc/Npc.gd" id="1_55fuk"]
+[ext_resource type="Script" path="res://Scenes/World/Environment/Scripts/SurroundingArea.gd" id="2_srssv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j584b"]
 radius = 4.0
@@ -10,11 +11,12 @@ height = 20.0
 radius = 12.0
 height = 48.0
 
-[node name="Npc" type="StaticBody2D"]
+[node name="Npc" type="StaticBody2D" groups=["hobo"]]
 y_sort_enabled = true
 collision_layer = 16
 collision_mask = 31
 script = ExtResource("1_55fuk")
+texture = "res://Assets/Character/Overalls.png"
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
@@ -23,6 +25,7 @@ shape = SubResource("CapsuleShape2D_j584b")
 
 [node name="Area2d" type="Area2D" parent="."]
 collision_layer = 16
+script = ExtResource("2_srssv")
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
 rotation = 1.5708

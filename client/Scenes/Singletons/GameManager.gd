@@ -37,6 +37,7 @@ func _physics_process(_delta) -> void:
 func Initialize(game_data: Dictionary) -> void:
 	LoadItems(game_data["items"])
 	LoadEnvironment(game_data["environment"])
+	LoadCharacters(game_data["characters"])
 	EnablePlayer()
 	camera = get_node("../Game/Main/Camera")
 	camera.Initialize(player)
@@ -72,6 +73,21 @@ func LoadEnvironment(environment_data: Array) -> void:
 			_:
 				scene = obstacle_scene.instantiate()
 		scene.Initialize(entry["texture"], entry["position"])
+		surroundings.add_child(scene)
+		scene.name = str(entry["id"])
+
+func LoadCharacters(characters_data: Array) -> void:
+	for entry in characters_data:
+		var scene: PlayerTemplate
+		# TODO: Actual character type handling
+		match entry["type"]:
+			"hobo":
+				# TODO: Change PlayerTemplate to Npc scene
+				scene = player_template.instantiate()
+			_:
+				scene = player_template.instantiate()
+		#scene.Initialize(entry["texture"], entry["position"])
+		scene.global_position = entry["position"]
 		surroundings.add_child(scene)
 		scene.name = str(entry["id"])
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqk1yekkpbofh"]
+[gd_scene load_steps=9 format=3 uid="uid://bqk1yekkpbofh"]
 
 [ext_resource type="TileSet" uid="uid://bh71nl2c4xun0" path="res://Scenes/Maps/TestMap/TestMap.tres" id="1_sxrd8"]
 [ext_resource type="PackedScene" uid="uid://covtp04lqpfah" path="res://Scenes/World/Environment/Assets/Obstacle.tscn" id="2_fomi2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dagjc034ygf3w" path="res://Scenes/World/Environment/Assets/Pickable.tscn" id="5_l60pk"]
 [ext_resource type="PackedScene" uid="uid://duwaawta810ja" path="res://Scenes/World/Environment/Assets/ReturnMachine.tscn" id="6_4v6py"]
 [ext_resource type="PackedScene" uid="uid://bvmokstko5cf5" path="res://Scenes/World/Environment/Assets/Shop.tscn" id="7_cn8ld"]
+[ext_resource type="PackedScene" uid="uid://cx8rxxeaurqp2" path="res://Scenes/World/Characters/Npc/Npc.tscn" id="8_h33xb"]
 
 [node name="TileMap" type="TileMap"]
 y_sort_enabled = true
@@ -55,6 +56,11 @@ position = Vector2(192, 16)
 
 [node name="Shop" parent="Surroundings" instance=ExtResource("7_cn8ld")]
 position = Vector2(-32, -32)
+
+[node name="Npcs" type="Node2D" parent="."]
+
+[node name="Npc" parent="Npcs" instance=ExtResource("8_h33xb")]
+position = Vector2(32, 128)
 
 [node name="Players" type="Node2D" parent="."]
 y_sort_enabled = true

@@ -5,6 +5,7 @@ const VIBE_TIMEOUT_TIME: float = 10.0
 const SHOP_RESTOCK_TICKS: int = 10
 
 var surroundings: Node2D
+var npcs: Node2D
 var players_container: Node2D
 var players: Dictionary = {}
 var shops: Dictionary = {}
@@ -65,6 +66,7 @@ func Initialize() -> void:
 	for entry in surroundings.get_children():
 		if entry.is_in_group("shop"):
 			shops[entry.name] = entry
+	npcs = get_node("../Server/Map/TileMap/Npcs")
 	players_container = get_node("../Server/Map/TileMap/Players")
 	SpawnReturnables(returnables_per_player)
 	CreateGameTimer()
@@ -79,8 +81,11 @@ func CreateGameTimer() -> void:
 	add_child(game_timer)
 	game_timer.start()
 
-func GetItem(item_name: String) -> Item:
-	return ItemsList.get(item_name, ItemsList.get("default"))
+func GetItem(item_id: String) -> Item:
+	return ItemsList.get(item_id, ItemsList.get("default"))
+
+func GetTask(task_id: String) -> Task:
+	return TasksList.get(task_id, TasksList.get("default"))
 
 # TODO: This is a placeholder. Shop inventories are supposed to be returned depending on shop brand.
 func GetShopInventory() -> Array[String]:
@@ -96,6 +101,7 @@ func GetShopInventory() -> Array[String]:
 func FetchGameData(player_id: int) -> void:
 	var game_data: Dictionary = {}
 	var environment: Array = []
+	var characters: Array = []
 	var items_data: Array = []
 	for entry in ItemsList:
 		var item: Item = ItemsList[entry]
@@ -129,6 +135,13 @@ func FetchGameData(player_id: int) -> void:
 			type = "returnmachine"
 		environment.append({"id": entry.get_instance_id(), "position": position, "texture": entry.texture, "type": type})
 	game_data["environment"] = environment
+	for entry in npcs.get_children():
+		var position: Vector2 = entry.position
+		var type: String = ""
+		if entry.is_in_group("hobo"):
+			type = "hobo"
+		characters.append({"id": entry.get_instance_id(), "position": position, "texture": entry.texture, "type": type})
+	game_data["characters"] = characters
 	GameServer.ReturnGameData(game_data, player_id)
 
 func SpawnReturnables(returnable_amount: int = 5 * (players.size() + 1)) -> Array:
