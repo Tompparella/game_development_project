@@ -56,6 +56,9 @@ var ItemsList: Dictionary = {
 	"soda_cola": Consumable.new("soda_cola", "Cola", "Good old cola", 2.5, placeholder_texture, 0.0, 15),
 	"soda_yellow": Consumable.new("soda_yellow", "Jeffe", "My name a' Jeffe", 3.0, placeholder_texture, 0.0, 20)
 }
+var TasksList: Dictionary = {
+	"test": Task.new("This is a test task", {"items": {"liquor_clear": 1}, "goals": {}}, {"items": {}, "currency": 10.0}),
+}
 
 func Initialize() -> void:
 	surroundings = get_node("../Server/Map/TileMap/Surroundings")

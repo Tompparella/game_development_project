@@ -49,6 +49,12 @@ func AddCurrency(currency: float) -> void:
 func TakeCurrency(currency: float) -> void:
 	currency_changed.emit(name, inventory.TakeCurrency(currency))
 
+func GetTasks() -> Array[Task]:
+	return inventory.tasks
+
+func AddTask(task: Task) -> bool:
+	return inventory.AddTask(task)
+
 func AddFlex(flex: int) -> int:
 	var new_flex: int = inventory.AddFlex(flex)
 	flex_changed.emit(new_flex)

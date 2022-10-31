@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://cx8rxxeaurqp2"]
+
+[ext_resource type="Script" path="res://Scenes/World/Characters/Npc/Npc.gd" id="1_55fuk"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j584b"]
+radius = 4.0
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g2lgw"]
+radius = 12.0
+height = 48.0
+
+[node name="Npc" type="StaticBody2D"]
+y_sort_enabled = true
+collision_layer = 16
+collision_mask = 31
+script = ExtResource("1_55fuk")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_j584b")
+
+[node name="Area2d" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Area2d"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_g2lgw")
+
+[connection signal="area_entered" from="Area2d" to="." method="_Interaction_Entered"]
+[connection signal="area_exited" from="Area2d" to="." method="_Interaction_Exited"]

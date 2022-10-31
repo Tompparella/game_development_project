@@ -29,6 +29,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/World/Items/Item.gd"
 }, {
+"base": "Surrounding",
+"class": &"Npc",
+"language": &"GDScript",
+"path": "res://Scenes/World/Characters/Npc/Npc.gd"
+}, {
 "base": "Node2D",
 "class": &"Obstacle",
 "language": &"GDScript",
@@ -63,19 +68,26 @@ _global_script_classes=[{
 "class": &"SurroundingArea",
 "language": &"GDScript",
 "path": "res://Scenes/World/Environment/Scripts/SurroundingArea.gd"
+}, {
+"base": "Object",
+"class": &"Task",
+"language": &"GDScript",
+"path": "res://Scenes/Events/Task.gd"
 }]
 _global_script_class_icons={
 "Consumable": "",
 "Interactable": "",
 "Inventory": "",
 "Item": "",
+"Npc": "",
 "Obstacle": "",
 "Pickable": "",
 "Player": "",
 "Returnable": "",
 "Shop": "",
 "Surrounding": "",
-"SurroundingArea": ""
+"SurroundingArea": "",
+"Task": ""
 }
 
 [application]

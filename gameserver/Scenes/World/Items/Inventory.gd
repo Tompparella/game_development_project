@@ -1,8 +1,11 @@
 extends RefCounted
 class_name Inventory
 
-var items: Array[Item] # TODO: Setters and getters
-var returnables: Array[Returnable]
+const MAX_TASKS: int = 3
+
+var tasks: Array[Task] = []
+var items: Array[Item] = [] # TODO: Setters and getters
+var returnables: Array[Returnable] = []
 var returnables_size: int = 0
 var maxReturnables: int = 10 # Default carry size
 var currency: float = 0.0
@@ -27,6 +30,12 @@ func RemoveItem(item: Item) -> bool:
 	if result:
 		items.erase(item)
 	return result
+
+func AddTask(_task: Task) -> bool:
+	if tasks.size() <= MAX_TASKS:
+		tasks.append(_task)
+		return true
+	return false
 
 # Returns new total currency
 func AddCurrency(_currency: float) -> float:
