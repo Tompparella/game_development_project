@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dn1lbcu72naup"]
+
+[node name="TaskPanel" type="Control"]
+custom_minimum_size = Vector2i(0, 116)
+layout_mode = 3
+anchor_top = -0.089
+anchor_bottom = -0.089
+offset_top = 0.0800018
+offset_bottom = 128.08
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color(1, 1, 1, 0.27451)
+offset_left = -256.0
+offset_bottom = 113.0
+
+[node name="Label" type="Label" parent="Panel"]
+offset_right = 256.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 18
+text = "Name of the current task"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+offset_left = 16.0
+offset_top = 32.0
+offset_right = 240.0
+offset_bottom = 112.0
+text = "13 empty cans
+Talk to some guy
+Fuck bitches
+Get money"

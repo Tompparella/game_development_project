@@ -2,8 +2,7 @@ extends Object
 
 class_name Task
 
-var task_giver_id: String
-var task_giver_name: String
+var task_giver: String
 var description: String
 var time_left: float	# Some tasks might have a limited amount of time to complete
 var conditions: Dictionary = {
@@ -21,13 +20,12 @@ func _init(_description: String, _conditions: Dictionary, _rewards: Dictionary) 
 	rewards = _rewards
 	description = _description
 
-func Start(giver_id: String, giver_name: String, time_given: float = -1.0) -> void:
+func Start(_task_giver: String, time_given: float = -1.0) -> void:
 	if time_given > 0:
 		# TODO: Handle timer here
 		time_left = time_given
 		pass
-	task_giver_id = giver_id
-	task_giver_name = giver_name
+	task_giver = _task_giver
 
 func CheckConditions(player: Player) -> void:
 	var required_items: Dictionary = conditions.get("items")

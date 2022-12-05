@@ -6,7 +6,7 @@ var tasks: Array[Task] = []
 
 func Interact(_player: Player) -> void:
 	var new_task: Task = GameManager.GetTask("test")
-	new_task.Start(name, "test")
+	new_task.Start(name)
 	if _player.AddTask(new_task):
 		print("Task added")
 

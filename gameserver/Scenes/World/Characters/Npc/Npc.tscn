@@ -16,6 +16,7 @@ y_sort_enabled = true
 collision_layer = 16
 collision_mask = 31
 script = ExtResource("1_55fuk")
+item_name = null
 texture = "res://Assets/Character/Overalls.png"
 
 [node name="CollisionShape2d" type="CollisionShape2D" parent="."]
