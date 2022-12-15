@@ -207,9 +207,10 @@ config/icon="res://icon.png"
 
 [autoload]
 
+GameManager="*res://Scenes/Singletons/GameManager.gd"
+GameItems="*res://Scenes/Singletons/GameItems.gd"
 Gateway="*res://Scenes/Singletons/Gateway.gd"
 GameServer="*res://Scenes/Singletons/GameServer.gd"
-GameManager="*res://Scenes/Singletons/GameManager.gd"
 UIControl="*res://Scenes/Singletons/UIControl.gd"
 
 [display]

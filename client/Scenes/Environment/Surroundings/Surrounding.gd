@@ -9,7 +9,7 @@ func _ready() -> void:
 	#var area: SurroundingArea = get_node("Area2d")
 	#area.connect("interaction", Interact)
 	if !item_name.is_empty():
-		item = GameManager.GetItem(item_name)
+		item = GameItems.GetItem(item_name)
 		if item && item.texture:
 			texture = item.texture
 			$Sprite.set_texture(texture)

@@ -31,7 +31,7 @@ func AddItem(item_id: String) -> void:
 	items_view.add_child(instance)
 	instance.connect("pressed", instance.ItemSelected)
 	instance.connect("item_selected", SelectItem)
-	instance.Initialize(GameManager.GetItem(item_id))
+	instance.Initialize(GameItems.GetItem(item_id))
 
 func SelectItem(item_entry: ) -> void:
 	if item_entry.item != selected_item:

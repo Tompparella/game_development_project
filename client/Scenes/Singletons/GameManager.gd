@@ -23,9 +23,6 @@ var world_state_buffer: Array = []
 # Run server sync only if GameManager has successfully initialized the game world on the client
 var initialized: bool = false
 
-# Temporary. In the end product, item data will be fetched from the server, and textures will be either also fetched from server, or referenced locally.
-var ItemsList: Dictionary = {}
-
 func _ready() -> void:
 	surroundings = get_node("../Game/Main/TileMap/Surroundings")
 	other_players = get_node("../Game/Main/TileMap/OtherPlayers")
@@ -37,7 +34,7 @@ func _physics_process(_delta) -> void:
 	HandlePlayerUpdate()
 
 func Initialize(game_data: Dictionary) -> void:
-	LoadItems(game_data["items"])
+	GameItems.LoadItems(game_data["items"])
 	LoadEnvironment(game_data["environment"])
 	LoadCharacters(game_data["characters"])
 	EnablePlayer()
@@ -47,16 +44,6 @@ func Initialize(game_data: Dictionary) -> void:
 	UIControl.HideLoginScreen()
 	set_physics_process(true)
 	initialized = true
-
-func LoadItems(items_data: Array) -> void:
-	for entry in items_data:
-		match entry["type"]:
-			"consumable":	# TODO: Move object parsing to the constructors
-				ItemsList[entry["id"]] = Consumable.new(entry["id"], entry["name"], entry["description"], entry["value"], entry["texture"], entry["vibe"], entry["flex"])
-			"returnable":
-				ItemsList[entry["id"]] = Returnable.new(entry["id"], entry["name"], entry["description"], entry["value"], entry["texture"], entry["size"])
-			_:
-				ItemsList[entry["id"]] = Item.new(entry["id"], entry["name"], entry["description"], entry["value"], entry["texture"])
 
 func LoadEnvironment(environment_data: Array) -> void:
 	for entry in environment_data:
@@ -106,11 +93,11 @@ func DisablePlayer() -> void:
 	player = null
 
 func AddItem(item_id: String) -> void:
-	var item: Item = ItemsList[item_id]
+	var item: Item = GameItems.GetItem(item_id)
 	player.AddItem(item)
 
 func RemoveItem(item_id: String) -> void:
-	var item: Item = ItemsList[item_id]
+	var item: Item = GameItems.GetItem(item_id)
 	player.RemoveItem(item)
 
 func ChangeCurrency(currency: float) -> void:
@@ -159,9 +146,6 @@ func BuyItem(item_id: String, shop_id: String) -> void:
 
 # Item logic
 
-func GetItem(item_id: String) -> Item:
-	return ItemsList.get(item_id, ItemsList.get("default"))
- 
 # TODO: This is a placeholder. Shop inventories are supposed to be returned depending on shop brand.
 func GetShopInventory() -> Array[Item]:
 	return []
@@ -205,7 +189,7 @@ func HandlePlayerUpdate() -> void:
 func HandleItemsRecycled(item_ids: Array, returnable_size: int) -> void:
 	if player:
 		for entry in item_ids:
-			var item: Item = ItemsList[entry]
+			var item: Item = GameItems.GetItem(entry)
 			if item:
 				player.RemoveItem(item)
 		player.SetReturnableSize(returnable_size)
