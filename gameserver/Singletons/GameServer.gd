@@ -86,6 +86,20 @@ func DetermineLatency(client_time: float) -> void:
 func ReturnLatency(client_time: float, player_id: int) -> void:
 	rpc_id(player_id, "ReturnLatency", client_time)
 
+## Tasks
+
+@rpc(authority)
+func StartPlayerTask(task: Dictionary, player_id: int) -> void:
+	rpc_id(player_id, "StartPlayerTask", task)
+
+@rpc(authority)
+func UpdatePlayerTask(task: Dictionary, player_id: int) -> void:
+	rpc_id(player_id, "UpdatePlayerTask", task)
+
+@rpc(authority)
+func RemovePlayerTask(task: Dictionary, complete: bool, player_id: int) -> void:
+	rpc_id(player_id, "UpdatePlayerTask", task, complete)
+
 ## Player UI functions
 
 @rpc(authority)

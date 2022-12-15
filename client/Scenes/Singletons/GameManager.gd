@@ -51,7 +51,7 @@ func Initialize(game_data: Dictionary) -> void:
 func LoadItems(items_data: Array) -> void:
 	for entry in items_data:
 		match entry["type"]:
-			"consumable":
+			"consumable":	# TODO: Move object parsing to the constructors
 				ItemsList[entry["id"]] = Consumable.new(entry["id"], entry["name"], entry["description"], entry["value"], entry["texture"], entry["vibe"], entry["flex"])
 			"returnable":
 				ItemsList[entry["id"]] = Returnable.new(entry["id"], entry["name"], entry["description"], entry["value"], entry["texture"], entry["size"])
@@ -168,6 +168,18 @@ func GetShopInventory() -> Array[Item]:
 
 func UseItem(item_id: String) -> void:
 	GameServer.PlayerUseItem(item_id)
+
+# Tasks
+
+func NewTask(task: Dictionary) -> void:
+	player.AddTask(Task.new(task))
+
+func UpdateTask(task: Dictionary) -> void:
+	player.UpdateTask(Task.new(task))
+
+func RemoveTask(task: Dictionary, _removed: bool) -> void:
+	# TODO: Completion and interception handling
+	player.RemoveTask(Task.new(task))
 
 # Sync functions
 

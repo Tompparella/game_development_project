@@ -1,7 +1,8 @@
 extends RefCounted
 class_name Inventory
 
-var items: Array[Item] # TODO: Setters and getters
+var items: Array[Item]
+var tasks: Array[Task]
 var returnables: Array[Returnable]
 var returnables_size: int = 0
 var maxReturnables: int = 10 # Default carry size
@@ -31,6 +32,25 @@ func RemoveItem(item: Item) -> bool:
 		returnables.erase(item)
 		result = true
 	return result
+
+func AddTask(task: Task) -> void:
+	tasks.append(task)
+	print("Task added")
+
+func UpdateTask(task: Task) -> void:
+	for entry in tasks:
+		if entry.task_giver == task.task_giver:
+			entry = task
+			print("Task updated")
+			break
+	
+
+func RemoveTask(task: Task) -> void:
+	for entry in tasks:
+		if entry.task_giver == task.task_giver:
+			tasks.erase(entry)
+			print("Task removed")
+			break
 
 # Returns new total currency
 func SetCurrency(_currency: float) -> float:

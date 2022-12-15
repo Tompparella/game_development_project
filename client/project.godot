@@ -9,6 +9,11 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "Control",
+"class": &"ActivityDialog",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/Activities/ActivityDialog.gd"
+}, {
 "base": "Camera2D",
 "class": &"Camera",
 "language": &"GDScript",
@@ -139,6 +144,16 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/Environment/Surroundings/SurroundingArea.gd"
 }, {
+"base": "Object",
+"class": &"Task",
+"language": &"GDScript",
+"path": "res://Scenes/Events/Task.gd"
+}, {
+"base": "Control",
+"class": &"TaskPanel",
+"language": &"GDScript",
+"path": "res://Scenes/UI/Interface/Activities/TaskPanel.gd"
+}, {
 "base": "Node",
 "class": &"UserInterface",
 "language": &"GDScript",
@@ -150,6 +165,7 @@ _global_script_classes=[{
 "path": "res://Scenes/UI/Interface/UserInterface/VibeMeter.gd"
 }]
 _global_script_class_icons={
+"ActivityDialog": "",
 "Camera": "",
 "Consumable": "",
 "CurrencyView": "",
@@ -176,6 +192,8 @@ _global_script_class_icons={
 "StateMachine": "",
 "Surrounding": "",
 "SurroundingArea": "",
+"Task": "",
+"TaskPanel": "",
 "UserInterface": "",
 "VibeView": ""
 }

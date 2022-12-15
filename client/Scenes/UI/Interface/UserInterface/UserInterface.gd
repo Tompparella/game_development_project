@@ -6,6 +6,7 @@ class_name UserInterface
 @onready var score: ScoreView = $Score
 @onready var returnables: ReturnablesView = $Returnables
 @onready var currency: CurrencyView = $Currency
+@onready var activities: ActivityDialog = $ActivityDialog
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("NextItem"):
@@ -19,7 +20,9 @@ func Initialize(player: Player):
 	player.item_removed.connect(_Item_Removed)
 	player.flex_changed.connect(score._Score_Changed)
 	player.currency_changed.connect(currency._Currency_Changed)
+	player.task_updated.connect(activities._Task_Updated)
 	vibe.Initialize(player)
+	# TODO: Initialize other views based on saved player data
 
 func GetSelectedItem() -> Item:
 	return items.GetSelectedItem()

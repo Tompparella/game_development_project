@@ -7,10 +7,10 @@ var description: String
 var time_left: float	# Some tasks might have a limited amount of time to complete
 var conditions: Dictionary = {
 	"items": {},	# Item id's required for the completion of the task: {"item_id": number}
-	"goals": {},	# Goals that are granted from interacting with the world: {"goal_id": true | false}
+	"goals": {},	# Goals that are granted from interacting with the world: {"goal_id": {"discription": string, "target": string, "completed": bool }}
 }
 var rewards: Dictionary = {
-	"items": [], 	# String array of item_ids
+	"items": {}, 	# Item_ids: {"item_id": number}
 	"currency": 0.0
 }
 

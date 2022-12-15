@@ -58,7 +58,20 @@ var ItemsList: Dictionary = {
 	"soda_yellow": Consumable.new("soda_yellow", "Jeffe", "My name a' Jeffe", 3.0, placeholder_texture, 0.0, 20)
 }
 var TasksList: Dictionary = {
-	"test": Task.new("This is a test task", {"items": {"liquor_clear": 1}, "goals": {}}, {"items": {}, "currency": 10.0}),
+	"test": Task.new("This is a test task",
+	{
+		"items": {
+			"liquor_clear": 1
+		},
+		"goals": {
+			"12345": {
+				"target": "character id",
+				"description": "Kiss your homies goodnight",
+				"completed": false
+			}
+		}
+	},
+	{"items": [], "currency": 10.0}),
 }
 
 func Initialize() -> void:
@@ -147,10 +160,10 @@ func FetchGameData(player_id: int) -> void:
 func SpawnReturnables(returnable_amount: int = 5 * (players.size() + 1)) -> Array:
 	if returnables_on_map >= (returnables_per_player * (players.size() + 1)):
 		return []
-	var returnables: Dictionary = { 1: ItemsList["can"], 2: ItemsList["bottle"], 3: ItemsList["bottle_big"], 4: ItemsList["bottle_liquor"], 5: ItemsList["bottle_wine"] }
-	var returnable_weights: Array[int] = [1,1,1,1,1,2,2,2,3,4,5]
+	var returnables: Dictionary = { 1: ItemsList["can"], 2: ItemsList["bottle"], 3: ItemsList["bottle_big"], 4: ItemsList["bottle_liquor"], 5: ItemsList["bottle_wine"] } # TODO: Better handling
+	var returnable_weights: Array[int] = [1,1,1,1,1,2,2,2,3,4,5] # TODO: Same here
 	var item_data: Array = []
-	var screen_size = get_viewport().get_visible_rect().size
+	var screen_size = get_viewport().get_visible_rect().size # TODO: ...and here
 	for i in range(0, returnable_amount):
 		# TODO: Rework pickable spawning to work on certain areas
 		randomize()
@@ -244,9 +257,9 @@ func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
 	new_player.item_removed.connect(PlayerRemoveItem)
 	new_player.currency_changed.connect(PlayerChangeCurrency)
 	new_player.items_recycled.connect(PlayerRecycledItems)
+	new_player.task_added.connect(StartPlayerTask)
 	new_player.game_over.connect(PlayerGameOver)
 	# TODO: Connect the rest of player signals
-	# TODO: Update game_timer timeout to a function that updates vibe for all players at the same time
 	print("Player %s spawned" % str(player_id))
 	GameServer.SpawnNewPlayer(player_id, spawn_location)
 
@@ -265,6 +278,20 @@ func DespawnPlayer(player_id: int, notify_player: bool = true) -> void:
 
 func PlayerGameOver(player_id: String) -> void:
 	DespawnPlayer(player_id.to_int())
+
+# Tasks
+
+func StartPlayerTask(player_id: String, task: Task) -> void:
+	var task_payload: Dictionary = {
+		"task_giver": task.task_giver,
+		"description": task.description,
+		"time_left": task.time_left,
+		"conditions": task.conditions,
+		"rewards": task.rewards,
+	}
+	GameServer.StartPlayerTask(task_payload, player_id.to_int())
+
+## Triggers
 
 func _Timer_Timeout() -> void:
 	current_restock_ticks += 1

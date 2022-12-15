@@ -33,7 +33,7 @@ func AddItem(item_id: String) -> void:
 	instance.connect("item_selected", SelectItem)
 	instance.Initialize(GameManager.GetItem(item_id))
 
-func SelectItem(item_entry: ItemEntry) -> void:
+func SelectItem(item_entry: ) -> void:
 	if item_entry.item != selected_item:
 		emit_signal('item_unselected', self)
 		connect('item_unselected', item_entry.UnSelected)

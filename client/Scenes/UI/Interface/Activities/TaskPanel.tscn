@@ -1,34 +1,38 @@
-[gd_scene format=3 uid="uid://dn1lbcu72naup"]
+[gd_scene load_steps=2 format=3 uid="uid://dgqtekjxh6dq"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Interface/Activities/TaskPanel.gd" id="1_y27h4"]
 
 [node name="TaskPanel" type="Control"]
-custom_minimum_size = Vector2i(0, 116)
+custom_minimum_size = Vector2i(0, 160)
 layout_mode = 3
 anchor_top = -0.089
 anchor_bottom = -0.089
 offset_top = 0.0800018
-offset_bottom = 128.08
+offset_bottom = 160.08
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_y27h4")
 
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color(1, 1, 1, 0.27451)
+layout_mode = 0
 offset_left = -256.0
-offset_bottom = 113.0
-
-[node name="Label" type="Label" parent="Panel"]
-offset_right = 256.0
-offset_bottom = 32.0
-theme_override_font_sizes/font_size = 18
-text = "Name of the current task"
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_bottom = 128.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
-offset_left = 16.0
-offset_top = 32.0
-offset_right = 240.0
-offset_bottom = 112.0
-text = "13 empty cans
-Talk to some guy
-Fuck bitches
-Get money"
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 248.0
+offset_bottom = 64.0
+text = "13 empty cans Talk to some guy Fuck bitches Get money"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Panel"]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 248.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 14
+text = "- 13 empty cans
+- Big tiddy goth girlfriend"

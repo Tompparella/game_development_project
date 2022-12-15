@@ -7,6 +7,7 @@ signal items_recycled(player_id: String, recycled_items: Array[Item], returnable
 signal vibe_changed(player_id: String, vibe: float)
 signal currency_changed(player_id: String, currency: float)
 signal flex_changed(player_id: String, flex: int)
+signal task_added(player_id: String, task: Task)
 signal game_over(player_id: String)
 
 var inventory: Inventory = Inventory.new([], [])
@@ -53,7 +54,11 @@ func GetTasks() -> Array[Task]:
 	return inventory.tasks
 
 func AddTask(task: Task) -> bool:
-	return inventory.AddTask(task)
+	if inventory.AddTask(task):
+		task_added.emit(name, task)
+		return true
+	else:
+		return false
 
 func AddFlex(flex: int) -> int:
 	var new_flex: int = inventory.AddFlex(flex)

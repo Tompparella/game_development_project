@@ -63,8 +63,22 @@ func PlayerUseItem(item_id: String) -> void:
 	rpc_id(1, "PlayerUseItem", item_id)
 
 @rpc(authority)
-func UpdateShopInventory(updated_items: Dictionary):
+func UpdateShopInventory(updated_items: Dictionary) -> void:
 	UIControl.UpdateShopInventory(updated_items)
+
+# Tasks
+
+@rpc(authority)
+func StartPlayerTask(task: Dictionary) -> void:
+	GameManager.NewTask(task)
+
+@rpc(authority)
+func UpdatePlayerTask(task: Dictionary) -> void:
+	GameManager.UpdateTask(task)
+
+@rpc(authority)
+func RemovePlayerTask(task: Dictionary, complete: bool) -> void:
+	GameManager.RemoveTask(task, complete)
 
 # Game functions
 

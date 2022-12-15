@@ -9,6 +9,7 @@ signal item_removed(item: Item)
 signal vibe_changed(vibe: float)
 signal currency_changed(currency: float)
 signal flex_changed(flex: int)
+signal task_updated(tasks: Task, removed: bool)
 
 var timer: PlayerTimer
 var state_machine: PlayerStateMachine
@@ -73,6 +74,21 @@ func GetVibe() -> float:
 
 func CanBuy(price: float) -> bool:
 	return inventory.CanBuy(price)
+
+## Tasks
+
+func AddTask(task: Task) -> void:
+	inventory.AddTask(task)
+	task_updated.emit(task, false)
+
+func UpdateTask(task: Task) -> void:
+	inventory.UpdateTask(task)
+	task_updated.emit(task, false)
+
+func RemoveTask(task: Task) -> void:
+	inventory.RemoveTask(task)
+	task_updated.emit(task, true)
+
 
 #func Recycle() -> Returnable:
 #	var returnable: Returnable = inventory.PopReturnable()
