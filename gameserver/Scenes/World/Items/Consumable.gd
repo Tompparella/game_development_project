@@ -10,4 +10,4 @@ func _init(_item_id: String, _item_name: String, _description: String, _value: f
 # Use item only if they have it in their inventory
 func Use(player: Player) -> void:
 	if player.RemoveItem(self):
-		GameManager.PlayerUpdateStats(player.name, player.AddVibe(vibe), player.AddFlex(flex))
+		player.AddValues(flex, vibe)

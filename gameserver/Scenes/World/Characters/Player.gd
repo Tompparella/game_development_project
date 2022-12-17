@@ -1,13 +1,14 @@
 extends CharacterBody2D
 class_name Player
 
-signal item_added(player_id: String, item: Item)
-signal item_removed(player_id: String, item: Item)
+signal items_added(player_id: String, item_id_array: Array[String])
+signal items_removed(player_id: String, item_id_array: Array[String])
 signal items_recycled(player_id: String, recycled_items: Array[Item], returnable_size: int)
-signal vibe_changed(player_id: String, vibe: float)
+signal values_changed(player_id: String, values: Dictionary)
 signal currency_changed(player_id: String, currency: float)
-signal flex_changed(player_id: String, flex: int)
 signal task_added(player_id: String, task: Task)
+signal task_updated(player_id: String, task: Task)
+signal task_removed(player_id: String, task: Task, completed: bool)
 signal game_over(player_id: String)
 
 var inventory: Inventory = Inventory.new([], [])
@@ -30,22 +31,47 @@ func Interact() -> void:
 # Returns true if item add successful. False if not (inventory full, etc.)
 func AddItem(item: Item) -> bool:
 	if inventory.AddItem(item):
-		item_added.emit(name, item)
+		var item_array: Array[String] = [item.item_id]
+		items_added.emit(name, item_array)
+		return true
+	return false
+
+func AddItemArray(item_array: Array[Item]) -> bool:
+	var item_id_array: Array[String] = []
+	for entry in item_array:
+		if inventory.AddItem(entry):
+			item_id_array.append(entry.item_id)
+	if !item_id_array.is_empty():
+		items_added.emit(name, item_id_array)
 		return true
 	return false
 
 func RemoveItem(item: Item) -> bool:
 	if inventory.RemoveItem(item):
-		item_removed.emit(name, item)
+		var item_array: Array[String] = [item.item_id]
+		items_removed.emit(name, item_array)
 		return true
 	return false
 
-# Use the item given as parameter. If no item is given, get selected item from UI
-func UseItem(item: Item) -> void:
-	item.Use(self)
+# Removes array of removed item id's
+func RemoveItemArray(item_array: Array[Item]) -> Array[String]:
+	var item_id_array: Array[String] = []
+	for entry in item_array:
+		if inventory.RemoveItem(entry):
+			item_id_array.append(entry.item_id)
+	if !item_id_array.is_empty():
+		items_removed.emit(name, item_id_array)
+	return item_id_array
 
-func AddCurrency(currency: float) -> void:
-	currency_changed.emit(name, inventory.AddCurrency(currency))
+# items: {item_id: amount}
+func HasItems(items: Dictionary) -> bool:
+	return inventory.HasItems(items)
+
+func AddCurrency(currency: float, send_results: bool = true) -> float:
+	var new_currency: float = inventory.AddCurrency(currency)
+	if send_results:
+		currency_changed.emit(name, new_currency)
+	return new_currency
 
 func TakeCurrency(currency: float) -> void:
 	currency_changed.emit(name, inventory.TakeCurrency(currency))
@@ -60,22 +86,42 @@ func AddTask(task: Task) -> bool:
 	else:
 		return false
 
-func AddFlex(flex: int) -> int:
-	var new_flex: int = inventory.AddFlex(flex)
-	flex_changed.emit(new_flex)
-	return new_flex
+func RemoveTask(task: Task, completed: bool = false) -> bool:
+	if inventory.RemoveTask(task):
+		task_removed.emit(name, task, completed)
+		return true
+	else:
+		return false
 
-func AddVibe(vibe: float, send_results: bool = true) -> float:
-	var new_vibe: float = inventory.AddVibe(vibe)
-	if new_vibe <= 0:
-		game_over.emit(name)
-	#	rotation = 90.0
-	#	queue_free()
-	#vibe_changed.emit(new_vibe)
+func AddValues(flex: int = 0, vibe: float = 0.0, currency: float = 0.0, send_results: bool = true) -> Dictionary:
+	var result: Dictionary = { "flex": null, "vibe": null }
+	var new_vibe: float = -1.0
+	if flex != 0:
+		result["flex"] = AddFlex(flex)
+	if vibe != 0.0:
+		new_vibe = AddVibe(vibe, !send_results)
+		result["vibe"] = new_vibe
+	if currency != 0.0:
+		result["currency"] = AddCurrency(currency)
 	if send_results:
-		# TODO: Handle result broadcasting
-		pass
+		values_changed.emit(name, result)
+		if new_vibe != -1.0:
+			VibeCheck(new_vibe)
+	return result
+
+func AddFlex(flex: int) -> int:
+	return inventory.AddFlex(flex)
+
+func AddVibe(vibe: float, send_result: bool = true) -> float:
+	var new_vibe: float = inventory.AddVibe(vibe)
+	if send_result:
+		VibeCheck(new_vibe)
 	return new_vibe
+
+func VibeCheck(vibe: float) -> void:
+	print(vibe)
+	if vibe <= 0 || vibe > 100:
+		game_over.emit(name)
 
 func GetVibe() -> float:
 	return inventory.GetVibe()

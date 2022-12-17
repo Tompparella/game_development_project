@@ -21,3 +21,16 @@ func _init(_item_id: String, _item_name: String, _description: String ,_value: f
 
 func Use(_player: Player) -> void:
 	return
+
+func GetAsDictionary() -> Dictionary:
+	return {
+			"id": item_id,
+			"name": item_name,
+			"description": description,
+			"texture": texture,
+			"value": value,
+			"vibe": vibe,
+			"flex": flex,
+			"size": size,
+			"type": "consumable" if consumable else "returnable" if returnable else "default",
+		}

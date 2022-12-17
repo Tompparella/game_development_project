@@ -1,6 +1,5 @@
 extends Node
 
-const VIBE_TIMEOUT_TIME: float = 4.0
 const INTERPOLATION_OFFSET: float = 0.1
 
 var surroundings: Node2D
@@ -70,9 +69,13 @@ func LoadCharacters(characters_data: Array) -> void:
 		var scene: PlayerTemplate
 		# TODO: Actual character type handling
 		match entry["type"]:
-			"hobo":
+			"red":
 				# TODO: Change PlayerTemplate to Npc scene
 				scene = player_template.instantiate()
+				scene.modulate = Color(Color.RED)
+			"blue":
+				scene = player_template.instantiate()
+				scene.modulate = Color(Color.BLUE)
 			_:
 				scene = player_template.instantiate()
 		#scene.Initialize(entry["texture"], entry["position"])
@@ -92,13 +95,13 @@ func DisablePlayer() -> void:
 		player.queue_free()
 	player = null
 
-func AddItem(item_id: String) -> void:
-	var item: Item = GameItems.GetItem(item_id)
-	player.AddItem(item)
+func AddItems(item_id_array: Array) -> void:
+	for entry in item_id_array:
+		player.AddItem(GameItems.GetItem(entry))
 
-func RemoveItem(item_id: String) -> void:
-	var item: Item = GameItems.GetItem(item_id)
-	player.RemoveItem(item)
+func RemoveItems(item_id_array: Array) -> void:
+	for entry in item_id_array:
+		player.RemoveItem(GameItems.GetItem(entry))
 
 func ChangeCurrency(currency: float) -> void:
 	player.SetCurrency(currency)
@@ -122,6 +125,7 @@ func UpdateStats(stats_data: Array) -> void:
 		var player_id = entry.get("id")
 		var vibe = entry.get("vibe")
 		var flex = entry.get("flex")
+		var currency = entry.get("currency")
 		if player_id != null:
 			if other_players.has_node(player_id):
 				var peer: PlayerTemplate = other_players.get_node(player_id)
@@ -131,6 +135,8 @@ func UpdateStats(stats_data: Array) -> void:
 					player.SetVibe(vibe)
 				if flex != null:
 					player.SetFlex(flex)
+				if currency != null:
+					player.SetCurrency(currency)
 
 func GameTimerTimeout(game_data: Dictionary) -> void:
 	SpawnReturnables(game_data["returnable_data" ])

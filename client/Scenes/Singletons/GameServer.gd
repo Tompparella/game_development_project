@@ -127,12 +127,12 @@ func PlayerInteract() -> void:
 	rpc_id(1, "PlayerInteract")
 
 @rpc(authority)
-func PlayerAddItem(item_id: String) -> void:
-	GameManager.AddItem(item_id)
+func PlayerAddItems(item_id_array: Array) -> void:
+	GameManager.AddItems(item_id_array)
 
 @rpc(authority)
-func PlayerRemoveItem(item_id: String) -> void:
-	GameManager.RemoveItem(item_id)
+func PlayerRemoveItems(item_id_array: Array) -> void:
+	GameManager.RemoveItems(item_id_array)
 
 @rpc(authority)
 func PlayerChangeCurrency(currency: float) -> void:

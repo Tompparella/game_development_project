@@ -37,20 +37,26 @@ func AddTask(task: Task) -> void:
 	tasks.append(task)
 	print("Task added")
 
-func UpdateTask(task: Task) -> void:
+# Find existing task in inventory by task_giver. Returns null if task is not found in inventory
+func FindTask(task: Task) -> Task:
+	var task_giver: String = task.task_giver
 	for entry in tasks:
 		if entry.task_giver == task.task_giver:
-			entry = task
-			print("Task updated")
-			break
+			return entry
+	return null
+
+func UpdateTask(task: Task) -> void:
+	var existing_task: Task = FindTask(task)
+	if existing_task != null:
+		existing_task = task
+		print("Task updated")
 	
 
 func RemoveTask(task: Task) -> void:
-	for entry in tasks:
-		if entry.task_giver == task.task_giver:
-			tasks.erase(entry)
-			print("Task removed")
-			break
+	var existing_task: Task = FindTask(task)
+	if existing_task != null:
+		tasks.erase(existing_task)
+		print("Task removed")
 
 # Returns new total currency
 func SetCurrency(_currency: float) -> float:

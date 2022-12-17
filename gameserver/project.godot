@@ -102,6 +102,7 @@ config/icon="res://icon.png"
 ServerHub="*res://Singletons/ServerHub.gd"
 GameServer="*res://Singletons/GameServer.gd"
 StateProcess="*res://Singletons/StateProcess.gd"
+GameItems="*res://Singletons/GameItems.gd"
 GameManager="*res://Singletons/GameManager.gd"
 
 [gui]

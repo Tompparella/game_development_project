@@ -98,7 +98,7 @@ func UpdatePlayerTask(task: Dictionary, player_id: int) -> void:
 
 @rpc(authority)
 func RemovePlayerTask(task: Dictionary, complete: bool, player_id: int) -> void:
-	rpc_id(player_id, "UpdatePlayerTask", task, complete)
+	rpc_id(player_id, "RemovePlayerTask", task, complete)
 
 ## Player UI functions
 
@@ -161,19 +161,19 @@ func PlayerInteract() -> void:
 	GameManager.PlayerInteract(player_id)
 
 @rpc(authority)
-func PlayerAddItem(player_id: int, item_id: String) -> void:
-	rpc_id(player_id, "PlayerAddItem", item_id)
-
-@rpc(authority)
-func PlayerChangeCurrency(player_id: int, currency: float) -> void:
-	rpc_id(player_id, "PlayerChangeCurrency", currency)
+func PlayerAddItems(player_id: int, item_id_array: Array) -> void:
+	rpc_id(player_id, "PlayerAddItems", item_id_array)
 
 @rpc(authority)
 func PlayerUpdateStats(player_stats: Dictionary) -> void:
 	rpc_id(0, "PlayerUpdateStats", player_stats)
 
 @rpc(authority)
-func PlayerRecycledItems(player_id: int, item_ids: Array[String], returnable_size: int) -> void:
+func PlayerChangeCurrency(player_id: int, currency: float) -> void:
+	rpc_id(player_id, "PlayerChangeCurrency", currency)
+
+@rpc(authority)
+func PlayerRecycledItems(player_id: int, item_ids: Array, returnable_size: int) -> void:
 	rpc_id(player_id, "PlayerRecycledItems", item_ids, returnable_size)
 
 @rpc(any_peer)
@@ -182,8 +182,8 @@ func PlayerUseItem(item_id: String) -> void:
 	GameManager.PlayerUseItem(player_id, item_id)
 
 @rpc(authority)
-func PlayerRemoveItem(player_id: int, item_id: String) -> void:
-	rpc_id(player_id, "PlayerRemoveItem", item_id)
+func PlayerRemoveItems(player_id: int, item_id_array: Array[String]) -> void:
+	rpc_id(player_id, "PlayerRemoveItems", item_id_array)
 
 @rpc(authority)
 func SpawnReturnables(returnables: Array) -> void:

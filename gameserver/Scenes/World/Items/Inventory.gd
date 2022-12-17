@@ -27,13 +27,39 @@ func AddItem(item: Item) -> bool:
 
 func RemoveItem(item: Item) -> bool:
 	var result: bool = items.has(item)
-	if result:
-		items.erase(item)
+	if item.returnable:
+		result = returnables.has(item)
+		if result:
+			returnables_size -= item.size
+			returnables.erase(item)
+	else:
+		result = items.has(item)
+		if result:
+			items.erase(item)
 	return result
+
+# items: { item_id: amount }
+func HasItems(_items: Dictionary) -> bool:
+	for entry in _items.keys():
+		var item: Item = GameItems.GetItem(entry)
+		var amount: int = 0
+		if item.returnable:
+			amount = returnables.count(item)
+		else:
+			amount = items.count(item)
+		if _items[entry] > amount:
+			return false
+	return true
 
 func AddTask(_task: Task) -> bool:
 	if tasks.size() < MAX_TASKS && !tasks.has(_task):
 		tasks.append(_task)
+		return true
+	return false
+
+func RemoveTask(_task: Task) -> bool:
+	if tasks.has(_task):
+		tasks.erase(_task)
 		return true
 	return false
 

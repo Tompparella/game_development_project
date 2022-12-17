@@ -29,10 +29,6 @@ func Initialize():
 
 func Interact() -> void:
 	interact.emit()
-#	if surroundings.size():
-#		var entry: SurroundingArea = surroundings.back()
-#		entry.Interact(self)
-#		surroundings.shuffle()
 
 # Returns true if item add successful. False if not (inventory full, etc.)
 func AddItem(item: Item) -> bool:
@@ -89,17 +85,8 @@ func RemoveTask(task: Task) -> void:
 	inventory.RemoveTask(task)
 	task_updated.emit(task, true)
 
-
-#func Recycle() -> Returnable:
-#	var returnable: Returnable = inventory.PopReturnable()
-#	if returnable:
-#		item_removed.emit(returnable)
-#	return returnable
-
-func _Interaction_Entered(area: Area2D) -> void:
-	if area is SurroundingArea:
-		pass
-#		TODO: Add UI things here
+func _Interaction_Entered(_area: Area2D) -> void:
+#	TODO: Add UI things here
 #		if area.auto_pickup:
 #			area.Interact(self)
 #		else:
@@ -108,13 +95,10 @@ func _Interaction_Entered(area: Area2D) -> void:
 #	if added:
 #		area.connect("surrounding_exiting", _Interaction_Exited)
 	# Other handling, t.ex. Npc: if area is Npc: do something
+	pass
 
 func _Interaction_Exited(area: Area2D) -> void:
 	if area in surroundings:
 		surroundings.erase(area)
 	if area.is_connected("surrounding_exiting", _Interaction_Exited):
 		area.disconnect("surrounding_exiting", _Interaction_Exited)
-
-func _Vibe_Timeout() -> void:
-#	AddVibe(-1.0)
-	pass

@@ -11,7 +11,7 @@ func _ready() -> void:
 	var area: SurroundingArea = get_node("Area2d")
 	area.interaction.connect(Interact)
 	if !item_name.is_empty():
-		item = GameManager.GetItem(item_name)
+		item = GameItems.GetItem(item_name)
 	if item is Returnable:
 		area.auto_pickup = true
 	if item:

@@ -15,19 +15,16 @@ script = ExtResource("1_y27h4")
 
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color(1, 1, 1, 0.27451)
-layout_mode = 0
 offset_left = -256.0
 offset_bottom = 128.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-layout_mode = 1
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 248.0
 offset_bottom = 120.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer"]
-layout_mode = 2
 offset_right = 240.0
 offset_bottom = 44.0
 theme_override_constants/line_separation = 5
@@ -35,7 +32,6 @@ text = "13 empty cans Talk to some guy Fuck bitches Get money"
 fit_content_height = true
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="Panel/VBoxContainer"]
-layout_mode = 2
 offset_top = 48.0
 offset_right = 240.0
 offset_bottom = 82.0
