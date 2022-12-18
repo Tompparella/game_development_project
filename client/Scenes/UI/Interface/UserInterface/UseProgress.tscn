@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo4xp3sgqssh2"]
+
+[ext_resource type="Texture2D" uid="uid://b1w6osochgr3m" path="res://Assets/UI/Vibe_Background.png" id="1_0doa5"]
+[ext_resource type="Script" path="res://Scenes/UI/Interface/UserInterface/UseProgress.gd" id="1_f0oli"]
+[ext_resource type="Texture2D" uid="uid://bfq4clpdw85a1" path="res://Assets/UI/Vibe_Outline.png" id="2_wauhk"]
+[ext_resource type="Texture2D" uid="uid://di4q61rndy20d" path="res://Assets/UI/Vibe_Filling.png" id="3_d8pys"]
+
+[node name="UseProgress" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_f0oli")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -136.0
+offset_right = 64.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.503922, 0.49842)
+fill_mode = 3
+texture_under = ExtResource("1_0doa5")
+texture_over = ExtResource("2_wauhk")
+texture_progress = ExtResource("3_d8pys")
+tint_under = Color(0.501961, 0.482353, 0.482353, 1)
+tint_over = Color(0, 0, 0, 1)

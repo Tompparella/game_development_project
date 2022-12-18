@@ -18,22 +18,19 @@ func Initialize(_player: Player) -> void:
 
 func StartUseItemTimer(_item: Item) -> void:
 	item = _item
+	var final_wait_time: float = base_wait_time
 	if item is Consumable:
-		StartConsumableTimer()
-	else:
-		start(base_wait_time)
+		final_wait_time = final_wait_time + ((item as Consumable).vibe) / 10
+	start(final_wait_time)
 	set_process_unhandled_key_input(true)
-
-func StartConsumableTimer() -> void:
-	# TODO: Play consume audio, etc.
-	start(base_wait_time + ((item as Consumable).vibe) / 10)
+	player.update_use_progress.emit(final_wait_time)
 
 func UseItem() -> void:
 	player.item_used.emit(item.item_id)
-	#item.Use(player)
 	set_process_unhandled_key_input(false)
 
 func FailUseItem():
+	player.update_use_progress.emit(-1.0)
 	stop()
 
 func _unhandled_key_input(event: InputEvent) -> void:

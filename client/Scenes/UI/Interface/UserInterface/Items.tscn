@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dou2vvufvy0ws"]
+[gd_scene load_steps=4 format=3 uid="uid://dou2vvufvy0ws"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Interface/UserInterface/Items.gd" id="1_yry7g"]
 [ext_resource type="Texture2D" uid="uid://dx7qdbodjbpyv" path="res://Assets/UI/Items.png" id="2_wab26"]
+[ext_resource type="PackedScene" uid="uid://bo4xp3sgqssh2" path="res://Scenes/UI/Interface/UserInterface/UseProgress.tscn" id="3_socr3"]
 
 [node name="Items" type="Control"]
 layout_mode = 3
@@ -17,6 +18,7 @@ script = ExtResource("1_yry7g")
 
 [node name="Background" type="NinePatchRect" parent="."]
 modulate = Color(1, 1, 1, 0.705882)
+layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -29,6 +31,7 @@ grow_vertical = 0
 texture = ExtResource("2_wab26")
 
 [node name="Foreground" type="NinePatchRect" parent="."]
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -42,6 +45,7 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Margin" type="MarginContainer" parent="Foreground"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -53,9 +57,25 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="ItemsBox" type="HBoxContainer" parent="Foreground/Margin"]
+layout_mode = 2
 offset_left = 384.0
 offset_top = 10.0
 offset_right = 384.0
 offset_bottom = 38.0
 size_flags_horizontal = 4
 theme_override_constants/separation = 10
+
+[node name="UseProgress" parent="Foreground/Margin" instance=ExtResource("3_socr3")]
+visible = false
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 384.0
+offset_top = 24.0
+offset_right = 384.0
+offset_bottom = 24.0
+grow_horizontal = 1
+grow_vertical = 1

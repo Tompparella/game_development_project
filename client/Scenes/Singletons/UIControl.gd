@@ -52,6 +52,12 @@ func ShowItemHint(item: Item) -> void:
 func HideItemHint() -> void:
 	item_hint.Hide()
 
+func StartUseProgress(wait_time: float) -> void:
+	user_ui.StartUseProgress(wait_time)
+
+func StopUseProgress() -> void:
+	user_ui.StopUseProgress()
+
 # Gameover modal
 
 func ShowGameoverModal(player: Player) -> void:

@@ -10,6 +10,7 @@ signal vibe_changed(vibe: float)
 signal currency_changed(currency: float)
 signal flex_changed(flex: int)
 signal task_updated(tasks: Task, removed: bool)
+signal update_use_progress(wait_time: float)
 
 var timer: PlayerTimer
 var state_machine: PlayerStateMachine

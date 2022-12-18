@@ -15,7 +15,6 @@ size_flags_vertical = 3
 script = ExtResource("1_uehe6")
 
 [node name="Menu" type="NinePatchRect" parent="."]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -30,7 +29,6 @@ grow_vertical = 2
 texture = ExtResource("2_cqemb")
 
 [node name="Login" type="VBoxContainer" parent="Menu"]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -44,35 +42,30 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Title" type="Label" parent="Menu/Login"]
-layout_mode = 2
 offset_right = 256.0
 offset_bottom = 20.0
 text = "Login"
 horizontal_alignment = 1
 
 [node name="UsernameTitle" type="Label" parent="Menu/Login"]
-layout_mode = 2
 offset_top = 24.0
 offset_right = 256.0
 offset_bottom = 44.0
 text = "Username"
 
 [node name="Username" type="LineEdit" parent="Menu/Login"]
-layout_mode = 2
 offset_top = 48.0
 offset_right = 256.0
 offset_bottom = 73.0
 text = "test"
 
 [node name="PasswordTitle" type="Label" parent="Menu/Login"]
-layout_mode = 2
 offset_top = 77.0
 offset_right = 256.0
 offset_bottom = 97.0
 text = "Password"
 
 [node name="Password" type="LineEdit" parent="Menu/Login"]
-layout_mode = 2
 offset_top = 101.0
 offset_right = 256.0
 offset_bottom = 126.0
@@ -83,7 +76,6 @@ secret_character = "*"
 [node name="LoginButton" type="TextureButton" parent="Menu/Login"]
 self_modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2i(128, 32)
-layout_mode = 2
 offset_left = 64.0
 offset_top = 130.0
 offset_right = 192.0
@@ -92,7 +84,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="LoginTitle" type="Label" parent="Menu/Login/LoginButton"]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -104,7 +95,6 @@ vertical_alignment = 1
 
 [node name="RegisterButton" type="TextureButton" parent="Menu/Login"]
 custom_minimum_size = Vector2i(128, 32)
-layout_mode = 2
 offset_left = 64.0
 offset_top = 166.0
 offset_right = 192.0
@@ -112,7 +102,6 @@ offset_bottom = 198.0
 size_flags_horizontal = 4
 
 [node name="RegisterTitle" type="Label" parent="Menu/Login/RegisterButton"]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -123,7 +112,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Register" type="VBoxContainer" parent="Menu"]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -137,34 +125,29 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Title" type="Label" parent="Menu/Register"]
-layout_mode = 2
 offset_right = 256.0
 offset_bottom = 20.0
 text = "Create a new Account"
 horizontal_alignment = 1
 
 [node name="UsernameTitle" type="Label" parent="Menu/Register"]
-layout_mode = 2
 offset_top = 24.0
 offset_right = 256.0
 offset_bottom = 44.0
 text = "Username"
 
 [node name="Username" type="LineEdit" parent="Menu/Register"]
-layout_mode = 2
 offset_top = 48.0
 offset_right = 256.0
 offset_bottom = 72.0
 
 [node name="PasswordTitle" type="Label" parent="Menu/Register"]
-layout_mode = 2
 offset_top = 76.0
 offset_right = 256.0
 offset_bottom = 96.0
 text = "Password"
 
 [node name="Password" type="LineEdit" parent="Menu/Register"]
-layout_mode = 2
 offset_top = 100.0
 offset_right = 256.0
 offset_bottom = 124.0
@@ -172,14 +155,12 @@ secret = true
 secret_character = "*"
 
 [node name="RepeatTitle" type="Label" parent="Menu/Register"]
-layout_mode = 2
 offset_top = 128.0
 offset_right = 256.0
 offset_bottom = 148.0
 text = "Repeat Password"
 
 [node name="Repeat" type="LineEdit" parent="Menu/Register"]
-layout_mode = 2
 offset_top = 152.0
 offset_right = 256.0
 offset_bottom = 176.0
@@ -188,7 +169,6 @@ secret_character = "*"
 
 [node name="ConfirmButton" type="TextureButton" parent="Menu/Register"]
 custom_minimum_size = Vector2i(128, 32)
-layout_mode = 2
 offset_left = 64.0
 offset_top = 180.0
 offset_right = 192.0
@@ -196,7 +176,6 @@ offset_bottom = 212.0
 size_flags_horizontal = 4
 
 [node name="RegisterTitle" type="Label" parent="Menu/Register/ConfirmButton"]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -208,7 +187,6 @@ vertical_alignment = 1
 
 [node name="BackButton" type="TextureButton" parent="Menu/Register"]
 custom_minimum_size = Vector2i(128, 32)
-layout_mode = 2
 offset_left = 64.0
 offset_top = 216.0
 offset_right = 192.0
@@ -217,7 +195,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="LoginTitle" type="Label" parent="Menu/Register/BackButton"]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

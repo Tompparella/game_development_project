@@ -4,16 +4,18 @@ class_name ItemsView
 signal item_unselected(emitter: Node)
 
 @onready var items_container: HBoxContainer = $Foreground/Margin/ItemsBox
+@onready var use_progress: UseProgress = $Foreground/Margin/UseProgress
 var packed_item = preload("res://Scenes/UI/Interface/UserInterface/Item.tscn")
 
 var selected_item: ItemEntry
 
 # TODO: Initialization based on player values
-func Initialize(_player: Player) -> void:
+func Initialize(player: Player) -> void:
 	var items = items_container.get_children()
 	for entry in items:
 		entry.queue_free()
 	selected_item = null
+	player.update_use_progress.connect(UpdateUseProgress)
 
 func AddItem(item: Item) -> void:
 	var instance: ItemEntry = packed_item.instantiate()
@@ -95,3 +97,17 @@ func ShowItemHint(item: Item) -> void:
 
 func HideItemHint() -> void:
 	UIControl.HideItemHint()
+
+func UpdateUseProgress(wait_time: float) -> void:
+	if wait_time != -1.0:
+		StartUseProgress(wait_time)
+	else:
+		StopUseProgress()
+
+func StartUseProgress(wait_time: float) -> void:
+	if selected_item:
+		use_progress.global_position = selected_item.global_position
+	use_progress.StartUseProgress(wait_time)
+
+func StopUseProgress() -> void:
+	use_progress.StopUseProgress()

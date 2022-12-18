@@ -32,6 +32,12 @@ func Initialize(player: Player):
 func GetSelectedItem() -> Item:
 	return items.GetSelectedItem()
 
+func StartUseProgress(wait_time: float) -> void:
+	items.StartUseProgress(wait_time)
+
+func StopUseProgress() -> void:
+	items.StopUseProgress()
+
 func _Item_Added(item: Item):
 	if item is Returnable:
 		returnables.AddItem(item)
