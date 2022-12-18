@@ -134,6 +134,17 @@ func PlayerAddItems(item_id_array: Array) -> void:
 func PlayerRemoveItems(item_id_array: Array) -> void:
 	GameManager.RemoveItems(item_id_array)
 
+@rpc(any_peer)
+func PlayerRestartRequest() -> void:
+	rpc_id(1, "PlayerRestartRequest")
+
+@rpc(authority)
+func PlayerRestartResponse(success: bool) ->  void:
+	if success:
+		GameManager.Restart()
+	else:
+		print("Failed to restart game")
+
 @rpc(authority)
 func PlayerChangeCurrency(currency: float) -> void:
 	GameManager.ChangeCurrency(currency)

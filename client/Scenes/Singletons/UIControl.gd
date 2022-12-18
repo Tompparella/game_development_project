@@ -4,6 +4,7 @@ extends Node
 @onready var user_ui: UserInterface = get_node("../Game/UILayer/UserInterface")
 @onready var shop_modal: ShopModal = get_node("../Game/UILayer/ShopModal")
 @onready var item_hint: ItemHint = get_node("../Game/UILayer/ItemHint")
+@onready var gameover_modal: GameOverModal = get_node("../Game/UILayer/GameOver")
 
 # Initialize UI variables
 
@@ -50,6 +51,15 @@ func ShowItemHint(item: Item) -> void:
 
 func HideItemHint() -> void:
 	item_hint.Hide()
+
+# Gameover modal
+
+func ShowGameoverModal(player: Player) -> void:
+	gameover_modal.Initialize(player)
+	gameover_modal.show()
+
+func HideGameoverModal() -> void:
+	gameover_modal.hide()
 
 # Player specific controls
 

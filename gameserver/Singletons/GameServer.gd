@@ -11,6 +11,7 @@ var surrounding_states_collection: Dictionary = {}
 
 @onready var user_verification: Node = get_node("../Server/UserVerification")
 @onready var token_timer: Timer = get_node("../Server/TokenExpiration")
+@onready var user_container_node: Node = get_node("../Server/UserContainer")
 
 func _ready():
 	StartServer()
@@ -34,9 +35,8 @@ func _Peer_Connected(player_id : int) -> void:
 
 func _Peer_Disconnected(player_id : int) -> void:
 	print("Player %s disconnected" % player_id)
-	var player_container_path: String = "../Server/UserContainer/" + str(player_id)
-	if (has_node(player_container_path)):
-		get_node(player_container_path).queue_free()
+	if (user_container_node.has_node(str(player_id))):
+		user_container_node.get_node(str(player_id)).queue_free()
 	GameManager.DespawnPlayer(player_id, false)
 
 func _Token_Expiration_Timeout() -> void:
@@ -64,7 +64,7 @@ func ReturnTokenVerificationResult(player_id: int, result: bool) -> void:
 	rpc_id(player_id, "ReturnTokenVerificationResult", result)
 	if result:
 		# TODO: Spawn player to their instance coordinates, otherwise to default (such as 0,0)
-		GameManager.SpawnNewPlayer(player_id, Vector2(0,0))
+		GameManager.SpawnNewPlayer(player_id)
 
 ## Clock synchronization
 
@@ -184,6 +184,19 @@ func PlayerUseItem(item_id: String) -> void:
 @rpc(authority)
 func PlayerRemoveItems(player_id: int, item_id_array: Array[String]) -> void:
 	rpc_id(player_id, "PlayerRemoveItems", item_id_array)
+
+@rpc(any_peer)
+func PlayerRestartRequest() -> void:
+	var player_id: int = multiplayer.get_remote_sender_id()
+	var success: bool = false
+	if user_container_node.has_node(str(player_id)):
+		GameManager.SpawnNewPlayer(player_id)
+		success = true
+	PlayerRestartResponse(player_id, success)
+
+@rpc(authority)
+func PlayerRestartResponse(player_id: int, success: bool) -> void:
+	rpc_id(player_id, "PlayerRestartResponse", success)
 
 @rpc(authority)
 func SpawnReturnables(returnables: Array) -> void:

@@ -248,7 +248,7 @@ func PlayerRecycledItems(player_id: String, recycled_items: Array[Item], returna
 		item_ids.append(entry.item_id)
 	GameServer.PlayerRecycledItems(player_id.to_int(), item_ids, returnable_size)
 
-func SpawnNewPlayer(player_id: int, spawn_location: Vector2) -> void:
+func SpawnNewPlayer(player_id: int, spawn_location: Vector2 = Vector2(0,0)) -> void:
 	# TODO: Add player specific visual things to show on the clientside
 	var new_player: Player = player_scene.instantiate()
 	new_player.position = spawn_location

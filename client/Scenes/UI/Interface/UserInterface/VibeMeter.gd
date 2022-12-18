@@ -22,6 +22,7 @@ func Initialize(player: Player) -> void:
 	vibe_over.value = player_vibe
 	vibe_under.value = player_vibe
 	player.vibe_changed.connect(_Vibe_Changed)
+	_Vibe_Changed(player_vibe)
 
 func _Vibe_Changed(vibe: float) -> void:
 	# Select which progress to be interpolated depending on whether we're adding or taking vibe

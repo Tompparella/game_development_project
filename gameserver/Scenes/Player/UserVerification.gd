@@ -25,7 +25,7 @@ func Verify(player_id: int, token: String) -> void:
 		print("Verification failed")
 		awaiting_verification.erase(player_id)
 		GameServer.emit_signal("peer_disconnected", player_id)
-	
+
 func CreateUserContainer(player_id: int) -> void:
 	var new_container = container_scene.instantiate()
 	new_container.name = str(player_id)

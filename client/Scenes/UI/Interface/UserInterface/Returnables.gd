@@ -5,6 +5,12 @@ class_name ReturnablesView
 var packed_returnable = preload("res://Scenes/UI/Interface/UserInterface/Returnable.tscn")
 var returnable_entries: Dictionary = Dictionary()
 
+# TODO: Initialization based on player  values
+func Initialize(_player: Player) -> void:
+	for entry in returnable_container.get_children():
+		entry.queue_free()
+	returnable_entries.clear()
+
 func AddItem(returnable: Returnable) -> void:
 	var instance: ReturnableEntry = packed_returnable.instantiate()
 	returnable_container.add_child(instance)

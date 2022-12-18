@@ -119,7 +119,6 @@ func AddVibe(vibe: float, send_result: bool = true) -> float:
 	return new_vibe
 
 func VibeCheck(vibe: float) -> void:
-	print(vibe)
 	if vibe <= 0 || vibe > 100:
 		game_over.emit(name)
 

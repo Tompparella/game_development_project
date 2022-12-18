@@ -22,6 +22,11 @@ func Initialize(player: Player):
 	player.currency_changed.connect(currency._Currency_Changed)
 	player.task_updated.connect(activities._Task_Updated)
 	vibe.Initialize(player)
+	items.Initialize(player)
+	score.Initialize(player)
+	returnables.Initialize(player)
+	currency.Initialize(player)
+	activities.Initialize(player)
 	# TODO: Initialize other views based on saved player data
 
 func GetSelectedItem() -> Item:

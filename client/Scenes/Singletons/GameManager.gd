@@ -36,13 +36,19 @@ func Initialize(game_data: Dictionary) -> void:
 	GameItems.LoadItems(game_data["items"])
 	LoadEnvironment(game_data["environment"])
 	LoadCharacters(game_data["characters"])
+	UIControl.HideLoginScreen()
+	Restart()
+	initialized = true
+
+func Restart() -> void:
 	EnablePlayer()
 	camera = get_node("../Game/Main/Camera")
 	camera.Initialize(player)
 	UIControl.Initialize(player)
-	UIControl.HideLoginScreen()
 	set_physics_process(true)
-	initialized = true
+
+func RequestRestart() -> void:
+	GameServer.PlayerRestartRequest()
 
 func LoadEnvironment(environment_data: Array) -> void:
 	for entry in environment_data:
@@ -91,6 +97,7 @@ func EnablePlayer() -> void:
 	player.Initialize()
 
 func DisablePlayer() -> void:
+	UIControl.ShowGameoverModal(player)
 	if has_node("../Game/Main/TileMap/Player"):
 		player.queue_free()
 	player = null

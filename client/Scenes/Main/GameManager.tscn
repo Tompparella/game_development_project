@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0lnqe1x5218l"]
+[gd_scene load_steps=7 format=3 uid="uid://c0lnqe1x5218l"]
 
 [ext_resource type="PackedScene" uid="uid://b8vli38vlmx5f" path="res://Scenes/Main/Main.tscn" id="1_vpq4p"]
 [ext_resource type="PackedScene" uid="uid://cs7ahsa8btj8g" path="res://Scenes/UI/Interface/UserInterface/UserInterface.tscn" id="3_j8typ"]
 [ext_resource type="PackedScene" uid="uid://blo41h6k32n7j" path="res://Scenes/UI/Interface/Login/LoginScreen.tscn" id="3_s678a"]
 [ext_resource type="PackedScene" uid="uid://uqot4bww7sud" path="res://Scenes/UI/Interface/Modals/ShopModal.tscn" id="4_n308m"]
 [ext_resource type="PackedScene" uid="uid://dcik5d6v05su1" path="res://Scenes/UI/Interface/Modals/ItemHint.tscn" id="5_stesq"]
+[ext_resource type="PackedScene" uid="uid://im0mrjcex3cf" path="res://Scenes/UI/Interface/Modals/GameOver.tscn" id="6_e1n2d"]
 
 [node name="Game" type="Node"]
 
@@ -20,4 +21,7 @@
 visible = false
 
 [node name="ItemHint" parent="UILayer" instance=ExtResource("5_stesq")]
+visible = false
+
+[node name="GameOver" parent="UILayer" instance=ExtResource("6_e1n2d")]
 visible = false

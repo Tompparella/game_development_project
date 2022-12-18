@@ -8,6 +8,13 @@ var packed_item = preload("res://Scenes/UI/Interface/UserInterface/Item.tscn")
 
 var selected_item: ItemEntry
 
+# TODO: Initialization based on player values
+func Initialize(_player: Player) -> void:
+	var items = items_container.get_children()
+	for entry in items:
+		entry.queue_free()
+	selected_item = null
+
 func AddItem(item: Item) -> void:
 	var instance: ItemEntry = packed_item.instantiate()
 	items_container.add_child(instance)

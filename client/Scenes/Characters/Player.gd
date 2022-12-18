@@ -22,6 +22,7 @@ var surroundings: Array[SurroundingArea] = Array()
 # TODO: Create an initialization function that runs when the user connects to a game
 func Initialize():
 	# TODO: Inventory initialization with data
+	inventory = Inventory.new([], [])
 	state_machine = $PlayerStateMachine
 	timer = $Timer
 	state_machine.Initialize(self)
@@ -57,6 +58,9 @@ func SetCurrency(currency: float) -> void:
 
 func SetFlex(flex: int) -> void:
 	flex_changed.emit(inventory.SetFlex(flex))
+
+func GetFlex() -> int:
+	return inventory.flex
 
 func SetVibe(vibe: float) -> void:
 	var new_vibe: float = inventory.SetVibe(vibe)
