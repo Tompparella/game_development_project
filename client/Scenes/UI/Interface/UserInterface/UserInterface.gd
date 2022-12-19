@@ -1,4 +1,4 @@
-extends Node
+extends Control
 class_name UserInterface
 
 @onready var vibe: VibeView = $Vibe
@@ -16,6 +16,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func Initialize(player: Player):
 	# TODO: Could do a more thorough initialization for other UI elements as well (take example from vibe)
+	show()
 	player.item_added.connect(_Item_Added)
 	player.item_removed.connect(_Item_Removed)
 	player.flex_changed.connect(score._Score_Changed)

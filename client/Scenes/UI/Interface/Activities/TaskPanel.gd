@@ -12,7 +12,7 @@ func _ready() -> void:
 	task_description.bbcode_enabled = true
 	task_goals.bbcode_enabled = true
 	
-
+# Returns whether changes were made
 func Update(task: Task) -> void:
 	task_description.text = decsription_string % task.description # TODO: Error here
 	var goals_string: String = ""

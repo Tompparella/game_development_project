@@ -7,4 +7,7 @@ func Initialize(player: Player) -> void:
 	currency_counter.text = str(player.GetCurrency())
 
 func _Currency_Changed(currency: float) -> void:
-	currency_counter.text = str(currency)
+	var currency_string: String = str(currency)
+	if currency_counter.text != currency_string:
+		currency_counter.text = currency_string
+		AudioManager.PlayEffect(AudioManager.currency)

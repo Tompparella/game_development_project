@@ -12,6 +12,7 @@ var GameoverReasons: Dictionary = {
 }
 
 func Initialize(player: Player) -> void:
+	AudioManager.GameOver()
 	if player.GetVibe() > 10:
 		reason.text = GameoverReasons["blackout"]
 	else:
@@ -20,5 +21,7 @@ func Initialize(player: Player) -> void:
 	currency.text = "%s" % player.GetCurrency()
 
 func _On_Restart_Pressed() -> void:
+	AudioManager.PlayAudio(AudioManager.task_finished)
+	await get_tree().create_timer(1.0).timeout
 	hide()
 	GameManager.RequestRestart()

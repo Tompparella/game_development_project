@@ -9,7 +9,7 @@ signal item_removed(item: Item)
 signal vibe_changed(vibe: float)
 signal currency_changed(currency: float)
 signal flex_changed(flex: int)
-signal task_updated(tasks: Task, removed: bool)
+signal task_updated(tasks: Task, removed: bool, complete: bool)
 signal update_use_progress(wait_time: float)
 
 var timer: PlayerTimer
@@ -80,15 +80,15 @@ func CanBuy(price: float) -> bool:
 
 func AddTask(task: Task) -> void:
 	inventory.AddTask(task)
-	task_updated.emit(task, false)
+	task_updated.emit(task, false, false)
 
 func UpdateTask(task: Task) -> void:
 	inventory.UpdateTask(task)
-	task_updated.emit(task, false)
+	task_updated.emit(task, false, false)
 
-func RemoveTask(task: Task) -> void:
+func RemoveTask(task: Task, complete: bool = false) -> void:
 	inventory.RemoveTask(task)
-	task_updated.emit(task, true)
+	task_updated.emit(task, true, complete)
 
 func _Interaction_Entered(_area: Area2D) -> void:
 #	TODO: Add UI things here

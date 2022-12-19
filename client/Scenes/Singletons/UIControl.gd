@@ -61,11 +61,13 @@ func StopUseProgress() -> void:
 # Gameover modal
 
 func ShowGameoverModal(player: Player) -> void:
+	user_ui.hide()
 	gameover_modal.Initialize(player)
 	gameover_modal.show()
 
 func HideGameoverModal() -> void:
 	gameover_modal.hide()
+	user_ui.show()
 
 # Player specific controls
 

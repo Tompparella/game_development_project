@@ -49,6 +49,7 @@ func _Login_Button_Pressed() -> void:
 		# TODO: Better handling here
 		print("Missing field")
 	else:
+		AudioManager.PlayEffect(AudioManager.task_finished)
 		UIControl.DisableLoginButtons()
 		print("Logging in...")
 		Gateway.ConnectToServer(username, password)
@@ -68,6 +69,7 @@ func _Confirm_Button_Pressed() -> void:
 	elif password != password_repeat:
 		print("The repeated password doesn't match the original one. Please check and try again")
 	else:
+		AudioManager.PlayEffect(AudioManager.task_finished)
 		UIControl.DisableLoginButtons()
 		print("Creating a new user account")
 		Gateway.ConnectToServer(username, password, true)

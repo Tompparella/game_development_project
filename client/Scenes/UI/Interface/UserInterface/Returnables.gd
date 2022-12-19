@@ -18,6 +18,7 @@ func AddItem(returnable: Returnable) -> void:
 	instance.Initialize(returnable)
 	instance.connect("item_highlighted", ShowItemHint)
 	instance.connect("mouse_exited", HideItemHint)
+	AudioManager.PlayEffect(AudioManager.returnable_picked)
 
 func RemoveItem(returnable: Returnable) -> void:
 	var instance_name: String = returnable_entries.find_key(returnable.item_name)

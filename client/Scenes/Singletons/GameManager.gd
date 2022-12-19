@@ -26,6 +26,7 @@ func _ready() -> void:
 	surroundings = get_node("../Game/Main/TileMap/Surroundings")
 	other_players = get_node("../Game/Main/TileMap/OtherPlayers")
 	npcs = get_node("../Game/Main/TileMap/Npcs")
+	AudioManager.Initialize()
 	set_physics_process(false)
 
 func _physics_process(_delta) -> void:
@@ -45,6 +46,7 @@ func Restart() -> void:
 	camera = get_node("../Game/Main/Camera")
 	camera.Initialize(player)
 	UIControl.Initialize(player)
+	AudioManager.NextTrack()
 	set_physics_process(true)
 
 func RequestRestart() -> void:
@@ -174,9 +176,9 @@ func NewTask(task: Dictionary) -> void:
 func UpdateTask(task: Dictionary) -> void:
 	player.UpdateTask(Task.new(task))
 
-func RemoveTask(task: Dictionary, _removed: bool) -> void:
+func RemoveTask(task: Dictionary, complete: bool) -> void:
 	# TODO: Completion and interception handling
-	player.RemoveTask(Task.new(task))
+	player.RemoveTask(Task.new(task), complete)
 
 # Sync functions
 
