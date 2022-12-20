@@ -5,28 +5,28 @@ var filepath: String = "user://PlayerIDs.json"
 var PlayerIDs: Dictionary
 
 func _ready():
-	var playerIDs_file: File = File.new()
-	if (!playerIDs_file.file_exists(filepath)):
-		playerIDs_file.open(filepath, File.WRITE)
-		playerIDs_file.close()
-	playerIDs_file.open(filepath, File.READ)
+	if (!FileAccess.file_exists(filepath)):
+		var new_file: FileAccess = FileAccess.open(filepath, FileAccess.WRITE)
+		new_file.close()
+	var file: FileAccess = FileAccess.open(filepath, FileAccess.READ)
 	var playerIDs_json: JSON = JSON.new()
-	var parse_error: int = playerIDs_json.parse(playerIDs_file.get_as_text())
+	var parse_error: int = playerIDs_json.parse(file.get_as_text())
 	if parse_error:
 		print(error_string(parse_error))
 	else:
 		PlayerIDs = playerIDs_json.get_data()
-	playerIDs_file.close()
+	file = null
 
 func SavePlayerIDs() -> bool:
-	var savefile = File.new()
-	if savefile.open(filepath, File.WRITE):
+	var savefile: FileAccess = FileAccess.open(filepath, FileAccess.WRITE)
+	if savefile == null:
 		print("!! URGENT ERROR: FAILED TO OPEN PLAYERID FILE !!")
+		print(FileAccess.get_open_error())
 		if savefile.is_open():
-			savefile.close()
+			savefile = null
 		return false
 	savefile.store_line(JSON.stringify(PlayerIDs))
-	savefile.close()
+	savefile = null
 	return true
 
 func AddPlayerID(username: String, password: String, salt: String) -> bool:

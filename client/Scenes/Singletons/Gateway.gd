@@ -21,7 +21,7 @@ func ConnectToServer(_username: String, _password: String, _register: bool = fal
 	# Set certification for client
 	network.get_host().dtls_client_setup(cert, "", false)
 	self.multiplayer.set_multiplayer_peer(network)
-	if (network.connection_failed.connect(self._OnConnectionFailed) || network.connection_succeeded.connect(self._OnConnectionSucceeded)):
+	if (multiplayer.connection_failed.connect(self._OnConnectionFailed) || multiplayer.connected_to_server.connect(self._OnConnectionSucceeded)):
 		print("Signal connection failed")
 		return
 	
@@ -61,8 +61,8 @@ func ReturnLoginRequest(results: bool, token: String) -> void:
 	else:
 		print("Failed to login. Please provide correct username and password")
 		UIControl.EnableLoginButtons()
-	network.disconnect("connection_failed", self._OnConnectionFailed)
-	network.disconnect("connection_succeeded", self._OnConnectionSucceeded)
+	multiplayer.disconnect("connection_failed", self._OnConnectionFailed)
+	multiplayer.disconnect("connected_to_server", self._OnConnectionSucceeded)
 
 @rpc(authority)
 func ReturnRegistrationRequest(results: bool, message: int) -> void:
@@ -79,5 +79,5 @@ func ReturnRegistrationRequest(results: bool, message: int) -> void:
 			print("That username already exists")
 			pass
 	UIControl.EnableLoginButtons()
-	network.disconnect("connection_failed", self._OnConnectionFailed)
-	network.disconnect("connection_succeeded", self._OnConnectionSucceeded)
+	multiplayer.disconnect("connection_failed", self._OnConnectionFailed)
+	multiplayer.disconnect("connected_to_server", self._OnConnectionSucceeded)

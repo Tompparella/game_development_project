@@ -13,7 +13,7 @@ func ConnectToServer() -> void:
 		print("Error while creating authentication client")
 		return
 	self.multiplayer.set_multiplayer_peer(network)
-	if (network.connection_failed.connect(self._OnConnectionFailed) || network.connection_succeeded.connect(self._OnConnectionSucceeded)):
+	if (multiplayer.connection_failed.connect(self._OnConnectionFailed) || multiplayer.connected_to_server.connect(self._OnConnectionSucceeded)):
 		print("Signal connection failed")
 		return
 	
